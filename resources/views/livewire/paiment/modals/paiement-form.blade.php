@@ -1,0 +1,41 @@
+  <!-- Modal -->
+  <div wire:ignore.self class="modal fade" id="formPaiementModal" tabindex="-1" role="dialog" aria-labelledby="formPaiementModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="formPaiementModalLabel">PASSER PAIEMENT AUTRES FRAIS</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form
+            wire:submit.prevent='validatePaiement'>
+            <div class="modal-body">
+                <div class="form-group">
+                    <x-label value="{{ __('Type frais') }}" />
+                    <x-select wire:model='state.cost_id'>
+                        <option value="">Choisir...</option>
+                        @foreach ($costs as $cost)
+                            <option value="{{$cost->id}}">{{$cost->name}}</option>
+                        @endforeach
+                    </x-select>
+                    @error('cost_id') <span class="error text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="form-group">
+                    <x-label value="{{ __('Mois') }}" />
+                    <x-select wire:model='state.month_name'>
+                        <option value="">Choisir...</option>
+                        @foreach ($months as $m)
+                            <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m))}}</option>
+                        @endforeach
+                    </x-select>
+                    @error('month_name') <span class="error text-danger">{{ $message }}</span> @enderror
+                </div>
+            </div>
+            <div class="modal-footer">
+                <x-button type="submit" class="btn btn-primary">Valider</x-button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
