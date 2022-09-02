@@ -8,6 +8,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="{{ asset('moment/moment.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <link rel="stylesheet" href="{{ asset('bui') }}">
         @livewireStyles
 
     </head>
