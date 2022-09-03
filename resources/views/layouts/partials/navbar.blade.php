@@ -28,7 +28,7 @@
               <li class="user-header bg-primary">
                 @if (Auth::user()->avatar!=null)
                     @if (config('app.env')=='production')
-                        <img src="{{Storage::url(''public/'.Auth::user()->avatar)}}"
+                        <img src="{{Storage::url('public/'.Auth::user()->avatar)}}"
                         class="img-circle elevation-2" alt="User Image">
                     @else
                         <img src="{{Storage::url(Auth::user()->avatar)}}"
