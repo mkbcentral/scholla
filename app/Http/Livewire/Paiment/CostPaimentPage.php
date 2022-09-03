@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Paiment;
 
 use App\Http\Livewire\Helpers\item;
+use App\Models\AppSetting;
 use App\Models\Classe;
 use App\Models\ClasseOption;
 use App\Models\CostGeneral;
@@ -103,8 +104,9 @@ class CostPaimentPage extends Component
         }
 
         public function testPrint(Paiment $paiement){
+            $setting=AppSetting::find(1);
             try {
-                $connector = new WindowsPrintConnector("EPSON TM-T20II Receipt5");
+                $connector = new WindowsPrintConnector($setting->printer_name);
                 $printer = new Printer($connector);
                 $logo = EscposImage::load("logo.png", false);
 

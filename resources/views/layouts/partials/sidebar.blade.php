@@ -61,9 +61,19 @@
                        Gestion dépenses
                     </x-nav-link>
                     <x-nav-link class="nav-link" href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
-                        &#x1F9B8;
+                        &#x1F6E0;
                        Administration
                     </x-nav-link>
+                    <x-nav-link class="nav-link" href="{{ route('settings.index') }}" :active="request()->routeIs('settings.index')">
+                        &#x1F528;
+                       Autres paramètres
+                    </x-nav-link>
+                    <x-nav-link class="nav-link" href="{{ route('profile.index') }}" :active="request()->routeIs('profile.index')">
+                        &#x1F9B8;
+                       Mon profile
+                    </x-nav-link>
+
+
                 </li>
             </ul>
         </nav>

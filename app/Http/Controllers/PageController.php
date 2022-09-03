@@ -34,7 +34,12 @@ class PageController extends Controller
     public function admin(){
         return view('pages.admin.admin');
     }
-
+    public function profile(){
+        return view('pages.admin.profile');
+    }
+    public function settings(){
+        return view('pages.admin.setting');
+    }
     public function depense(){
         return view('pages.depense.index');
     }

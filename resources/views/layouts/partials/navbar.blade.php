@@ -8,17 +8,26 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-
-                <img src="{{ asset('defautl-user.jpg') }}" class="user-image img-circle elevation-2" alt="User Image">
-
-
-                <span class="d-none d-md-inline">  User name</span>
+                @if (Auth::user()->avatar!=null)
+                    <img src="{{  config('app.env')=='production'?'public/':''.Storage::url(Auth::user()->avatar)}}"
+                        class="user-image img-circle elevation-2" alt="User Image">
+                @else
+                    <img src="{{ asset('defautl-user.jpg') }}"
+                    class="user-image img-circle elevation-2" alt="User Image">
+                @endif
+                <span class="d-none d-md-inline">{{config('app.env')=='production'?'public/':''.Auth::user()->name}}<span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <!-- User image -->
               <li class="user-header bg-primary">
+                @if (Auth::user()->avatar!=null)
+                    <img src="{{config('app.env')=='production'?'public/':''.Storage::url(Auth::user()->avatar)}}"
+                    class="img-circle elevation-2" alt="User Image">
+                @else
                     <img src="{{ asset('defautl-user.jpg') }}"
-                        class="img-circle elevation-2" alt="User Image">
+                    class="img-circle elevation-2" alt="User Image">
+                @endif
+
                 <p>
                   <small>User name</small>
                 </p>

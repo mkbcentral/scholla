@@ -37,8 +37,10 @@ Route::middleware('auth')->group(function(){
         Route::get('evolution-inscription','evolutionInscription')->name('evolution.index');
         Route::get('control-paiment','control')->name('control.index');
         Route::get('mouvement-bank','bank')->name('bank.index');
-        Route::get('adminustration','admin')->name('admin.index');
         Route::get('gestion-depenses','depense')->name('depense.index');
+        Route::get('adminustration','admin')->name('admin.index');
+        Route::get('mon-profile','profile')->name('profile.index');
+        Route::get('settings','settings')->name('settings.index');
     });
 
     Route::controller(PaiementController::class)->group(function(){
