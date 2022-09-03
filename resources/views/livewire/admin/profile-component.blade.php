@@ -24,7 +24,7 @@
                     @if (Auth::user()->avatar!=null)
                         @if (config('app.env')=='production')
                             <img class="img-circle elevation-2"
-                                src="{{Storage::url('public/'.Auth::user()->avatar)}}" alt="User Avatar">
+                                src="{{Storage::url('public/storage/'.Auth::user()->avatar)}}" alt="User Avatar">
                         @else
                             <img class="img-circle elevation-2"
                             src="{{Storage::url(Auth::user()->avatar)}}" alt="User Avatar">
