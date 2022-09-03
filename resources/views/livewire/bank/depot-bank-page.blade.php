@@ -14,17 +14,17 @@
                     <div>
                         <a target="_blank" class="btn btn-primary"
                             href="{{ route('bank.depot.print', $month) }}">&#x1F5A8; Imprimer par mois</a>
-                        <a target="_blank" class="btn btn-info"
+                        <a target="_blank" class="btn btn-secondary"
                             href="{{ route('bank.depot.print.all') }}">&#x1F5A8; Imprimer tout</a>
                     </div>
                 </div>
                 <div>
                     <x-button
                         type="button"
-                        class="btn btn-info"
+                        class="btn btn-danger"
                         data-toggle="modal"
                         data-target="#formDepotBankModal">
-                        Nouveau dépoôt banque
+                        &#x2795; Nouveau dépoôt banque
                     </x-button>
                 </div>
             </div>
@@ -97,6 +97,6 @@
             </div>
         </div>
     </div>
-    @include('livewire.bak.modals.form-depot-bank')
-    @include('livewire.bak.modals.form-edit-depot-bank')
+    @include('livewire.bank.modals.form-depot-bank')
+    @include('livewire.bank.modals.form-edit-depot-bank')
 </div>

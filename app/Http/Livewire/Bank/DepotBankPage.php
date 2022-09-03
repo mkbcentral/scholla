@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Bak;
+namespace App\Http\Livewire\Bank;
 
 use App\Models\DepotBank;
 use Livewire\Component;
@@ -99,6 +99,6 @@ class DepotBankPage extends Component
     public function render()
     {
         $depots=DepotBank::whereMonth('created_at',$this->month)->get();
-        return view('livewire.bak.depot-bank-page',['depots'=>$depots]);
+        return view('livewire.bank.depot-bank-page',['depots'=>$depots]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Paiment;
 
+use App\Http\Livewire\Helpers\item;
 use App\Models\Classe;
 use App\Models\ClasseOption;
 use App\Models\CostGeneral;
@@ -187,33 +188,5 @@ class CostPaimentPage extends Component
                         ->with('student.classe.option')
                         ->get();
         return view('livewire.paiment.cost-paiment-page',['inscriptions'=>$inscriptions]);
-    }
-}
-
-class item
-{
-    private $name;
-    private $price;
-    private $dollarSign;
-
-    public function __construct($name = '', $price = '', $dollarSign = false)
-    {
-        $this -> name = $name;
-        $this -> price = $price;
-        $this -> dollarSign = $dollarSign;
-    }
-
-    public function __toString()
-    {
-        $rightCols = 10;
-        $leftCols = 38;
-        if ($this -> dollarSign) {
-            $leftCols = $leftCols / 2 - $rightCols / 2;
-        }
-        $left = str_pad($this -> name, $leftCols) ;
-
-        $sign = ($this -> dollarSign ? ' ' : '');
-        $right = str_pad($sign . $this -> price, $rightCols, ' ', STR_PAD_LEFT);
-        return "$left$right\n";
     }
 }

@@ -36,6 +36,6 @@ class PageController extends Controller
     }
 
     public function depense(){
-        return view('pages.admin.admin');
+        return view('pages.depense.index');
     }
 }

@@ -21,6 +21,7 @@ window.$(document).ready(function () {
         $('#formDepenseModal').modal('hide');
         $('#formDepotBankModal').modal('hide');
         $('#formDeviseModal').modal('hide');
+        $('#formEtatBesoinModal').modal('hide');
     });
     window.addEventListener('data-updated', function (event) {
         toastr.info(event.detail.message, 'Validation');
@@ -39,6 +40,8 @@ window.$(document).ready(function () {
         $('#DetachPermisionModal').modal('hide');
         $('#formEditDepotBankModal').modal('hide');
         $('#formDeviseModal').modal('hide');
+        $('#editFormDepenseModal').modal('hide');
+        $('#editFormEtatBesoinModal').modal('hide');
     });
     window.addEventListener('data-deleted', function (event) {
         toastr.error(event.detail.message, 'Alert !');

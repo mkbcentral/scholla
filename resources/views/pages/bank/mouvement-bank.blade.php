@@ -31,7 +31,7 @@
                     <div class="tab-content">
                         <div class="active tab-pane" id="bank">
                         <div>
-                          @livewire('bak.depot-bank-page')
+                          @livewire('bank.depot-bank-page')
                         </div>
                     </div>
                     <!-- /.tab-content -->

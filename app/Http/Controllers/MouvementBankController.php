@@ -14,7 +14,7 @@ class MouvementBankController extends Controller
         $depots=DepotBank::whereMonth('created_at',$month)->where('active',true)->get();
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('livewire.bak.prints.print-depot-bank',
+        $pdf->loadView('livewire.bank.prints.print-depot-bank',
             compact(['defaultScolaryYer','depots','month']))
             ->setPaper('a4', 'landscape')->setWarnings(false)->save('depot.pdf');
             return $pdf->stream();
@@ -24,7 +24,7 @@ class MouvementBankController extends Controller
         $depots=DepotBank::where('active',true)->get();
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('livewire.bak.prints.print-depot-bank-all',
+        $pdf->loadView('livewire.bank.prints.print-depot-bank-all',
             compact(['defaultScolaryYer','depots']))
             ->setPaper('a4', 'landscape')->setWarnings(false)->save('depot.pdf');
             return $pdf->stream();

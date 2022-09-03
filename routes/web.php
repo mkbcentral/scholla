@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\MouvementBankController;
 use App\Http\Controllers\PageController;
@@ -48,6 +49,23 @@ Route::middleware('auth')->group(function(){
 
         Route::get('rapport-paie-frais-mounth','rapportPaiementFrais')
             ->name('paie.papport.frais.mounth');
+
+        Route::get('ipression-depense-jour/{date}','printDepenseDate')->name('depense.day.print');
+        Route::get('ipression-depense-mois/{month}','printDepenseMonth')->name('depense.month.print');
+        Route::get('ipression-depense-periode/{periode}','printDepensePeriode')->name('depense.periode.print');
+
+    });
+
+    Route::controller(DepenseController::class)->group(function(){
+        Route::get('ipression-depense-jour/{date}','printDepenseDate')->name('depense.day.print');
+        Route::get('ipression-depense-mois/{month}','printDepenseMonth')->name('depense.month.print');
+        Route::get('ipression-depense-periode/{periode}','printDepensePeriode')->name('depense.periode.print');
+
+
+        Route::get('ipression-etatBesoin-jour/{date}','printetatBesoinDate')->name('etatBesoin.day.print');
+        Route::get('ipression-etatBesoin-mois/{month}','printetatBesoinMonth')->name('etatBesoin.month.print');
+        Route::get('ipression-etatBesoin-periode/{periode}','printetatBesoinPeriode')->name('etatBesoin.periode.print');
+        Route::get('ipression-etatBesoin-not-active/{month}','printEtatBesoinNotActive')->name('etatBesoin.not.active.print');
 
     });
 

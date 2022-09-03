@@ -56,9 +56,9 @@
                         &#x1F6BC;
                        Mouvements banques
                     </x-nav-link>
-                    <x-nav-link class="nav-link" href="{{ route('bank.index') }}" :active="request()->routeIs('bank.index')">
-                        &#x1F6BC;
-                       Mouvements banques
+                    <x-nav-link class="nav-link" href="{{ route('depense.index') }}" :active="request()->routeIs('depense.index')">
+                        &#x270D;
+                       Gestion dépenses
                     </x-nav-link>
                     <x-nav-link class="nav-link" href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
                         &#x1F9B8;

@@ -21,17 +21,28 @@
                     <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#bank" data-toggle="tab">
-                                &#x1F5C4; Nos dépenses
+                            <a class="nav-link active" href="#depense" data-toggle="tab">
+                                &#x1F4B0; Nos dépenses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#etat" data-toggle="tab">
+                                &#x1F171; Etat de besoins
                             </a>
                         </li>
                     </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
                     <div class="tab-content">
-                        <div class="active tab-pane" id="bank">
-                        <div>
-                          depenses
+                        <div class="active tab-pane" id="depense">
+                            <div>
+                                @livewire('depense.depense-page')
+                            </div>
+                        </div>
+                        <div class=" tab-pane" id="etat">
+                            <div>
+                                @livewire('depense.besoin-etat-page')
+                            </div>
                         </div>
                     </div>
                     <!-- /.tab-content -->
