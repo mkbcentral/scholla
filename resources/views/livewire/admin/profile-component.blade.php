@@ -22,8 +22,14 @@
                   </div>
                   <div class="widget-user-image">
                     @if (Auth::user()->avatar!=null)
-                        <img class="img-circle elevation-2"
-                            src="{{config('app.env')=='production'?'public/':''.Storage::url(Auth::user()->avatar)}}" alt="User Avatar">
+                        @if (config('app.env')=='production')
+                            <img class="img-circle elevation-2"
+                                src="{{Storage::url('public/'.Auth::user()->avatar)}}" alt="User Avatar">
+                        @else
+                            <img class="img-circle elevation-2"
+                            src="{{Storage::url(Auth::user()->avatar)}}" alt="User Avatar">
+                        @endif
+
                     @else
                         <img class="img-circle elevation-2" src="{{ asset('defautl-user.jpg') }}" alt="User Avatar">
                     @endif
