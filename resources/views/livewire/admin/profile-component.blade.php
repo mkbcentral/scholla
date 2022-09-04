@@ -21,7 +21,12 @@
                     <h5 class="widget-user-desc">{{Auth::user()->email}}</h5>
                   </div>
                   <div class="widget-user-image">
+                    @if (config('app.env')=='production')
+                    <img class="img-circle elevation-2" src="{{ asset('public/defautl-user.jpg') }}" alt="User Avatar">
+                    @else
                     <img class="img-circle elevation-2" src="{{ asset('defautl-user.jpg') }}" alt="User Avatar">
+                    @endif
+
                   </div>
                   <div class="card-footer">
                     <div class="row">
