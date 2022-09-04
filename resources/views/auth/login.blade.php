@@ -13,7 +13,12 @@
         <div class="card-body">
             <x-validation-errors class="mb-4" />
             <div class="text-center">
+                @if (config('app.env')=='production')
+                <img src="{{ asset('public/logo.jpg') }}" alt="Logo" width="70px">
+                @else
                 <img src="{{ asset('logo.jpg') }}" alt="Logo" width="70px">
+                @endif
+
             </div>
             <p class="login-box-msg">Connexion</p>
 
