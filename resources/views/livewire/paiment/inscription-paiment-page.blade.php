@@ -30,9 +30,6 @@
                     &#x1F5A8; Imprimer
                 </a>
             @endif
-            <a  target="_blank"
-            class="btn btn-danger" href="{{ route('inscription.paiement.day.print',$date_to_search) }}">
-            &#x1F5A8; Imprimer
         </a>
 
         </div>
@@ -71,35 +68,34 @@
                         @endif
 
                     </td>
-                    @if (Auth::user()->roles->pluck('name')->contains('Admin'))
+                    @if (Auth::user()->roles->pluck('name')->contains('Finance'))
                         <td class="text-right">
                             @if ($inscription->is_paied==false)
                                 <a
                                     target="_blanck"
                                     href="{{ route('recu.inscription.print',$inscription->id ) }}"> valider
                                 </a>
+                                <button wire:click.prevnet='testPrint({{$inscription}})' class="btn btn-sm btn-info" type="button">&#x1F5A8;</button>
+
                             @else
                                 <a
                                     class="text-info"
                                     target="_blanck"
                                     href="{{ route('recu.inscription.print',$inscription->id ) }}">Ok Réimprimer
                                 </a>
+                                <button wire:click.prevnet='testPrint({{$inscription}})' class="btn btn-sm btn-info" type="button">&#x1F5A8;</button>
                             @endif
-                            <button wire:click.prevnet='testPrint({{$inscription}})' class="btn btn-sm btn-info" type="button">&#x1F5A8;</button>
+
                         </td>
                     @else
                         <td class="text-right">
                             @if ($inscription->is_paied==false)
                                 <span class="text-danger">En cours</span>
                             @else
-                            <a
-                            class="text-info"
-                            target="_blanck"
-                            href="{{ route('recu.inscription.print',$inscription->id ) }}">Ok Réimprimer</a>
-
+                            <span class="text-success">OK</span>
                             @endif
 
-                            <button wire:click.prevnet='testPrint({{$inscription}})' class="btn btn-sm btn-info" type="button">&#x1F5A8;</button>
+
                         </td>
                     @endif
 

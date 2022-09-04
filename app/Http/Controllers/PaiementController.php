@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ScolaryYear;
+use App\Models\Paiment;
+use App\Models\Inscription;
+use App\Models\ClasseOption;
+use Illuminate\Support\Facades\App;
 
 class PaiementController extends Controller
 {
@@ -20,6 +25,46 @@ class PaiementController extends Controller
 
     public function rapportPaiementFrais(){
         return view('pages.paiement.rapport-paiement-autres-frais');
+    }
+
+    public function savePaiment($cost_id,$month,$option_id,$inscription_id){
+        //dd($cost_id.' '.$month.' '.$option.' '.$inscription_id);
+        $inscription=Inscription::find($inscription_id);
+        $option=ClasseOption::find($option_id);
+        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $paiement=new Paiment();
+        $paiement->scolary_year_id=$defaultScolaryYer->id;
+        $paiement->cost_general_id=$cost_id;
+        $paiement->student_id=$inscription->student->id;
+        $paiement->classe_id=$inscription->student->classe->id;
+        $paiement->mounth_name=$month;
+        $paiement->number_paiement=$this->generateNumberPaiement($option);
+        $paiement->user_id=auth()->user()->id;
+
+        if ($paiement->save()) {
+            $paiement->is_paied=true;
+            $taux=2000;
+            $paiement->update();
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadView('pages.paiement.pints.print-recu-paiment',
+                compact(['paiement','taux']));
+            return $pdf->stream();
+        }
+
+
+
+    }
+
+    public function generateNumberPaiement($option){
+        $number=0;
+        if($option->name=='Primaire'){
+            $number=rand(99,1000).'-P';
+        }else if($option->name=='Maternelle'){
+            $number=rand(99,1000).'-M';
+        }else{
+            $number=rand(99,1000).'-S';
+        }
+        return $number;
     }
 
 

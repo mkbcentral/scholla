@@ -21,18 +21,7 @@
                     <h5 class="widget-user-desc">{{Auth::user()->email}}</h5>
                   </div>
                   <div class="widget-user-image">
-                    @if (Auth::user()->avatar!=null)
-                        @if (config('app.env')=='production')
-                            <img class="img-circle elevation-2"
-                                src="{{Storage::url('public/storage/'.Auth::user()->avatar)}}" alt="User Avatar">
-                        @else
-                            <img class="img-circle elevation-2"
-                            src="{{Storage::url(Auth::user()->avatar)}}" alt="User Avatar">
-                        @endif
-
-                    @else
-                        <img class="img-circle elevation-2" src="{{ asset('defautl-user.jpg') }}" alt="User Avatar">
-                    @endif
+                    <img class="img-circle elevation-2" src="{{ asset('defautl-user.jpg') }}" alt="User Avatar">
                   </div>
                   <div class="card-footer">
                     <div class="row">
@@ -91,18 +80,21 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div>
-                                   @if ($avatar)
-                                    <div class="widget-user-image">
-                                        <img class="img-circle elevation-2" style="width: 100px" src="{{ $avatar->temporaryUrl() }}" alt="User Avatar">
+                                @if (Auth::user()->roles->pluck('name')->contains('root'))
+                                    <div>
+                                        @if ($avatar)
+                                        <div class="widget-user-image">
+                                            <img class="img-circle elevation-2" style="width: 100px" src="{{ $avatar->temporaryUrl() }}" alt="User Avatar">
+                                        </div>
+                                        @endif
                                     </div>
-                                   @endif
-                                </div>
-                                <div class="form-group mt-2">
-                                    <label for="formFile" class="form-label">Chaoisir une photo</label>
-                                    <input class="form-control" type="file" wire:model.defer='avatar'>
-                                  </div>
-                                @error('avatar') <span class="error">{{ $message }}</span> @enderror
+                                    <div class="form-group mt-2">
+                                        <label for="formFile" class="form-label">Chaoisir une photo</label>
+                                        <input class="form-control" type="file" wire:model.defer='avatar'>
+                                    </div>
+                                    @error('avatar') <span class="error">{{ $message }}</span> @enderror
+                                @endif
+
                                 <div class="d-flex justify-content-end">
                                     <button wire:click='update' class="btn btn-info" type="button">Changer</button>
                                 </div>

@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <x-label value="{{ __('Type frais') }}" />
-                    <x-select wire:model='state.cost_id'>
+                    <x-select wire:model='cost_id'>
                         <option value="">Choisir...</option>
                         @foreach ($costs as $cost)
                             <option value="{{$cost->id}}">{{$cost->name}}</option>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="form-group">
                     <x-label value="{{ __('Mois') }}" />
-                    <x-select wire:model='state.month_name'>
+                    <x-select wire:model='month_name'>
                         <option value="">Choisir...</option>
                         @foreach ($months as $m)
                             <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m))}}</option>
@@ -36,6 +36,10 @@
                 <x-button type="submit" class="btn btn-primary">Valider</x-button>
             </div>
         </form>
+        <a target="_blank"
+                href="{{ route('print.paiement.cost', [$cost_id,$month_name,$option,$isc_id]) }}"
+                  class="btn btn-danger">Valider</a>
+
       </div>
     </div>
   </div>

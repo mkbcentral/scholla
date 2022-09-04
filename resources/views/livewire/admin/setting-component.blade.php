@@ -1,11 +1,13 @@
 <div>
     <div class="w-50">
-        <div class="text-center">
-            @if ($setting)
-                <img src="{{asset($setting->app_logo==null?'defautl-user.jpg':Storage::url($setting->app_logo)) }}"
-                    class="img-circle elevation-2" alt="User Image" width="100">
-            @endif
-        </div>
+        @if (Auth::user()->roles->pluck('name')->contains('root'))
+            <div class="text-center">
+                @if ($setting)
+                    <img src="{{asset($setting->app_logo==null?'defautl-user.jpg':Storage::url($setting->app_logo)) }}"
+                        class="img-circle elevation-2" alt="User Image" width="100">
+                @endif
+            </div>
+        @endif
         <div class="form-group">
             <x-label value="{{ __('Nom école') }}" />
             <x-input placeholder="Nom ecole" wire:model.defer='app_name'/>

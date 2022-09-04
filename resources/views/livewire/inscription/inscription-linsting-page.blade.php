@@ -94,7 +94,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            @if (Auth::user()->roles->pluck('name')->contains('Admin'))
+                                            @if (Auth::user()->roles->pluck('name')->contains('Secretaire') or Auth::user()->roles->pluck('name')->contains('root'))
                                                 <x-button wire:click.prevent='edit({{$inscription->student}},{{$inscription}})'
                                                     class="btn-sm" type="button" data-toggle="modal"
                                                     data-target="#formEditInscriptionModal">

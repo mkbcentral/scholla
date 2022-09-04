@@ -30,7 +30,6 @@ class ProfileComponent extends Component
                 'name'=>'required',
                 'avatar' => 'image|max:1024', // 1MB Max
             ]);
-
             try {
                 $avatar_name=time().'_'.$this->avatar->getClientOriginalName();
                 $avatar_path = $this->avatar->storeAs('avatars', $avatar_name,'public');

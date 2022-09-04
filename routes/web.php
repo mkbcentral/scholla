@@ -55,7 +55,8 @@ Route::middleware('auth')->group(function(){
         Route::get('ipression-depense-jour/{date}','printDepenseDate')->name('depense.day.print');
         Route::get('ipression-depense-mois/{month}','printDepenseMonth')->name('depense.month.print');
         Route::get('ipression-depense-periode/{periode}','printDepensePeriode')->name('depense.periode.print');
-
+        Route::get('ipression-paiment/{cost}/{month}/{option}/{inscription_id}','savePaiment')
+                ->name('print.paiement.cost');
     });
 
     Route::controller(DepenseController::class)->group(function(){

@@ -39,6 +39,9 @@
                                 <td>{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
                                 <td>
                                     <a target="_blank" href="{{ route('recu.frais.print',$paiment->id) }}" class="btn btn-sm btn-primary">&#x1F5A8;</a>
+                                    <button class="btn btn-sm btn-danger" wire:click.prevent='annulerPaiement({{$paiment}})'>
+                                        Annuler
+                                    </button>
                                 </td>
 
                             </tr>

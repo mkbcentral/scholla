@@ -8,39 +8,17 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                @if (Auth::user()->avatar!=null)
-                    @if ( config('app.env')=='production')
-                        <img src="{{Storage::url('public/storage/'.Auth::user()->avatar)}}"
-                                class="user-image img-circle elevation-2" alt="User Image">
-                    @else
-                        <img src="{{Storage::url(Auth::user()->avatar)}}"
-                        class="user-image img-circle elevation-2" alt="User Image">
-                    @endif
-
-                @else
-                    <img src="{{ asset('defautl-user.jpg') }}"
-                    class="user-image img-circle elevation-2" alt="User Image">
-                @endif
+                <img src="{{ asset('defautl-user.jpg') }}"
+                class="user-image img-circle elevation-2" alt="User Image">
                 <span class="d-none d-md-inline">{{Auth::user()->name}}<span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <!-- User image -->
               <li class="user-header bg-primary">
-                @if (Auth::user()->avatar!=null)
-                    @if (config('app.env')=='production')
-                    <img src="{{ asset('public/storage/'.Auth::user()->avatar) }}"
-                        class="img-circle elevation-2" alt="User Image">
-                    @else
-                        <img src="{{asset('storage/'.Auth::user()->avatar)}}"
-                        class="img-circle elevation-2" alt="User Image">
-                    @endif
-                @else
-                    <img src="{{ asset('defautl-user.jpg') }}"
+                <img src="{{ asset('defautl-user.jpg') }}"
                     class="img-circle elevation-2" alt="User Image">
-                @endif
-
                 <p>
-                  <small>User name</small>
+                  <small>{{Auth::user()->name}}</small>
                 </p>
               </li>
 

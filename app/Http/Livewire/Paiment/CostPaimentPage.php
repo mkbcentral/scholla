@@ -24,9 +24,11 @@ class CostPaimentPage extends Component
         public $keySearch='';
         public $state=[],$costs=[];
         public $defaultScolaryYer,$options=[];
-        public $month_name,$months=[],$currentMonth,$inscription;
+        public $month_name='',$months=[],$currentMonth,$inscription,$isc_id=0;
         public $paiments=[];
         public  $taux=2000;
+        public $month_select='',$cost_select=0;
+
         public function mount()
         {
             $defualtOption=ClasseOption::where('name','Primaire')->first();
@@ -49,6 +51,7 @@ class CostPaimentPage extends Component
 
         public function show(Inscription $inscription){
             $this->inscription=$inscription;
+            $this->isc_id=$inscription->id;
         }
 
         public function generateNumberPaiement(){
@@ -66,10 +69,10 @@ class CostPaimentPage extends Component
         public function validatePaiement(){
             $paiement=new Paiment();
             $paiement->scolary_year_id=$this->defaultScolaryYer->id;
-            $paiement->cost_general_id=$this->state['cost_id'];
+            $paiement->cost_general_id=$this->cost_id;
             $paiement->student_id=$this->inscription->student->id;
             $paiement->classe_id=$this->inscription->student->classe->id;
-            $paiement->mounth_name=$this->state['month_name'];
+            $paiement->mounth_name=$this->month_name;
             $paiement->number_paiement=$this->generateNumberPaiement();
             $paiement->user_id=auth()->user()->id;
             $paiement->save();
@@ -104,9 +107,11 @@ class CostPaimentPage extends Component
         }
 
         public function testPrint(Paiment $paiement){
+
             $setting=AppSetting::find(1);
             try {
                 $connector = new WindowsPrintConnector($setting->printer_name);
+                //FilePrintConnector("php://stdout");
                 $printer = new Printer($connector);
                 $logo = EscposImage::load("logo.png", false);
 
@@ -165,13 +170,19 @@ class CostPaimentPage extends Component
                 $printer -> cut();
                 $printer -> close();
 
-        } catch (\Exception $th) {
-                dd($th->getMessage());
+            } catch (\Exception $th) {
+                    dd($th->getMessage());
+            }
         }
-        }
+
+    public function annulerPaiement(Paiment $paiement){
+        $paiement->delete();
+        $this->dispatchBrowserEvent('data-deleted',['message'=>"Paiement annulé !"]);
+    }
 
     public function render()
     {
+
         $this->classes=Classe::orderBy('name','ASC')
             ->where('classe_option_id',$this->selectedIndex)
             ->with('option')
