@@ -1,7 +1,7 @@
 <div>
     <div class="d-flex justify-content-start">
        <div>
-            @if (Auth::user()->roles->pluck('name')->contains('Admin'))
+            @if (Auth::user()->roles->pluck('name')->contains('Finance'))
                 <x-button
                     type="button"
                     class="btn btn-info"
