@@ -13,7 +13,7 @@
         <div class="card-body">
             <x-validation-errors class="mb-4" />
             <div class="text-center">
-                <img src="{{ asset('default-logo.jpg') }}" alt="Logo" width="70px">
+                <img src="{{ asset('logo.jpg') }}" alt="Logo" width="70px">
             </div>
             <p class="login-box-msg">Connexion</p>
 
