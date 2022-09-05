@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div class="d-flex justify-content-start">
        <div>
             @if (Auth::user()->roles->pluck('name')->contains('Finance'))

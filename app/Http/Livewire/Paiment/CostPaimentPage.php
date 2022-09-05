@@ -87,28 +87,9 @@ class CostPaimentPage extends Component
                             ->with('student.classe.option')
                             ->get();
         }
+    public function testPrint(Paiment $paiement){
 
-        public function sendSms(){
-            $basic  = new \Vonage\Client\Credentials\Basic("e3f164a8", "yiGoqX80jEuScwtA");
-            $client = new \Vonage\Client($basic);
-
-            $response = $client->sms()->send(
-                new \Vonage\SMS\Message\SMS("243898337969", "MKB", 'Salut juste un essaie chez mkbcnetral.com')
-            );
-
-            $message = $response->current();
-
-            if ($message->getStatus() == 0) {
-
-                $this->dispatchBrowserEvent('data-added',['message'=>"Message bien envoyé !"]);
-            } else {
-                $this->dispatchBrowserEvent('data-added',['message'=> $message->getStatus()]);
-            }
-        }
-
-        public function testPrint(Paiment $paiement){
-
-            $setting=AppSetting::find(1);
+        $setting=AppSetting::find(1);
             try {
                 $connector = new WindowsPrintConnector($setting->printer_name);
                 //FilePrintConnector("php://stdout");

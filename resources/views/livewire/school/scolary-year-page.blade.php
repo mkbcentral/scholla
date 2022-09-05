@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div>
         <div class="d-flex justify-content-between">
             <div><h4 class="text-uppercase text-bold text-secondary">Liste des années scolaires</h4></div>

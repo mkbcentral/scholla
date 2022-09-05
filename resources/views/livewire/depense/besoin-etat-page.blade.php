@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div class="d-flex justify-content-end">
        <div>
             @if (Auth::user()->roles->pluck('name')->contains('Admin'))

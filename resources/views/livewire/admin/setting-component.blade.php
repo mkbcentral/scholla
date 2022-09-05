@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div class="w-50">
         @if (Auth::user()->roles->pluck('name')->contains('root'))
             <div class="text-center">

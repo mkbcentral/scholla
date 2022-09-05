@@ -12,14 +12,9 @@
                 @if ( config('app.env')=='production')
                     <img src="{{ asset('public/defautl-user.jpg') }}"
                             class="user-image img-circle elevation-2" alt="User Image">
-                    @else
-                        <img src="{{Storage::url(Auth::user()->avatar)}}"
-                        class="user-image img-c>ircle elevation-2" alt="User Image">
-                    @endif
-                @if (Auth::user()->avatar!=null)
-
-
                 @else
+                    <img src="{{ asset('defautl-user.jpg') }}"
+                        class="user-image img-circle elevation-2" alt="User Image">
 
                 @endif
                 <span class="d-none d-md-inline">{{Auth::user()->name}}<span>
@@ -35,7 +30,7 @@
                         class="img-circle elevation-2" alt="User Image">
                     @endif
                 <p>
-                  <small>User name</small>
+                  <small>{{Auth::user()->name}}</small>
                 </p>
               </li>
 

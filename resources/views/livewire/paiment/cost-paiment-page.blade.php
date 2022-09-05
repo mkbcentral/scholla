@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div class="content-header">
         <div class="container-fluid">
         <div class="row mb-2">
@@ -8,7 +9,6 @@
         </div>
         </div>
     </div>
-
      <!-- Main content -->
      <section class="content">
         <div class="container-fluid">
@@ -65,7 +65,18 @@
                             <div><h4 class="text-uppercase text-bold text-danger">Liste des élèves</h4></div>
                         </div>
                         <div class="d-flex justify-content-end">
-                            Search
+                            <div class="w-25">
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm">
+                                      <input wire:model.debounce.500ms='keySearch' type="text" class="form-control" placeholder="Recheche ici...">
+                                      <div class="input-group-append">
+                                        <div class="btn btn-primary">
+                                          <i class="fas fa-search"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
                         </div>
                         <table class="table table-stripped table-sm mt-4">
                             <thead class="thead-light">

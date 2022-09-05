@@ -33,7 +33,6 @@ class DashbaordFinancePage extends Component
         $this->currentDay=date('Y-m-d');
         $this->date_to_search=$this->currentDay;
         $this->month=$this->currentMonth;
-
         foreach (range(1,12) as $m) {
             $this->months[]=date('m',mktime(0,0,0,$m,1));
         }
@@ -61,6 +60,7 @@ class DashbaordFinancePage extends Component
             $inscription=Inscription::
                 join('cost_inscriptions','inscriptions.cost_inscription_id','=','cost_inscriptions.id')
                 ->whereDate('inscriptions.created_at',$this->date_to_search)
+                ->where('inscriptions.is_paied',true)
                 ->sum('cost_inscriptions.amount');
             $paiment=Paiment::join('cost_generals','paiments.cost_general_id','=','cost_generals.id')
                 ->whereDate('paiments.created_at',$this->date_to_search)
@@ -93,6 +93,7 @@ class DashbaordFinancePage extends Component
             ->selectRaw(
                 "sum(cost_inscriptions.amount) as total,MONTH(inscriptions.created_at) AS month")
             ->where('inscriptions.scolary_year_id',$defaultScolaryYer->id)
+            ->where('inscriptions.is_paied',true)
             ->groupBy('month')
             ->get();
 

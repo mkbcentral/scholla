@@ -1,4 +1,6 @@
 <div>
+    <x-loading-indicator />
+    <x-loading-indicator />
     <div class="d-flex justify-content-between">
         <div><h4 class="text-uppercase text-bold text-secondary">Liste des roles</h4></div>
         <div>

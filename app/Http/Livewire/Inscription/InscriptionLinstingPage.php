@@ -38,11 +38,12 @@ class InscriptionLinstingPage extends Component
         $this->state['place_of_birth']="Auacun";
         $this->state['email']="Auacun";
 
-        $this->classesToEdit=Classe::orderBy('name','ASC')->get();
+        $this->classesToEdit=Classe::orderBy('name','ASC')->with('option')->get();
     }
 
     public function changeIndex(ClasseOption $option){
         $this->selectedIndex=$option->id;
+
     }
 
     public function edit(Student $student,Inscription $inscription){

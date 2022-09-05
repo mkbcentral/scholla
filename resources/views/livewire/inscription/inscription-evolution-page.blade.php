@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div class="card">
         <div class="card-body">
             <h4>&#x1F4CA; Rapport des inscription</h4>

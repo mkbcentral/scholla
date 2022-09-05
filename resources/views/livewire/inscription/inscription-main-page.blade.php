@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div class="content-header">
         <div class="container-fluid">
         <div class="row mb-2">
@@ -21,7 +22,8 @@
                   <ul class="nav nav-pills">
                     @foreach ($options as $option)
                         <li class="nav-item">
-                            <a wire:click.prevent='changeIndex({{$option}})' class="nav-link {{$selectedIndex==$option->id?'active':''}} " href="#inscription" data-toggle="tab">
+                            <a wire:click.prevent='changeIndex({{$option}})'
+                                 class="nav-link {{$selectedIndex==$option->id?'active':''}} " href="#inscription" data-toggle="tab">
                                 &#x1F4C2; {{$option->name}}
                             </a>
                         </li>
@@ -38,7 +40,9 @@
                                 <x-select wire:model='classe_id'>
                                     <option value="">Choisir...</option>
                                     @foreach ($classes as $classe)
-                                        <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
+                                        <option value="{{$classe->id}}">
+                                                {{$classe->name}}
+                                        </option>
                                     @endforeach
                                 </x-select>
                             </div>

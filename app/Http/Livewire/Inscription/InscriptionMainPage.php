@@ -19,12 +19,13 @@ class InscriptionMainPage extends Component
     public $keySearch='',$date_to_search;
     public $state=[],$studentToEdit,$studentToShow,$inscriptionToEdit;
     public $costs=[],$currenetDate;
-    public $optionn,$defaultScolaryYer;
+    public $optionn,$optionns,$defaultScolaryYer;
     public $label_date='';
     public $classesToEdit;
 
     public function mount(){
         $defualtOption=ClasseOption::where('name','Primaire')->first();
+
         $this->selectedIndex=$defualtOption->id;
         $this->costs=CostInscription::orderBy('name','ASC')->where('active',true)->get();
         $this->option=$defualtOption;
@@ -35,7 +36,14 @@ class InscriptionMainPage extends Component
         $this->state['other_phone']=0;
         $this->state['place_of_birth']="Auacun";
         $this->state['email']="Auacun";
-        $this->classesToEdit=Classe::orderBy('name','ASC')->get();
+        $this->classesToEdit=Classe::orderBy('name','ASC')->with('option')->get();
+
+        $this->options=ClasseOption::orderBy('name','ASC')->get();
+
+        $this->classes=Classe::orderBy('name','ASC')
+            ->where('classe_option_id',$this->selectedIndex)
+            ->with('option')
+            ->get();
     }
     public function changeIndex(ClasseOption $option){
         $this->selectedIndex=$option->id;
@@ -178,10 +186,7 @@ class InscriptionMainPage extends Component
 
     public function render()
     {
-        $this->classes=Classe::orderBy('name','ASC')
-            ->where('classe_option_id',$this->selectedIndex)
-            ->with('option')
-            ->get();
+
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
             $inscriptions=Inscription::select('students.*','inscriptions.*')
                         ->join('students','inscriptions.student_id','=','students.id')
@@ -194,7 +199,8 @@ class InscriptionMainPage extends Component
                         ->with('student.classe')
                         ->with('student.classe.option')
                         ->get();
-        $options=ClasseOption::orderBy('name','ASC')->get();
-        return view('livewire.inscription.inscription-main-page',['options'=>$options,'inscriptions'=>$inscriptions]);
+
+        return view('livewire.inscription.inscription-main-page',
+                ['inscriptions'=>$inscriptions]);
     }
 }
