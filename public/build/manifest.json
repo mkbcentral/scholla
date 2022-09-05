@@ -60,7 +60,7 @@
     "src": "node_modules/admin-lte/plugins/fontawesome-free/webfonts/fa-solid-900.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app.0a5db875.js",
+    "file": "assets/app.3b856c12.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
@@ -72,7 +72,7 @@
     "src": "resources/js/app.css"
   },
   "resources/css/app.css": {
-    "file": "assets/app.d9922bc4.css",
+    "file": "assets/app.6ccd8cd5.css",
     "src": "resources/css/app.css",
     "isEntry": true
   }

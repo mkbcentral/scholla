@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '1be0db45386b1cdd0573e98b1b823b1e466dbc0c',
+        'reference' => 'e3df0921bb84b27f0ad9e27a508ee1ab7ec9aca7',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -487,7 +487,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '1be0db45386b1cdd0573e98b1b823b1e466dbc0c',
+            'reference' => 'e3df0921bb84b27f0ad9e27a508ee1ab7ec9aca7',
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(
@@ -695,12 +695,12 @@
             'dev_requirement' => false,
         ),
         'nikic/php-parser' => array(
-            'pretty_version' => 'v4.14.0',
-            'version' => '4.14.0.0',
+            'pretty_version' => 'v4.15.1',
+            'version' => '4.15.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nikic/php-parser',
             'aliases' => array(),
-            'reference' => '34bea19b6e03d8153165d8f30bba4c3be86184c1',
+            'reference' => '0ef6c55a3f47f89d7a374e6f835197a0b5fcf900',
             'dev_requirement' => false,
         ),
         'nunomaduro/collision' => array(
