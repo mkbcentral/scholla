@@ -29,11 +29,15 @@
                                 &#x1F4B0; Autres frais
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="#devise" data-toggle="tab">
-                                &#x1F4B8; Devise
-                            </a>
-                        </li>
+                        @if (Auth::user()->roles->pluck('name')->contains('Admin') or
+                            Auth::user()->roles->pluck('name')->contains('root'))
+                            <li class="nav-item">
+                                <a class="nav-link " href="#devise" data-toggle="tab">
+                                    &#x1F4B8; Devise
+                                </a>
+                            </li>
+                        @endif
+
                       </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">

@@ -180,6 +180,15 @@
                             &#x1F4C8;
                             Evolution inscription
                         </x-nav-link>
+                        <x-nav-link class="nav-link" href="{{ route('cost.index') }}" :active="request()->routeIs('cost.index')">
+                            &#x1F4B0;
+                            @if (Auth::user()->roles->pluck('name')->contains('Finance'))
+                               Tarification
+                            @else
+                                Gestionnaire des frais
+                            @endif
+
+                        </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('profile.index') }}" :active="request()->routeIs('profile.index')">
                             &#x1F9B8;
                             Mon profile
