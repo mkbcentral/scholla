@@ -42,6 +42,8 @@ return array(
     'App\\Http\\Livewire\\Paiment\\CostPaimentPage' => $baseDir . '/app/Http/Livewire/Paiment/CostPaimentPage.php',
     'App\\Http\\Livewire\\Paiment\\InscriptionPaimentPage' => $baseDir . '/app/Http/Livewire/Paiment/InscriptionPaimentPage.php',
     'App\\Http\\Livewire\\Paiment\\Rapport\\CostPaimentPage' => $baseDir . '/app/Http/Livewire/Paiment/Rapport/CostPaimentPage.php',
+    'App\\Http\\Livewire\\Paiment\\Rapport\\RapportBusGlobalPage' => $baseDir . '/app/Http/Livewire/Paiment/Rapport/RapportBusGlobalPage.php',
+    'App\\Http\\Livewire\\Paiment\\Rapport\\RapportBusPage' => $baseDir . '/app/Http/Livewire/Paiment/Rapport/RapportBusPage.php',
     'App\\Http\\Livewire\\Paiment\\Rapport\\RapportInscriptionPaimentGlobalPage' => $baseDir . '/app/Http/Livewire/Paiment/Rapport/RapportInscriptionPaimentGlobalPage.php',
     'App\\Http\\Livewire\\Paiment\\Rapport\\RapportInscriptionPaimentPage' => $baseDir . '/app/Http/Livewire/Paiment/Rapport/RapportInscriptionPaimentPage.php',
     'App\\Http\\Livewire\\Paiment\\Rapport\\RapportPaimentFraisGlobalPage' => $baseDir . '/app/Http/Livewire/Paiment/Rapport/RapportPaimentFraisGlobalPage.php',

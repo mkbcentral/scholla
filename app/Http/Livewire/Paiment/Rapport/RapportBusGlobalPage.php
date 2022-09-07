@@ -45,7 +45,7 @@ class RapportBusGlobalPage extends Component
                 ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->orderBy('paiments.created_at','ASC')
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereIn('cost_generals.id',[8,10,13])
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -58,7 +58,7 @@ class RapportBusGlobalPage extends Component
                 ->orderBy('paiments.created_at','ASC')
                 ->where('cost_general_id',$this->cost_id)
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereIn('cost_generals.id',[8,10,13])
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -73,7 +73,7 @@ class RapportBusGlobalPage extends Component
                 ->orderBy('paiments.created_at','ASC')
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
                 ->whereBetween('paiments.created_at',[$this->dateTo,$this->dateFrom])
-                ->whereIn('cost_generals.id',[8,10,13])
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -87,7 +87,7 @@ class RapportBusGlobalPage extends Component
                 ->where('cost_general_id',$this->cost_id)
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
                 ->whereBetween('paiments.created_at',[$this->dateTo,$this->dateFrom])
-                ->whereIn('cost_generals.id',[8,10,13])
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -131,7 +131,7 @@ class RapportBusGlobalPage extends Component
     public function mount(){
         $this->costs=CostGeneral::orderBy('name','ASC')
                 ->where('active',true)
-                ->whereIn('id',[8,10,13])
+                ->whereIn('id',[8,10,13,14])
                 ->get();
     }
 
