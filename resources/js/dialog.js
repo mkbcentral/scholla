@@ -342,7 +342,7 @@ window.addEventListener('data-dialog-deleted',event=>{
 window.addEventListener('delete-inscription-dialog',event=>{
     Swal.fire({
         title: 'Voulez-vous vraiment ',
-        text: "retirer l'inscription ?",
+        text: "retirer l'inscription SVP ?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
