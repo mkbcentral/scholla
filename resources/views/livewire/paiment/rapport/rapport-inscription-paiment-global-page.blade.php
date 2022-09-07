@@ -71,8 +71,17 @@
     </div>
     <div class="d-flex justify-content-between align-items-center mr-4">
         <div><h4 class="text-uppercase text-bold text-secondary mt-4">Liste Paiements</h4></div>
-        <div>
-
+        <div class="w-25">
+            <div class="card-tools">
+                <div class="input-group input-group-sm">
+                  <input wire:model.debounce.500ms='keySearch' type="text" class="form-control" placeholder="Recheche ici...">
+                  <div class="input-group-append">
+                    <div class="btn btn-primary">
+                      <i class="fas fa-search"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
     <table class="table table-stripped table-sm mt-4">
@@ -90,6 +99,7 @@
                 <th class="text-center">Classe</th>
                 <th class="text-right">Type</th>
                 <th class="text-right">Montant FC</th>
+                <td>Actions</td>
                 <th></th>
             </tr>
         </thead>
@@ -145,6 +155,12 @@
                             {{number_format($inscription->cost->amount*$taux,1,',',' ')}}
                         @endif
                     </td>
+                   <td>
+                    <button class="btn btn-sm btn-danger"
+                        wire:click.prevent='showDeleteDialog({{$inscription}},{{$inscription->student}})'>
+                        Ratirer
+                    </button>
+                   </td>
                 </tr>
                 @if ($inscription->is_paied==false)
                     @php
@@ -186,6 +202,7 @@
                             <td class="text-info">Fonct.:</td>
                             <td class="text-danger">Autres dép.:</td>
                             <td class="bg-dark text-right">Solde</td>
+
                         </tr>
                         <tr class="text-bold">
                             <td>{{number_format($total*$taux,1,',',' ')}} Fc</td>
@@ -193,6 +210,7 @@
                             <td class="text-info">{{number_format($total_fonctionnement*$taux,1,',',' ')}} Fc</td>
                             <td class="text-danger">{{number_format($total_depense*$taux,1,',',' ')}} FC</td>
                             <td class="bg-dark text-right">{{number_format(($total*$taux)-($total_bank*$taux)-($total_depense*$taux)-($total_fonctionnement*$taux),1,',',' ')}} Fc</td>
+
                         </tr>
                     </tbody>
                 </table>

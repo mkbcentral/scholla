@@ -48,9 +48,18 @@
     </div>
     <div class="d-flex justify-content-between align-items-center mr-4">
         <div><h4 class="text-uppercase text-bold text-secondary mt-4">Liste Paiements</h4></div>
-        <div>
-
-        </div>
+        <div class="w-25">
+        <div class="card-tools">
+            <div class="input-group input-group-sm">
+              <input wire:model.debounce.500ms='keySearch' type="text" class="form-control" placeholder="Recheche ici...">
+              <div class="input-group-append">
+                <div class="btn btn-primary">
+                  <i class="fas fa-search"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
     </div>
     <table class="table table-stripped table-sm mt-4">
         <thead class="thead-light">

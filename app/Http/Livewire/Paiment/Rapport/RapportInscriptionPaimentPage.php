@@ -11,7 +11,7 @@ use Livewire\Component;
 class RapportInscriptionPaimentPage extends Component
 {
     public $month,$months=[],$currentMonth;
-    public $taux=2000,$periode;
+    public $taux=2000,$periode,$keySearch='';
     public $itemsPeriodeFilter=['Semain en cours','Semaine passée','Cette année'];
     public  $isMonthSorted=true,$itmePeriodSorted=0;
     public $date_to_search;
@@ -36,6 +36,7 @@ class RapportInscriptionPaimentPage extends Component
             ->where('scolary_year_id',$this->defaultScolaryYer->id)
             ->whereBetween('inscriptions.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->orderBy('inscriptions.created_at','DESC')
+            ->where('students.name','Like','%'.$this->keySearch.'%')
             ->where('inscriptions.is_paied',true)
             ->with('cost')
             ->with('student')
@@ -50,6 +51,7 @@ class RapportInscriptionPaimentPage extends Component
             $inscriptions=Inscription::select('students.*','inscriptions.*')
             ->join('students','inscriptions.student_id','=','students.id')
             ->where('scolary_year_id',$this->defaultScolaryYer->id)
+            ->where('students.name','Like','%'.$this->keySearch.'%')
             ->where('inscriptions.created_at', '>=', $date)
             ->orderBy('inscriptions.created_at','DESC')
             ->where('inscriptions.is_paied',true)
@@ -67,6 +69,7 @@ class RapportInscriptionPaimentPage extends Component
                 $inscriptions=Inscription::select('students.*','inscriptions.*')
                 ->join('students','inscriptions.student_id','=','students.id')
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
+                ->where('students.name','Like','%'.$this->keySearch.'%')
                 ->whereYear('inscriptions.created_at',Carbon::now())
                 ->orderBy('inscriptions.created_at','DESC')
                 ->where('inscriptions.is_paied',true)
@@ -84,6 +87,7 @@ class RapportInscriptionPaimentPage extends Component
                     ->where('scolary_year_id',$this->defaultScolaryYer->id)
                     ->whereMonth('inscriptions.created_at',$this->month)
                     ->orderBy('inscriptions.created_at','DESC')
+                    ->where('students.name','Like','%'.$this->keySearch.'%')
                     ->where('inscriptions.is_paied',true)
                     ->with('cost')
                     ->with('student')

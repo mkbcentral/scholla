@@ -161,23 +161,20 @@
 
                     </tr>
                     @php
-                        $total+=$paiment->cost->amount;
+
                         if ($paiment->is_bank==true){
-                            $total_bank+=$paiment->cost->amount;
+                            $total_bank+=$paiment->cost->amount*2000;
                         }
 
                         elseif ($paiment->is_fonctionnement==true)
                            {
-                            $total_fonctionnement+=$paiment->cost->amount;
+                            $total_fonctionnement+=$paiment->cost->amount*2000;
                            }
                         elseif ($paiment->is_depense==true)
                             {
-                                $total_depense+=$paiment->cost->amount;
+                                $total_depense+=$paiment->cost->amount*2000;
                             }
-                        else
-                            {
-                                $total+=$paiment->cost->amount;
-                            }
+                        $total+=$paiment->cost->amount*2000;
                     @endphp
                 @endforeach
             </tbody>
@@ -196,11 +193,11 @@
                                 <td class="bg-dark text-right">Solde</td>
                             </tr>
                             <tr class="text-bold">
-                                <td>{{number_format($total*$taux,1,',',' ')}} Fc</td>
-                                <td class="text-success">{{number_format($total_bank*$taux,1,',',' ')}} Fc</td>
-                                <td class="text-info">{{number_format($total_fonctionnement*$taux,1,',',' ')}} Fc</td>
-                                <td class="text-danger">{{number_format($total_depense*$taux,1,',',' ')}} FC</td>
-                                <td class="bg-dark text-right">{{number_format(($total*$taux)-($total_bank*$taux)-($total_depense*$taux)-($total_fonctionnement*$taux),1,',',' ')}} Fc</td>
+                                <td>{{number_format($total,1,',',' ')}} Fc</td>
+                                <td class="text-success">{{number_format($total_bank,1,',',' ')}} Fc</td>
+                                <td class="text-info">{{number_format($total_fonctionnement,1,',',' ')}} Fc</td>
+                                <td class="text-danger">{{number_format($total_depense,1,',',' ')}} FC</td>
+                                <td class="bg-dark text-right">{{number_format($total-$total_bank-$total_depense-$total_fonctionnement,1,',',' ')}} Fc</td>
                             </tr>
                         </tbody>
                     </table>

@@ -5,13 +5,15 @@ namespace App\Http\Livewire\Paiment\Rapport;
 use App\Models\DepotBank;
 use App\Models\Inscription;
 use App\Models\ScolaryYear;
+use App\Models\Student;
 use Livewire\Component;
 
 class RapportInscriptionPaimentGlobalPage extends Component
 {
     public $taux=2000,$isFilted=0;
-    public $dateTo="none",$dateFrom="none";
-    public $selectedRows=[],$selectPageRows=false;
+    public $dateTo="none",$dateFrom="none",$keySearch='';
+    public $selectedRows=[],$selectPageRows=false,$inscription,$studentToDelete;
+    protected $listeners=['deleteInscriptionListener'=>'delete'];
 
     public function updatedDateTo(){
         $this->isFilted=true;
@@ -35,12 +37,25 @@ class RapportInscriptionPaimentGlobalPage extends Component
         }
     }
 
+    public function showDeleteDialog(Inscription $inscription,Student $student){
+        $this->inscription=$inscription;
+        $this->studentToDelete=$student;
+        $this->dispatchBrowserEvent('delete-inscription-dialog');
+    }
+
+    public function delete(){
+        $this->inscription->delete();
+        $this->studentToDelete->delete();
+        $this->dispatchBrowserEvent('data-dialog-deleted',['message'=>"Inscription bien retirée !"]);
+    }
+
     public function getInscriptionsProperty(){
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         if ($this->isFilted==false) {
             $inscriptions=Inscription::select('students.*','inscriptions.*')
             ->join('students','inscriptions.student_id','=','students.id')
             ->where('scolary_year_id',$this->defaultScolaryYer->id)
+            ->where('students.name','Like','%'.$this->keySearch.'%')
             ->orderBy('inscriptions.created_at','DESC')
             ->where('inscriptions.is_paied',true)
             ->with('cost')
@@ -52,6 +67,7 @@ class RapportInscriptionPaimentGlobalPage extends Component
             $inscriptions=Inscription::select('students.*','inscriptions.*')
             ->join('students','inscriptions.student_id','=','students.id')
             ->where('scolary_year_id',$this->defaultScolaryYer->id)
+            ->where('students.name','Like','%'.$this->keySearch.'%')
             ->orderBy('inscriptions.created_at','DESC')
             ->where('inscriptions.is_paied',true)
             ->whereBetween('inscriptions.created_at',[$this->dateTo,$this->dateFrom])

@@ -66,44 +66,13 @@ class RapportBusPage extends Component
     public function render()
     {
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        if ($this->periode=="Semain en cours") {
-            $paiments=Paiment::select('students.*','paiments.*','cost_generals.*')
-            ->join('students','paiments.student_id','=','students.id')
-            ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
-            ->where('scolary_year_id',$this->defaultScolaryYer->id)
-            ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->orderBy('paiments.created_at','DESC')
-            ->whereIn('cost_generals.id',[8,10,13,14])
-            ->with('cost')
-            ->with('student')
-            ->with('student.classe')
-            ->with('student.classe.option')
-            ->get();
-            $this->isMonthSorted=false;
-            $this->itmePeriodSorted=1;
-        } elseif($this->periode=="Semaine passée") {
-            $date=Carbon::now()->subDays(7);
-            $paiments=Paiment::select('students.*','paiments.*')
-            ->join('students','paiments.student_id','=','students.id')
-            ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
-            ->where('scolary_year_id',$this->defaultScolaryYer->id)
-            ->where('paiments.created_at', '>=', $date)
-            ->orderBy('paiments.created_at','DESC')
-            ->whereIn('cost_generals.id',[8,10,13,14])
-            ->with('cost')
-            ->with('student')
-            ->with('student.classe')
-            ->with('student.classe.option')
-            ->get();
-            $this->isMonthSorted=false;
-            $this->itmePeriodSorted=2;
-        }else{
-            if ($this->isMonthSorted==true) {
+        if ($this->cost_id==0) {
+            if ($this->periode=="Semain en cours") {
                 $paiments=Paiment::select('students.*','paiments.*')
                 ->join('students','paiments.student_id','=','students.id')
                 ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereMonth('paiments.created_at',$this->month)
+                ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
                 ->orderBy('paiments.created_at','DESC')
                 ->whereIn('cost_generals.id',[8,10,13,14])
                 ->with('cost')
@@ -111,8 +80,40 @@ class RapportBusPage extends Component
                 ->with('student.classe')
                 ->with('student.classe.option')
                 ->get();
-            } else {
+                $this->isMonthSorted=false;
+                $this->itmePeriodSorted=1;
+            } elseif($this->periode=="Semaine passée") {
+                $date=Carbon::now()->subDays(7);
                 $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$this->defaultScolaryYer->id)
+                ->where('paiments.created_at', '>=', $date)
+                ->orderBy('paiments.created_at','DESC')
+                ->whereIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $this->isMonthSorted=false;
+                $this->itmePeriodSorted=2;
+            }else{
+                if ($this->isMonthSorted==true) {
+                    $paiments=Paiment::select('students.*','paiments.*')
+                    ->join('students','paiments.student_id','=','students.id')
+                    ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                    ->where('scolary_year_id',$this->defaultScolaryYer->id)
+                    ->whereMonth('paiments.created_at',$this->month)
+                    ->orderBy('paiments.created_at','DESC')
+                    ->with('cost')
+                    ->with('student')
+                    ->with('student.classe')
+                    ->with('student.classe.option')
+                    ->whereIn('cost_generals.id',[8,10,13,14])
+                    ->get();
+                } else {
+                    $paiments=Paiment::select('students.*','paiments.*')
                     ->join('students','paiments.student_id','=','students.id')
                     ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                     ->where('scolary_year_id',$this->defaultScolaryYer->id)
@@ -124,6 +125,74 @@ class RapportBusPage extends Component
                     ->with('student.classe')
                     ->with('student.classe.option')
                     ->get();
+                }
+
+
+            }
+        } else {
+            if ($this->periode=="Semain en cours") {
+                $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$this->defaultScolaryYer->id)
+                ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->orderBy('paiments.created_at','DESC')
+                ->where('cost_general_id',$this->cost_id)
+                ->whereIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $this->isMonthSorted=false;
+                $this->itmePeriodSorted=1;
+            } elseif($this->periode=="Semaine passée") {
+                $date=Carbon::now()->subDays(7);
+                $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$this->defaultScolaryYer->id)
+                ->where('paiments.created_at', '>=', $date)
+                ->orderBy('paiments.created_at','DESC')
+                ->where('cost_general_id',$this->cost_id)
+                ->whereIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $this->isMonthSorted=false;
+                $this->itmePeriodSorted=2;
+            }else{
+                if ($this->isMonthSorted==true) {
+                    $paiments=Paiment::select('students.*','paiments.*')
+                    ->join('students','paiments.student_id','=','students.id')
+                    ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                    ->where('scolary_year_id',$this->defaultScolaryYer->id)
+                    ->whereMonth('paiments.created_at',$this->month)
+                    ->orderBy('paiments.created_at','DESC')
+                    ->where('cost_general_id',$this->cost_id)
+                    ->whereIn('cost_generals.id',[8,10,13,14])
+                    ->with('cost')
+                    ->with('student')
+                    ->with('student.classe')
+                    ->with('student.classe.option')
+                    ->get();
+                } else {
+                    $paiments=Paiment::select('students.*','paiments.*')
+                        ->join('students','paiments.student_id','=','students.id')
+                        ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                        ->where('scolary_year_id',$this->defaultScolaryYer->id)
+                        ->whereDate('paiments.created_at',$this->date_to_search)
+                        ->orderBy('paiments.created_at','DESC')
+                        ->where('cost_general_id',$this->cost_id)
+                        ->whereIn('cost_generals.id',[8,10,13,14])
+                        ->with('cost')
+                        ->with('student')
+                        ->with('student.classe')
+                        ->with('student.classe.option')
+                        ->get();
+                }
             }
         }
         return view('livewire.paiment.rapport.rapport-bus-page',['paiments'=>$paiments]);
