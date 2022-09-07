@@ -2,7 +2,7 @@
     <x-loading-indicator />
     <div class="card">
         <div class="card-body">
-            <h4 class="text-uppercase text-primary">&#x1F5C2; Rapport périodique de paiement d'autre frais</h4>
+            <h4 class="text-uppercase text-primary">&#x1F5C2; Rapport bus et Autres</h4>
         </div>
     </div>
     @php

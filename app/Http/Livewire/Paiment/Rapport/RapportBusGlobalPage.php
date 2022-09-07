@@ -7,7 +7,7 @@ use App\Models\Paiment;
 use App\Models\ScolaryYear;
 use Livewire\Component;
 
-class RapportPaimentFraisGlobalPage extends Component
+class RapportBusGlobalPage extends Component
 {
     public $taux=2000,$costs=[],$cost_id=0,$defaultScolaryYer;
 
@@ -45,7 +45,7 @@ class RapportPaimentFraisGlobalPage extends Component
                 ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->orderBy('paiments.created_at','ASC')
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereNotIn('cost_generals.id',[8,10,13])
+                ->whereIn('cost_generals.id',[8,10,13])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -58,7 +58,7 @@ class RapportPaimentFraisGlobalPage extends Component
                 ->orderBy('paiments.created_at','ASC')
                 ->where('cost_general_id',$this->cost_id)
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereNotIn('cost_generals.id',[8,10,13])
+                ->whereIn('cost_generals.id',[8,10,13])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -73,7 +73,7 @@ class RapportPaimentFraisGlobalPage extends Component
                 ->orderBy('paiments.created_at','ASC')
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
                 ->whereBetween('paiments.created_at',[$this->dateTo,$this->dateFrom])
-                ->whereNotIn('cost_generals.id',[8,10,13])
+                ->whereIn('cost_generals.id',[8,10,13])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -87,7 +87,7 @@ class RapportPaimentFraisGlobalPage extends Component
                 ->where('cost_general_id',$this->cost_id)
                 ->where('scolary_year_id',$this->defaultScolaryYer->id)
                 ->whereBetween('paiments.created_at',[$this->dateTo,$this->dateFrom])
-                ->whereNotIn('cost_generals.id',[8,10,13])
+                ->whereIn('cost_generals.id',[8,10,13])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -131,13 +131,13 @@ class RapportPaimentFraisGlobalPage extends Component
     public function mount(){
         $this->costs=CostGeneral::orderBy('name','ASC')
                 ->where('active',true)
-                ->whereNotIn('id',[8,10,13])
+                ->whereIn('id',[8,10,13])
                 ->get();
     }
 
     public function render()
     {
         $paiments=$this->paiements;
-        return view('livewire.paiment.rapport.rapport-paiment-frais-global-page',['paiments'=>$paiments]);
+        return view('livewire.paiment.rapport.rapport-bus-global-page',['paiments'=>$paiments]);
     }
 }

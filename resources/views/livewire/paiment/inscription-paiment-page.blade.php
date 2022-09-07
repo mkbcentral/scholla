@@ -53,7 +53,7 @@
                 <tr>
                     <td class="text-center">{{$index+1}}</td>
                     <td class="text-primary" >
-                        <a wire:click.prevent="edit({{$inscription}})" href=""data-toggle="modal"
+                        <a wire:click.prevent="edit({{$inscription}})" href="" data-toggle="modal"
                             data-target="#editPaiementDateModal">
                             {{$inscription->created_at->format('d/m/Y')}}
                         </a>
