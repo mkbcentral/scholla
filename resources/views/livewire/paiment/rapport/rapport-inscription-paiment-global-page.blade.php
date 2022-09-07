@@ -143,7 +143,7 @@
                         text-primary
                         @endif
                         ">
-                            {{$inscription->created_at->format('d/m/Y')}}ù
+                            {{$inscription->created_at->format('d/m/Y')}}
                     </td>
                     <td>{{$inscription->student->name}}</td>
                     <td class="text-center">{{$inscription->student->classe->name.'/'.$inscription->student->classe->option->name}}</td>
