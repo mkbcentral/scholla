@@ -40,9 +40,7 @@
                                 <x-select wire:model='classe_id'>
                                     <option value="">Choisir...</option>
                                     @foreach ($classes as $classe)
-                                        <option value="{{$classe->id}}">
-                                            <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
-                                        </option>
+                                        <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
                                     @endforeach
                                 </x-select>
                             </div>

@@ -40,10 +40,7 @@ class InscriptionMainPage extends Component
 
         $this->options=ClasseOption::orderBy('name','ASC')->get();
 
-        $this->classes=Classe::orderBy('name','ASC')
-            ->where('classe_option_id',$this->selectedIndex)
-            ->with('option')
-            ->get();
+
         $this->classesToEdit=Classe::orderBy('name','ASC')->with('option')->get();
     }
     public function changeIndex(ClasseOption $option){
@@ -187,7 +184,10 @@ class InscriptionMainPage extends Component
 
     public function render()
     {
-
+        $this->classes=Classe::orderBy('name','ASC')
+        ->where('classe_option_id',$this->selectedIndex)
+        ->with('option')
+        ->get();
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
             $inscriptions=Inscription::select('students.*','inscriptions.*')
                         ->join('students','inscriptions.student_id','=','students.id')
