@@ -156,10 +156,12 @@
                         @endif
                     </td>
                    <td>
-                    <button class="btn btn-sm btn-danger"
+                    @if (Auth::user()->roles->pluck('name')->contains('root'))
+                        <button class="btn btn-sm btn-danger"
                         wire:click.prevent='showDeleteDialog({{$inscription}},{{$inscription->student}})'>
                         Ratirer
                     </button>
+                    @endif
                    </td>
                 </tr>
                 @if ($inscription->is_paied==false)
