@@ -44,6 +44,7 @@ class InscriptionMainPage extends Component
             ->where('classe_option_id',$this->selectedIndex)
             ->with('option')
             ->get();
+        $this->classesToEdit=Classe::orderBy('name','ASC')->with('option')->get();
     }
     public function changeIndex(ClasseOption $option){
         $this->selectedIndex=$option->id;

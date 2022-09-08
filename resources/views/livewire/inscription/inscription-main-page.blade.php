@@ -41,7 +41,7 @@
                                     <option value="">Choisir...</option>
                                     @foreach ($classes as $classe)
                                         <option value="{{$classe->id}}">
-                                                {{$classe->name}}
+                                            <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
                                         </option>
                                     @endforeach
                                 </x-select>
