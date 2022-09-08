@@ -7,7 +7,8 @@
         <title>{{config('app.name','MASOMO')}}</title>
         @if (config('app.env')=='production')
             <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('public/logo.jpg') }}">
-            <link rel="stylesheet" href="{{ asset('public/build/assets/app.d9922bc4.css') }}">
+            <link rel="stylesheet" href="{{ asset('build/assets/app.6ccd8cd5.css') }}">
+            <link rel="stylesheet" href="{{ asset('build/assets/app.eb801204.css') }}">
             <link rel="stylesheet" href="{{ asset('public/chargement.css') }}">
             <script src="{{ asset('public/build/assets/app.a46b9522.js') }}"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css"
