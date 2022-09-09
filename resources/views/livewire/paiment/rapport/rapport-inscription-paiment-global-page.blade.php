@@ -182,10 +182,7 @@
                             {
                                 $total_depense+=$inscription->cost->amount;
                             }
-                        else
-                            {
-                                $total+=$inscription->cost->amount;
-                            }
+                        $total+=$inscription->cost->amount;
 
                     @endphp
                 @endif
