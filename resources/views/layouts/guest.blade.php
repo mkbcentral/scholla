@@ -8,7 +8,8 @@
 
         @if (config('app.env')=='production')
             <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('public/logo.jpg') }}">
-            <link rel="stylesheet" href="{{ asset('public/build/assets/app.d9922bc4.css') }}">
+            <link rel="stylesheet" href="{{ asset('public/build/assets/app.6ccd8cd5.css') }}">
+            <link rel="stylesheet" href="{{ asset('public/build/assets/app.eb801204.css') }}">
             <script src="{{ asset('public/build/assets/app.0a5db875.js') }}"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css"
                 integrity="sha512-3M00D/rn8n+2ZVXBO9Hib0GKNpkm8MSUU/e2VNthDyBYxKWG+BftNYYcuEjXlyrSO637tidzMBXfE7sQm0INUg=="

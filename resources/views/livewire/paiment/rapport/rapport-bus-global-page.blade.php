@@ -207,5 +207,5 @@
             </div>
         </div>
     @endif
-
+    @include('livewire.paiment.modals.edit-paiment-date')
 </div>

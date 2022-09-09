@@ -92,7 +92,8 @@
                         <td>{{$index+1}}</td>
                         <td class="text-primary">
                             <a href="#" data-toggle="modal"
-                              data-target="#editPaiementDateModal" wire:click.prevent='edit({{$paiment}})'>
+                              data-target="#editPaiementBusDateModal"
+                              wire:click.prevent='edit({{$paiment}})'>
                             {{$paiment->created_at->format('d/m/Y')}}
                             </a>
                         </td>
@@ -129,5 +130,5 @@
             </div>
         </div>
     @endif
-        @include('livewire.paiment.modals.edit-paiment-date')
+     @include('livewire.paiment.modals.edit-paiment-date-bus')
 </div>
