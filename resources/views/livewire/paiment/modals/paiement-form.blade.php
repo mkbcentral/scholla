@@ -40,7 +40,7 @@
             </div>
         </form>
         <a target="_blank"
-                href="{{ route('print.paiement.cost', [$cost_id,$month_name,$option,$isc_id]) }}"
+                href="{{ route('print.paiement.cost', [$cost_id,$month_name,$selectedIndex,$isc_id]) }}"
                   class="btn btn-danger">Valider</a>
 
       </div>
