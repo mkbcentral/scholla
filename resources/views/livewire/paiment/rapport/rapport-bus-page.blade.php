@@ -99,7 +99,7 @@
                         </td>
                         <td>{{$paiment->number_paiement}}</td>
                         <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
-                        <td>{{$paiment->cost->name.'/'.strftime('%B', mktime(0, 0, 0, $paiment->mounth_name)) }}</td>
+                        <td>{{$paiment->cost->name }}</td>
                         <td class="text-right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
                         <td class="text-center">
                             @if (Auth::user()->roles->pluck('name')->contains('Finance'))
