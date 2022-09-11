@@ -152,16 +152,34 @@
                         @if ($inscription->is_paied==false)
                             <span class="text-danger">Non validé</span>
                         @else
-                            {{number_format($inscription->cost->amount*$taux,1,',',' ')}}
+                            @if ($inscription->depense)
+                            <span class="bg-danger p-1">
+                               <a href="" data-toggle="modal" wire:click.prevent='show({{$inscription->id}})'
+                                            data-target="#showInDepenseModal">
+                                {{number_format($inscription->cost->amount*$taux-$inscription->depense->amount,1,',',' ')}}
+                               </a>
+                            </span>
+                            @else
+                                {{number_format($inscription->cost->amount*$taux,1,',',' ')}}
+                            @endif
+
                         @endif
                     </td>
                    <td>
-                    @if (Auth::user()->roles->pluck('name')->contains('root'))
-                        <button class="btn btn-sm btn-danger"
-                        wire:click.prevent='showDeleteDialog({{$inscription}},{{$inscription->student}})'>
-                        Ratirer
-                    </button>
-                    @endif
+                        @if (Auth::user()->roles->pluck('name')->contains('root'))
+                            <button class="btn btn-sm btn-danger"
+                            wire:click.prevent='showDeleteDialog({{$inscription}},{{$inscription->student}})'>
+                            Ratirer
+                        </button>
+                        @endif
+                        @if ($inscription->depense)
+                            <button wire:click='deleteDepense({{$inscription->id}})'  class="btn btn-sm btn-danger" type="button">Annuler</button>
+                        @else
+                            <button data-toggle="modal"
+                                data-target="#addInDepenseModal"
+                                wire:click.prevent='edit({{$inscription}})' class="btn btn-sm btn-primary" type="button">Marquer</button>
+                        @endif
+
                    </td>
                 </tr>
                 @if ($inscription->is_paied==false)
@@ -170,20 +188,34 @@
                     @endphp
                 @else
                     @php
-                        if ($inscription->is_bank==true){
-                            $total_bank+=$inscription->cost->amount*$taux;
-                        }
-
-                        elseif ($inscription->is_fonctionnement==true)
-                           {
-                            $total_fonctionnement+=$inscription->cost->amount*$taux;
-                           }
-                        elseif ($inscription->is_depense==true)
-                            {
-                                $total_depense+=$inscription->cost->amount*$taux;
+                        if ($inscription->depense) {
+                            if ($inscription->is_bank==true){
+                                $total_bank+=$inscription->cost->amount*$taux-$inscription->depense->amount;
                             }
-                        $total+=$inscription->cost->amount*$taux;
-
+                            elseif ($inscription->is_fonctionnement==true)
+                            {
+                                $total_fonctionnement+=$inscription->cost->amount*$taux-$inscription->depense->amount;
+                            }
+                            elseif ($inscription->is_depense==true)
+                            {
+                                    $total_depense+=$inscription->cost->amount*$taux-$inscription->depense->amount;
+                            }
+                            $total+=$inscription->cost->amount*$taux-
+                                    $inscription->depense->amount;
+                        } else {
+                            if ($inscription->is_bank==true){
+                                $total_bank+=$inscription->cost->amount*$taux;
+                            }
+                            elseif ($inscription->is_fonctionnement==true)
+                            {
+                                $total_fonctionnement+=$inscription->cost->amount*$taux;
+                            }
+                            elseif ($inscription->is_depense==true)
+                                {
+                                    $total_depense+=$inscription->cost->amount*$taux;
+                                }
+                            $total+=$inscription->cost->amount*$taux;
+                        }
                     @endphp
                 @endif
             @endforeach
@@ -215,4 +247,6 @@
            </div>
         </div>
     </div>
+    @include('livewire.paiment.modals.add-depense-in-insc')
+    @include('livewire.paiment.modals.show-depense-in-insc')
 </div>

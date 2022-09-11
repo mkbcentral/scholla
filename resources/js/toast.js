@@ -22,6 +22,8 @@ window.$(document).ready(function () {
         $('#formDepotBankModal').modal('hide');
         $('#formDeviseModal').modal('hide');
         $('#formEtatBesoinModal').modal('hide');
+        $('#editPaiementNumberBusModal').modal('hide');
+        $('#editPaiementNumberModal').modal('hide');
     });
     window.addEventListener('data-updated', function (event) {
         toastr.info(event.detail.message, 'Validation');

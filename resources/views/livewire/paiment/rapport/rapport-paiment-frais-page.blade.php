@@ -41,17 +41,17 @@
         <div>
             @if ($isMonthSorted==true)
                 <a  target="_blank"
-                    class="btn btn-danger" href="{{ route('paiement.frais.month.print',[$month,$cost_id]) }}">
+                    class="btn btn-danger" href="{{ route('paiement.frais.month.print',[$month,$cost_id,$status]) }}">
                     &#x1F5A8; Imprimer
                 </a>
             @elseif ($itmePeriodSorted>0)
                 <a  target="_blank"
-                    class="btn btn-secondary" href="{{ route('paiement.frais.periode.print',[$itmePeriodSorted,$cost_id]) }}">
+                    class="btn btn-secondary" href="{{ route('paiement.frais.periode.print',[$itmePeriodSorted,$cost_id,$status,$month]) }}">
                     &#x1F5A8; Imprimer
                 </a>
             @elseif ($isDaySorted==true)
                 <a  target="_blank"
-                    class="btn btn-secondary" href="{{ route('paiement.frais.day.print',[$date_to_search,$cost_id]) }}">
+                    class="btn btn-secondary" href="{{ route('paiement.frais.day.print',[$date_to_search,$cost_id,$status,$month]) }}">
                     &#x1F5A8; Imprimer
                 </a>
             @endif
@@ -96,14 +96,22 @@
                             {{$paiment->created_at->format('d/m/Y')}}
                             </a>
                         </td>
-                        <td>{{$paiment->number_paiement}}</td>
+                        <td>
+                            <a href="" data-toggle="modal"
+                                data-target="#editPaiementNumberModal" wire:click.prevent='edit({{$paiment}})'>
+                                {{$paiment->number_paiement}}</td>
+                            </a>
                         <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
                         <td>{{$paiment->cost->name }}</td>
                         <td class="text-right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
                         <td class="text-center">
                             @if (Auth::user()->roles->pluck('name')->contains('Finance'))
                                 <a target="_blank" href="{{ route('recu.frais.print',$paiment->id) }}"
-                                         class="btn btn-sm btn-primary">&#x1F5A8;</a>
+                                         class="btn btn-sm btn-primary">&#x1F5A8;
+                                </a>
+                                <button class="btn btn-sm btn-danger"  wire:click.prevent='delete({{$paiment}})'>
+                                            Retirer
+                                </button>
 
                             @else
                                 <span>Ok !</span>
@@ -128,4 +136,5 @@
         </div>
     @endif
         @include('livewire.paiment.modals.edit-paiment-date')
+        @include('livewire.paiment.modals.edit-paiment-number')
 </div>

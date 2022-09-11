@@ -67,6 +67,8 @@ return array(
     'App\\Models\\CostGeneral' => $baseDir . '/app/Models/CostGeneral.php',
     'App\\Models\\CostInscription' => $baseDir . '/app/Models/CostInscription.php',
     'App\\Models\\Depense' => $baseDir . '/app/Models/Depense.php',
+    'App\\Models\\DepenseInInscription' => $baseDir . '/app/Models/DepenseInInscription.php',
+    'App\\Models\\DepenseInPaiment' => $baseDir . '/app/Models/DepenseInPaiment.php',
     'App\\Models\\DepenseSouce' => $baseDir . '/app/Models/DepenseSouce.php',
     'App\\Models\\DepotBank' => $baseDir . '/app/Models/DepotBank.php',
     'App\\Models\\Devise' => $baseDir . '/app/Models/Devise.php',

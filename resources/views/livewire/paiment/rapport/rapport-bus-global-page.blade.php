@@ -151,12 +151,7 @@
                         <td>{{$paiment->cost->name }}</td>
                         <td class="text-right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
                         <td class="text-center">
-                            @if (Auth::user()->roles->pluck('name')->contains('Finance'))
-                                <a target="_blank" href="{{ route('recu.frais.print',$paiment->id) }}" class="btn btn-sm btn-primary">&#x1F5A8;</a>
-                            @else
-                                <span>Ok !</span>
-                            @endif
-
+                            <span>Ok !</span>
                         </td>
 
                     </tr>

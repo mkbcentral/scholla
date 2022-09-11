@@ -163,96 +163,20 @@ class PaimentPrinterConteroller extends Controller
 
     }
 
-
-    public function printRapportPaiemenFraisDay($date,$cost_id){
+    //PAPPORT PAIMPENT AUTRES FRAIS
+    public function printRapportPaiemenFraisDay($date,$cost_id,$status,$month){
         $taux=2000;
         $motif='';
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        if ($cost_id==0) {
-            $paiments=Paiment::select('students.*','paiments.*')
-            ->join('students','paiments.student_id','=','students.id')
-            ->where('scolary_year_id',$defaultScolaryYer->id)
-            ->whereDate('paiments.created_at',$date)
-            ->orderBy('paiments.created_at','DESC')
-            ->with('cost')
-            ->with('student')
-            ->with('student.classe')
-            ->with('student.classe.option')
-            ->get();
-            $motif="Pour tous les frais";
-        } else {
-            $paiments=Paiment::select('students.*','paiments.*')
-            ->join('students','paiments.student_id','=','students.id')
-            ->where('scolary_year_id',$defaultScolaryYer->id)
-            ->whereDate('paiments.created_at',$date)
-            ->orderBy('paiments.created_at','DESC')
-            ->where('cost_general_id',$cost_id)
-            ->with('cost')
-            ->with('student')
-            ->with('student.classe')
-            ->with('student.classe.option')
-            ->get();
-            $cost=CostGeneral::find($cost_id);
-            $motif=$cost->name;
-        }
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('pages.paiement.pints.print-rapport-paiement-frais-day',
-            compact(['defaultScolaryYer','paiments','taux','date','motif']))
-            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
-            return $pdf->stream();
-    }
-
-    public function printRapportPaiemenFraisMonth($month,$cost_id){
-        $taux=2000;
-        $motif='';
-        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        if ($cost_id==0) {
-            $paiments=Paiment::select('students.*','paiments.*')
-            ->join('students','paiments.student_id','=','students.id')
-            ->where('scolary_year_id',$defaultScolaryYer->id)
-            ->whereMonth('paiments.created_at',$month)
-            ->orderBy('paiments.created_at','DESC')
-            ->with('cost')
-            ->with('student')
-            ->with('student.classe')
-            ->with('student.classe.option')
-            ->get();
-            $motif="Pour tous les frais";
-        } else {
-            $paiments=Paiment::select('students.*','paiments.*')
-            ->join('students','paiments.student_id','=','students.id')
-            ->where('scolary_year_id',$defaultScolaryYer->id)
-            ->whereMonth('paiments.created_at',$month)
-            ->orderBy('paiments.created_at','DESC')
-            ->where('cost_general_id',$cost_id)
-            ->with('cost')
-            ->with('student')
-            ->with('student.classe')
-            ->with('student.classe.option')
-            ->get();
-            $cost=CostGeneral::find($cost_id);
-            $motif=$cost->name;
-        }
-
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('pages.paiement.pints.print-rapport-paiement-frais-month',
-            compact(['defaultScolaryYer','paiments','taux','month','motif']))
-            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
-            return $pdf->stream();
-    }
-
-    public function printRapportPaiemenFraisPeriode($periode,$cost_id){
-        $taux=2000;
-        $motif='';
-        $label='';
-        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        if ($periode==1) {
+        if ($status=="Autres") {
             if ($cost_id==0) {
                 $paiments=Paiment::select('students.*','paiments.*')
                 ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->where('scolary_year_id',$defaultScolaryYer->id)
-                ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->whereDate('paiments.created_at',$date)
                 ->orderBy('paiments.created_at','DESC')
+                ->whereIn('cost_generals.id',[8,10,13,14])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -262,10 +186,12 @@ class PaimentPrinterConteroller extends Controller
             } else {
                 $paiments=Paiment::select('students.*','paiments.*')
                 ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->where('scolary_year_id',$defaultScolaryYer->id)
-                ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->whereDate('paiments.created_at',$date)
                 ->orderBy('paiments.created_at','DESC')
                 ->where('cost_general_id',$cost_id)
+                ->whereIn('cost_generals.id',[8,10,13,14])
                 ->with('cost')
                 ->with('student')
                 ->with('student.classe')
@@ -274,14 +200,205 @@ class PaimentPrinterConteroller extends Controller
                 $cost=CostGeneral::find($cost_id);
                 $motif=$cost->name;
             }
+        } else {
+            if ($cost_id==0) {
+                $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$defaultScolaryYer->id)
+                ->whereDate('paiments.created_at',$date)
+                ->orderBy('paiments.created_at','DESC')
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $motif="Pour tous les frais";
+            } else {
+                $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$defaultScolaryYer->id)
+                ->whereDate('paiments.created_at',$date)
+                ->orderBy('paiments.created_at','DESC')
+                ->where('cost_general_id',$cost_id)
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $cost=CostGeneral::find($cost_id);
+                $motif=$cost->name;
+            }
+        }
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.paiement.pints.print-rapport-paiement-frais-day',
+            compact(['defaultScolaryYer','paiments','taux','date','motif','status','month']))
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+    }
+
+    public function printRapportPaiemenFraisMonth($month,$cost_id,$status){
+        $taux=2000;
+        $motif='';
+        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        if ($status=='Autres') {
+            if ($cost_id==0) {
+                $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$defaultScolaryYer->id)
+                ->whereMonth('paiments.created_at',$month)
+                ->orderBy('paiments.created_at','DESC')
+                ->whereIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $motif="Pour tous les frais";
+            } else {
+                $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$defaultScolaryYer->id)
+                ->whereMonth('paiments.created_at',$month)
+                ->orderBy('paiments.created_at','DESC')
+                ->where('cost_general_id',$cost_id)
+                ->whereIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $cost=CostGeneral::find($cost_id);
+                $motif=$cost->name;
+            }
+        } else {
+            if ($cost_id==0) {
+                $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$defaultScolaryYer->id)
+                ->whereMonth('paiments.created_at',$month)
+                ->orderBy('paiments.created_at','DESC')
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $motif="Pour tous les frais";
+            } else {
+                $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('scolary_year_id',$defaultScolaryYer->id)
+                ->whereMonth('paiments.created_at',$month)
+                ->orderBy('paiments.created_at','DESC')
+                ->where('cost_general_id',$cost_id)
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+                $cost=CostGeneral::find($cost_id);
+                $motif=$cost->name;
+            }
+        }
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.paiement.pints.print-rapport-paiement-frais-month',
+            compact(['defaultScolaryYer','paiments','taux','month','motif','status']))
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+    }
+
+    public function printRapportPaiemenFraisPeriode($periode,$cost_id,$status,$month){
+        $taux=2000;
+        $motif='';
+        $label='';
+        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        if ($periode==1) {
+            if ($status=="Autres") {
+                if ($cost_id==0) {
+                    $paiments=Paiment::select('students.*','paiments.*')
+                    ->join('students','paiments.student_id','=','students.id')
+                    ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                    ->where('scolary_year_id',$defaultScolaryYer->id)
+                    ->whereIn('cost_generals.id',[8,10,13,14])
+                    ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->orderBy('paiments.created_at','DESC')
+                    ->with('cost')
+                    ->with('student')
+                    ->with('student.classe')
+                    ->with('student.classe.option')
+                    ->get();
+                    $motif="Pour tous les frais";
+                } else {
+                    $paiments=Paiment::select('students.*','paiments.*')
+                    ->join('students','paiments.student_id','=','students.id')
+                    ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                    ->where('scolary_year_id',$defaultScolaryYer->id)
+                    ->whereIn('cost_generals.id',[8,10,13,14])
+                    ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->orderBy('paiments.created_at','DESC')
+                    ->where('cost_general_id',$cost_id)
+                    ->with('cost')
+                    ->with('student')
+                    ->with('student.classe')
+                    ->with('student.classe.option')
+                    ->get();
+                    $cost=CostGeneral::find($cost_id);
+                    $motif=$cost->name;
+                }
+            } else {
+                if ($cost_id==0) {
+                    $paiments=Paiment::select('students.*','paiments.*')
+                    ->join('students','paiments.student_id','=','students.id')
+                    ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                    ->where('scolary_year_id',$defaultScolaryYer->id)
+                    ->whereNotIn('cost_generals.id',[8,10,13,14])
+                    ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->orderBy('paiments.created_at','DESC')
+                    ->with('cost')
+                    ->with('student')
+                    ->with('student.classe')
+                    ->with('student.classe.option')
+                    ->get();
+                    $motif="Pour tous les frais";
+                } else {
+                    $paiments=Paiment::select('students.*','paiments.*')
+                    ->join('students','paiments.student_id','=','students.id')
+                    ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                    ->where('scolary_year_id',$defaultScolaryYer->id)
+                    ->whereNotIn('cost_generals.id',[8,10,13,14])
+                    ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->orderBy('paiments.created_at','DESC')
+                    ->where('cost_general_id',$cost_id)
+                    ->with('cost')
+                    ->with('student')
+                    ->with('student.classe')
+                    ->with('student.classe.option')
+                    ->get();
+                    $cost=CostGeneral::find($cost_id);
+                    $motif=$cost->name;
+                }
+            }
+
+
             $label="Semaine en cours";
         } elseif($periode==2) {
             if ($cost_id==0) {
                 $date=Carbon::now()->subDays(7);
                 $paiments=Paiment::select('students.*','paiments.*')
                 ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->where('scolary_year_id',$defaultScolaryYer->id)
                 ->where('paiments.created_at', '>=', $date)
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
                 ->with('student')
@@ -293,7 +410,9 @@ class PaimentPrinterConteroller extends Controller
                 $date=Carbon::now()->subDays(7);
                 $paiments=Paiment::select('students.*','paiments.*')
                 ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->where('scolary_year_id',$defaultScolaryYer->id)
+                ->whereNotIn('cost_generals.id',[8,10,13,14])
                 ->where('paiments.created_at', '>=', $date)
                 ->orderBy('paiments.created_at','DESC')
                 ->where('cost_general_id',$cost_id)
@@ -309,7 +428,7 @@ class PaimentPrinterConteroller extends Controller
         }
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('pages.paiement.pints.print-rapport-paiement-frais-periode',
-            compact(['defaultScolaryYer','paiments','taux','label','motif']))
+            compact(['defaultScolaryYer','paiments','taux','label','motif','status','month']))
             ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
             return $pdf->stream();
     }

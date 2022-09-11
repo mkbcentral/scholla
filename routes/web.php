@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::controller(PaimentPrinterConteroller::class)->group(function(){
+         //RAPPORT DES FRAIS  INSCRIPTION
         Route::get('ipression-paiement-jour/{date}','printRapportInscJournlaier')
                 ->name('inscription.paiement.day.print');
         Route::get('ipression-recu-insc/{inscription}','printRecuPaiementInscription')
@@ -92,15 +93,17 @@ Route::middleware('auth')->group(function(){
         Route::get('print-rapport-all-insc/{status}/{dateTo}/{dateFrom}','printRapportInscAll')
             ->name('inscription.paiement.all.print');
 
-        Route::get('print-rapport-paiment-frais/{month}/{cost_id}','printRapportPaiemenFraisMonth')
+        //RAPPORT DES AUTRES FRAIS
+        Route::get('print-rapport-paiment-frais/{month}/{cost_id}/{status1}','printRapportPaiemenFraisMonth')
             ->name('paiement.frais.month.print');
 
-        Route::get('print-rapport-paiment-frais-periode/{periode}/{cost_id}','printRapportPaiemenFraisPeriode')
+        Route::get('print-rapport-paiment-frais-periode/{periode}/{cost_id}/{status2}/{month1}','printRapportPaiemenFraisPeriode')
             ->name('paiement.frais.periode.print');
 
-        Route::get('print-rapport-paiment-frais-day/{date}/{cost_id}','printRapportPaiemenFraisDay')
+        Route::get('print-rapport-paiment-frais-day/{date}/{cost_id}/{status3}/{month2}','printRapportPaiemenFraisDay')
             ->name('paiement.frais.day.print');
 
+        //DEPOT BANK
         Route::get('print-bank-depot/{month}','printDepotBank')->name('bank.depot.print');
     });
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Paiment\Rapport;
 
+use App\Models\DepenseInInscription;
 use App\Models\DepotBank;
 use App\Models\Inscription;
 use App\Models\ScolaryYear;
@@ -12,7 +13,8 @@ class RapportInscriptionPaimentGlobalPage extends Component
 {
     public $taux=2000,$isFilted=0;
     public $dateTo="none",$dateFrom="none",$keySearch='';
-    public $selectedRows=[],$selectPageRows=false,$inscription,$studentToDelete;
+    public $selectedRows=[],$selectPageRows=false,$inscription,$inscriptionDepense,$inscriptionDepenseShow,
+    $studentToDelete,$amount_depense,$insc_amount=0;
     protected $listeners=['deleteInscriptionListener'=>'delete'];
 
     public function updatedDateTo(){
@@ -21,6 +23,29 @@ class RapportInscriptionPaimentGlobalPage extends Component
 
     public function updatedDateFrom(){
         $this->isFilted=true;
+    }
+
+    public function edit(Inscription $inscription){
+        $this->inscriptionDepense=$inscription;
+        $this->insc_amount=$inscription->cost->amount;
+    }
+
+    public function addDepense(){
+        $depense=new DepenseInInscription();
+        $depense->amount=$this->amount_depense;
+        $depense->inscription_id=$this->inscriptionDepense->id;
+        $depense->save();
+        $this->dispatchBrowserEvent('data-added',['message'=>"Depense bien marquée !"]);
+    }
+
+    public function deleteDepense($id){
+        $depense=DepenseInInscription::where('inscription_id',$id)->first();
+        $depense->delete();
+        $this->dispatchBrowserEvent('data-deleted',['message'=>"Depense bien annulée !"]);
+    }
+
+    public function show(Inscription $inscription){
+        $this->inscriptionDepenseShow=$inscription;
     }
 
     public function refreshData(){

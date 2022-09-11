@@ -726,6 +726,8 @@ class ComposerStaticInitb597444afbd137a3786fdee41ead9f8b
         'App\\Models\\CostGeneral' => __DIR__ . '/../..' . '/app/Models/CostGeneral.php',
         'App\\Models\\CostInscription' => __DIR__ . '/../..' . '/app/Models/CostInscription.php',
         'App\\Models\\Depense' => __DIR__ . '/../..' . '/app/Models/Depense.php',
+        'App\\Models\\DepenseInInscription' => __DIR__ . '/../..' . '/app/Models/DepenseInInscription.php',
+        'App\\Models\\DepenseInPaiment' => __DIR__ . '/../..' . '/app/Models/DepenseInPaiment.php',
         'App\\Models\\DepenseSouce' => __DIR__ . '/../..' . '/app/Models/DepenseSouce.php',
         'App\\Models\\DepotBank' => __DIR__ . '/../..' . '/app/Models/DepotBank.php',
         'App\\Models\\Devise' => __DIR__ . '/../..' . '/app/Models/Devise.php',

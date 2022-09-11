@@ -31,8 +31,15 @@
             </span>
         </div>
         <div>
-            <span>Motifs: {{$motif}}</span>
+            @if ($status=="Autres")
+                <span>Motifs: Bus et autres</span>
+            @else
+                <span>Motifs: Minerval</span>
+            @endif
         </div>
+        <span style="margin-top: 8px;margin-bottom: 8px ">
+            Du moi de: {{strftime('%B', mktime(0, 0, 0, $month))}}
+        </span>
         <div>
             <span>Année scolaire: {{$defaultScolaryYer->name}}</span>
         </div>
@@ -64,7 +71,7 @@
                                     <td>{{$paiment->created_at->format('d/m/Y')}}</td>
                                     <td>{{$paiment->number_paiement}}</td>
                                     <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
-                                    <td>{{$paiment->cost->name.'/'.strftime('%B', mktime(0, 0, 0, $paiment->mounth_name)) }}</td>
+                                    <td>{{$paiment->cost->name }}</td>
                                     <td style="text-align: right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
                                 </tr>
                                 @php
@@ -82,7 +89,7 @@
 </div>
     </div>
     <div style="font-size: 18px;margin-top: 20px; padding: 8px;color: rgb(32, 32, 32)">
-        <span style="font-weight: bold;margin-right: 400px">COMPTABLE</span>
+        <span style="font-weight: bold;margin-right: 550">COMPTABLE</span>
         <span style="font-weight: bold">COORDONATEUR</span>
     </div>
 </body>

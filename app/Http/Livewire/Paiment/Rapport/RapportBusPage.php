@@ -13,8 +13,8 @@ class RapportBusPage extends Component
     public $month,$months=[],$currentMonth;
     public $taux=2000,$periode;
     public $itemsPeriodeFilter=['Semain en cours','Semaine passée'];
-    public  $isMonthSorted=true,$itmePeriodSorted=0,$isDaySorted=false;
-    public $costs=[],$cost_id=0,$date_to_search='',$paiment_date;
+    public  $isMonthSorted=true,$itmePeriodSorted=0,$isDaySorted=false,$status="Autres";
+    public $costs=[],$cost_id=0,$date_to_search='',$paiment_date,$number_paiment;
     public $paiment;
 
 
@@ -34,6 +34,8 @@ class RapportBusPage extends Component
 
     public function edit(Paiment $paiment){
         $this->paiment=$paiment;
+        $this->number_paiment=$paiment->number_paiement;
+        $this->paiment_date=$paiment->created_at->format('d/m/Y');
     }
 
     public function update(){
@@ -41,6 +43,13 @@ class RapportBusPage extends Component
         $this->paiment->created_at=$this->paiment_date;
         $this->paiment->update();
         $this->dispatchBrowserEvent('data-added',['message'=>"Date du frais bien mise à jour !"]);
+    }
+
+    public function updateNumber(){
+        $this->validate(['number_paiment'=>'required']);
+        $this->paiment->number_paiement=$this->number_paiment;
+        $this->paiment->update();
+        $this->dispatchBrowserEvent('data-added',['message'=>"Numero frais bien mise à jour !"]);
     }
 
     public function delete(Paiment $paiment){

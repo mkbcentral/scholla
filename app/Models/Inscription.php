@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Inscription extends Model
 {
@@ -28,6 +29,17 @@ class Inscription extends Model
     public function cost(): BelongsTo
     {
         return $this->belongsTo(CostInscription::class, 'cost_inscription_id');
+    }
+
+
+    /**
+     * Get the user associated with the Inscription
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function depense(): HasOne
+    {
+        return $this->hasOne(DepenseInInscription::class);
     }
 
 
