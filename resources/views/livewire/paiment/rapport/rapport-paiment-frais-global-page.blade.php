@@ -149,9 +149,28 @@
                         <td>{{$paiment->number_paiement}}</td>
                         <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
                         <td>{{$paiment->cost->name }}</td>
-                        <td class="text-right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
+                        <td class="text-right">
+                            @if ($paiment->depense)
+                                <span class="bg-danger p-1">
+                                   <a href="" data-toggle="modal"
+                                        data-target="#showInDepensePaimentModal"
+                                        wire:click.prevent='show({{$paiment}})'>
+                                    {{number_format($paiment->cost->amount*$taux-$paiment->depense->amount,1,',',' ') }}
+                                   </a>
+                                </span>
+                            @else
+                                {{number_format($paiment->cost->amount*$taux)}}
+                            @endif
+
+                        </td>
                         <td class="text-center">
-                            <span>Ok !</span>
+                            @if ($paiment->depense)
+                                <button wire:click='deleteDepense({{$paiment->id}})'  class="btn btn-sm btn-danger" type="button">Annuler</button>
+                            @else
+                                <button data-toggle="modal"
+                                    data-target="#addInDepensePaimentModal"
+                                    wire:click.prevent='edit({{$paiment}})' class="btn btn-sm btn-primary" type="button">Marquer</button>
+                             @endif
                         </td>
 
                     </tr>
@@ -200,5 +219,6 @@
             </div>
         </div>
     @endif
-
+    @include('livewire.paiment.modals.add-depense-in-paiement')
+    @include('livewire.paiment.modals.show-depense-in-paiment')
 </div>

@@ -8,7 +8,7 @@ if (config('app.env')=='production') {
 
         'layout' => 'layouts.app',
 
-        'asset_url' => config('app.url').'public/',
+        'asset_url' => config('app.url').'/public',
 
         'app_url' => config('app.url'),
 

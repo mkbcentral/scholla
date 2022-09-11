@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Paiment\Rapport;
 
 use App\Models\CostGeneral;
+use App\Models\DepenseInPaiment;
 use App\Models\Paiment;
 use App\Models\ScolaryYear;
 use Livewire\Component;
@@ -11,7 +12,7 @@ class RapportPaimentFraisGlobalPage extends Component
 {
     public $taux=2000,$costs=[],$cost_id=0,$defaultScolaryYer;
 
-    public $dateTo="none",$dateFrom="none";
+    public $dateTo="none",$dateFrom="none",$paiementDepanse,$paiementDepanseShow,$pai_amount,$mt=0;
     public $selectedRows=[],$selectPageRows=false,$isFilted=false;
 
     public function updatedDateTo(){
@@ -34,6 +35,29 @@ class RapportPaimentFraisGlobalPage extends Component
         }else{
             $this->reset(['selectedRows','selectPageRows']);
         }
+    }
+
+    public function edit(Paiment $paiment){
+        $this->paiementDepanse =$paiment;
+        $this->mt=$paiment->cost->amount;
+    }
+
+    public function addDepense(){
+        $depense=new DepenseInPaiment();
+        $depense->amount=$this->pai_amount;
+        $depense->paiment_id=$this->paiementDepanse->id;
+        $depense->save();
+        $this->dispatchBrowserEvent('data-added',['message'=>"Depense bien marquée !"]);
+    }
+
+    public function deleteDepense($id){
+        $depense=DepenseInPaiment::where('paiment_id',$id)->first();
+        $depense->delete();
+        $this->dispatchBrowserEvent('data-deleted',['message'=>"Depense bien annulée !"]);
+    }
+
+    public function show(Paiment $paiment){
+        $this->paiementDepanseShow=$paiment;
     }
 
     public function getPaiementsProperty(){
