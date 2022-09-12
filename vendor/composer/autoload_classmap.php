@@ -71,6 +71,7 @@ return array(
     'App\\Models\\DepenseInPaiment' => $baseDir . '/app/Models/DepenseInPaiment.php',
     'App\\Models\\DepenseSouce' => $baseDir . '/app/Models/DepenseSouce.php',
     'App\\Models\\DepotBank' => $baseDir . '/app/Models/DepotBank.php',
+    'App\\Models\\DetailDepense' => $baseDir . '/app/Models/DetailDepense.php',
     'App\\Models\\Devise' => $baseDir . '/app/Models/Devise.php',
     'App\\Models\\EtatBesoin' => $baseDir . '/app/Models/EtatBesoin.php',
     'App\\Models\\Inscription' => $baseDir . '/app/Models/Inscription.php',

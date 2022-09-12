@@ -730,6 +730,7 @@ class ComposerStaticInitb597444afbd137a3786fdee41ead9f8b
         'App\\Models\\DepenseInPaiment' => __DIR__ . '/../..' . '/app/Models/DepenseInPaiment.php',
         'App\\Models\\DepenseSouce' => __DIR__ . '/../..' . '/app/Models/DepenseSouce.php',
         'App\\Models\\DepotBank' => __DIR__ . '/../..' . '/app/Models/DepotBank.php',
+        'App\\Models\\DetailDepense' => __DIR__ . '/../..' . '/app/Models/DetailDepense.php',
         'App\\Models\\Devise' => __DIR__ . '/../..' . '/app/Models/Devise.php',
         'App\\Models\\EtatBesoin' => __DIR__ . '/../..' . '/app/Models/EtatBesoin.php',
         'App\\Models\\Inscription' => __DIR__ . '/../..' . '/app/Models/Inscription.php',

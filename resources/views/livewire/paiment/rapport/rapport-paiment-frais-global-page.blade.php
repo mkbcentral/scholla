@@ -175,20 +175,37 @@
 
                     </tr>
                     @php
+                        if ($paiment->depense) {
+                                if ($paiment->is_bank==true){
+                                $total_bank+=$paiment->cost->amount*2000-$paiment->depense->amount;
+                            }
 
-                        if ($paiment->is_bank==true){
-                            $total_bank+=$paiment->cost->amount*2000;
+                            elseif ($paiment->is_fonctionnement==true)
+                            {
+                                $total_fonctionnement+=$paiment->cost->amount*2000-$paiment->depense->amount;
+                            }
+                            elseif ($paiment->is_depense==true)
+                                {
+                                    $total_depense+=$paiment->cost->amount*2000-$paiment->depense->amount;
+                                }
+                            $total+=$paiment->cost->amount*2000-$paiment->depense->amount;
+                        } else {
+                            if ($paiment->is_bank==true){
+                                    $total_bank+=$paiment->cost->amount*2000;
+                                }
+
+                                elseif ($paiment->is_fonctionnement==true)
+                                {
+                                    $total_fonctionnement+=$paiment->cost->amount*2000;
+                                }
+                                elseif ($paiment->is_depense==true)
+                                    {
+                                        $total_depense+=$paiment->cost->amount*2000;
+                                    }
+                                $total+=$paiment->cost->amount*2000;
                         }
 
-                        elseif ($paiment->is_fonctionnement==true)
-                           {
-                            $total_fonctionnement+=$paiment->cost->amount*2000;
-                           }
-                        elseif ($paiment->is_depense==true)
-                            {
-                                $total_depense+=$paiment->cost->amount*2000;
-                            }
-                        $total+=$paiment->cost->amount*2000;
+
                     @endphp
                 @endforeach
             </tbody>
