@@ -361,3 +361,78 @@ window.addEventListener('data-dialog-deleted',event=>{
         'success'
     );
 });
+
+//delete emit req
+window.addEventListener('delete-emitter-dialog',event=>{
+    Swal.fire({
+        title: 'Voulez-vous vraiment ',
+        text: "retirer l'emetteur SVP ! ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Livewire.emit('emitterListener');
+        }
+        })
+})
+window.addEventListener('data-dialog-deleted',event=>{
+    Swal.fire(
+        'Oprétion !',
+        event.detail.message,
+        'success'
+    );
+});
+
+
+//delete source deps
+window.addEventListener('delete-sourceDeps-dialog',event=>{
+    Swal.fire({
+        title: 'Voulez-vous vraiment ',
+        text: "retirer la source SVP ! ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Livewire.emit('sourceDepsListener');
+        }
+        })
+})
+window.addEventListener('data-dialog-deleted',event=>{
+    Swal.fire(
+        'Oprétion !',
+        event.detail.message,
+        'success'
+    );
+});
+
+//delete requisitions
+window.addEventListener('delete-requisitiion-dialog',event=>{
+    Swal.fire({
+        title: 'Voulez-vous vraiment ',
+        text: "retirer la requisition ! ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Livewire.emit('requisitiionListener');
+        }
+        })
+})
+window.addEventListener('data-dialog-deleted',event=>{
+    Swal.fire(
+        'Oprétion !',
+        event.detail.message,
+        'success'
+    );
+});
+
+

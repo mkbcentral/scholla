@@ -24,6 +24,10 @@ window.$(document).ready(function () {
         $('#formEtatBesoinModal').modal('hide');
         $('#editPaiementNumberBusModal').modal('hide');
         $('#editPaiementNumberModal').modal('hide');
+        $('#formEmitModal').modal('hide');
+        $('#formSourceDepsModal').modal('hide');
+        $('#formReqModal').modal('hide');
+        $('#formAddDetailModal').modal('hide');
     });
     window.addEventListener('data-updated', function (event) {
         toastr.info(event.detail.message, 'Validation');
@@ -44,6 +48,9 @@ window.$(document).ready(function () {
         $('#formDeviseModal').modal('hide');
         $('#editFormDepenseModal').modal('hide');
         $('#editFormEtatBesoinModal').modal('hide');
+        $('#formEmitModal').modal('hide');
+        $('#formSourceDepsModal').modal('hide');
+        $('#formReqModal').modal('hide');
     });
     window.addEventListener('data-deleted', function (event) {
         toastr.error(event.detail.message, 'Alert !');

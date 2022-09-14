@@ -112,6 +112,9 @@
                             @if (Auth::user()->roles->pluck('name')->contains('Finance'))
                                 <a target="_blank" href="{{ route('recu.frais.print',$paiment->id) }}"
                                          class="btn btn-sm btn-primary">&#x1F5A8;</a>
+                            <button class="btn btn-sm btn-danger"  wire:click.prevent='delete({{$paiment}})'>
+                                Retirer
+                            </button>
 
                             @elseif (Auth::user()->roles->pluck('name')->contains('root'))
                                 <button class="btn btn-sm btn-danger"  wire:click.prevent='delete({{$paiment}})'>

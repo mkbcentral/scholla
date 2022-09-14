@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class SectionPage extends Component
-{public $name,$isEditable=false,$section,$sectionToDelete;
+{
+    public $name,$isEditable=false,$section,$sectionToDelete;
     public $state =[];
     protected $listeners=['SectionListener'=>'delete'];
 

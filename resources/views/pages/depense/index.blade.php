@@ -26,8 +26,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#etat" data-toggle="tab">
-                                &#x1F171; Etat de besoins
+                            <a class="nav-link " href="#source" data-toggle="tab">
+                                &#x1F171; Source dépenses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#emit" data-toggle="tab">
+                                &#x1F171; Type émetteur
                             </a>
                         </li>
                     </ul>
@@ -36,12 +41,18 @@
                     <div class="tab-content">
                         <div class="active tab-pane" id="depense">
                             <div>
-                                @livewire('depense.depense-page')
+                                @livewire('requisition.requisition-page')
                             </div>
                         </div>
-                        <div class=" tab-pane" id="etat">
+                        <div class=" tab-pane" id="source">
                             <div>
-                                @livewire('depense.besoin-etat-page')
+                                @livewire('requisition.source-depense-page')
+                            </div>
+                        </div>
+                        <div class=" tab-pane" id="emit">
+                            <div>
+                                @livewire('requisition.emit-page')
+
                             </div>
                         </div>
                     </div>

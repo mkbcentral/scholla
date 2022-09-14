@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Requisition;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('detail_depenses', function (Blueprint $table) {
+        Schema::create('detail_requisitions', function (Blueprint $table) {
             $table->id();
+            $table->string('description')->nullable();
+            $table->float('amount',16)->default(0);
+            $table->foreignIdFor(Requisition::class)->constrained();
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_depenses');
+        Schema::dropIfExists('detail_requisitions');
     }
 };
