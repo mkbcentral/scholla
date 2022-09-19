@@ -435,4 +435,52 @@ window.addEventListener('data-dialog-deleted',event=>{
     );
 });
 
+//delete type other
+window.addEventListener('delete-type-other-dialog',event=>{
+    Swal.fire({
+        title: 'Voulez-vous vraiment ',
+        text: "Réaliser l'opération ! ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Livewire.emit('typeOtherListener');
+        }
+        })
+})
+window.addEventListener('data-dialog-deleted',event=>{
+    Swal.fire(
+        'Oprétion !',
+        event.detail.message,
+        'success'
+    );
+});
+
+//delete type other
+window.addEventListener('delete-pamient-other-dialog',event=>{
+    Swal.fire({
+        title: 'Voulez-vous vraiment ',
+        text: "Retirer le paiment ! ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Livewire.emit('paimentOtherListener');
+        }
+        })
+})
+window.addEventListener('data-dialog-deleted',event=>{
+    Swal.fire(
+        'Oprétion !',
+        event.detail.message,
+        'success'
+    );
+});
+
 

@@ -7,9 +7,9 @@
                 @if (Auth::user()->roles->pluck('name')->contains('Admin') or
                     Auth::user()->roles->pluck('name')->contains('root'))
                     <x-button wire:click.prevent='resetFormState' class="btn-info" type="button"
-                             data-toggle="modal" data-target="#formCostotherModal">
+                             data-toggle="modal" data-target="#formTypeCostotherModal">
                         <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        Créer un nouveau frais
+                        Créer un nouveau type
                     </x-button>
                 @endif
 
@@ -19,32 +19,28 @@
             <thead class="thead-light">
                 <tr class="text-uppercase">
                     <th>Frais</th>
-                    <th class="text-center">Montant</th>
-                    <th class="text-center">MT CDF</th>
-                    <th class="text-center">TYPE</th>
+                    <th class="text-center">Etat</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($costs as $cost)
+                @foreach ($types as $type)
                     <tr>
-                        <td>{{$cost->name}}</td>
-                        <td class="text-center">{{$cost->amount}} USD</td>
-                        <td class="text-center">{{number_format( $cost->amount*2000,1,',',' ')}} CDF</td>
+                        <td>{{$type->name}}</td>
                         <td class="text-center">
-                            @if ($cost->typeCost==null)
-                                Non défini
+                            @if ($type->active==true)
+                                <span class="text-success">Activé</span>
                             @else
-                                {{$cost->typeCost->name}}
+                                <span class="text-danger">Déactivé</span>
                             @endif
                         </td>
                         <td class="text-center ">
                             @if (Auth::user()->roles->pluck('name')->contains('Admin') or
                                 Auth::user()->roles->pluck('name')->contains('root'))
-                            <x-button class="btn-sm" data-toggle="modal" data-target="#formCostotherModal"
-                                        type='button' wire:click.prevent='edit({{$cost}})'
+                            <x-button class="btn-sm" data-toggle="modal" data-target="#formTypeCostotherModal"
+                                        type='button' wire:click.prevent='edit({{$type}})'
                                         class="text-primary"><i class="fas fa-edit"></i></x-button>
-                                <x-button wire:click.prevent='showDeleteDialog({{$cost}})' class="text-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></x-button>
+                                <x-button wire:click.prevent='showDeleteDialog({{$type}})' class="text-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></x-button>
                             @else
                                 <span>Ok</span>
                             @endif
@@ -54,10 +50,6 @@
                 @endforeach
             </tbody>
         </table>
-        <div>
-            {{$costs->links('livewire::bootstrap')}}
-        </div>
-
     </div>
-    @include('livewire.cost.modals.form-cost-other')
+    @include('livewire.cost.modals.form-type-cost-other')
 </div>

@@ -23,7 +23,7 @@
 <body>
     <div style="border: 1px solid black;padding: 6px">
         <div style="text-align: center;padding: 15px;font-size: 22px">
-            <span>SITUATION DE PAIMENT DES FRAIS JOURNALIER</span>
+            <span style="text-transform: uppercase">SITUATION DE PAIMENT DES FRAIS JOURNALIER {{$motif}}</span>
         </div>
         <div>
             <span style="margin-top: 8px;margin-bottom: 8px ">
@@ -31,12 +31,7 @@
             </span>
         </div>
         <div>
-            @if ($status=="Autres")
-                <span>Motifs: Bus et autres</span>
-            @else
-                <span>Motifs: Minerval</span>
-            @endif
-
+            <span>Motifs: {{$motif}}</span>
         </div>
         <span style="margin-top: 8px;margin-bottom: 8px ">
             Du moi de: {{strftime('%B', mktime(0, 0, 0, $month))}}
@@ -73,10 +68,16 @@
                                     <td>{{$paiment->number_paiement}}</td>
                                     <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
                                     <td>{{$paiment->cost->name }}</td>
-                                    <td style="text-align: right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
+                                    <td style="text-align: right">
+                                        @if ($paiment->cost->amount==0)
+                                            Exemplté
+                                        @else
+                                            {{number_format($paiment->cost->amount*$taux,1,',',' ') }
+                                        @endif
+                                    }</td>
                                 </tr>
                                 @php
-                                    $total+=$paiment->cost->amount;
+                                    $total+=$paiment->cost->amount*$taux;
                                 @endphp
                             @endforeach
                         </tbody>

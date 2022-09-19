@@ -23,7 +23,7 @@
 <body>
     <div style="border: 1px solid black;padding: 6px">
         <div style="text-align: center;padding: 15px;font-size: 22px">
-            <span>SITUATION DE PAIMENT DES FRAIS MENSUELS</span>
+            <span style="text-transform: uppercase">SITUATION DE PAIMENT DES FRAIS MENSUELS {{$motif}}</span>
         </div>
         <div>
             <span style="margin-top: 8px;margin-bottom: 8px ">
@@ -31,11 +31,7 @@
             </span>
         </div>
         <div>
-            @if ($status=="Autres")
-                <span>Motifs: Bus et autres</span>
-            @else
-                <span>Motifs: Minerval</span>
-            @endif
+            <span>Motifs: {{$motif}}</span>
         </div>
         <div>
             <span>Année scolaire: {{$defaultScolaryYer->name}}</span>
@@ -72,7 +68,7 @@
                                     <td style="text-align: right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
                                 </tr>
                                 @php
-                                    $total+=$paiment->cost->amount;
+                                    $total+=$paiment->cost->amount*$taux;
                                 @endphp
                             @endforeach
                         </tbody>

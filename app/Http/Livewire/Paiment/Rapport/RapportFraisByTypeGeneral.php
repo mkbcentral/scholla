@@ -2,18 +2,22 @@
 
 namespace App\Http\Livewire\Paiment\Rapport;
 
+use App\Http\Livewire\Helpers\PaimentHelper;
+use App\Models\Classe;
 use App\Models\CostGeneral;
 use App\Models\DepenseInPaiment;
 use App\Models\Paiment;
 use App\Models\ScolaryYear;
+use App\Models\TypeOtherCost;
 use Livewire\Component;
 
-class RapportPaimentFraisGlobalPage extends Component
+class RapportFraisByTypeGeneral extends Component
 {
-    public $taux=2000,$costs=[],$cost_id=0,$defaultScolaryYer;
+    public $type,$typeData,$typeFilters=['Tout','Dépot banque','Fonctionnement','Dépenses'];
+    public $taux=2000,$costs=[],$cost_id=0,$defaultScolaryYer,$classes,$classe_id=0;
 
     public $dateTo="none",$dateFrom="none",$paiementDepanse,$paiementDepanseShow,$pai_amount,$mt=0;
-    public $selectedRows=[],$selectPageRows=false,$isFilted=false;
+    public $selectedRows=[],$selectPageRows=false,$isFilted=false,$scolaryyears,$scolary_id;
 
     public function updatedDateTo(){
         $this->isFilted=true;
@@ -61,66 +65,13 @@ class RapportPaimentFraisGlobalPage extends Component
     }
 
     public function getPaiementsProperty(){
-        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         if ($this->isFilted==false) {
-            if ($this->cost_id==0) {
-                $paiements=Paiment::select('students.*','paiments.*')
-                ->join('students','paiments.student_id','=','students.id')
-                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
-                ->orderBy('paiments.created_at','ASC')
-                ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereNotIn('cost_generals.id',[8,10,13,14])
-                ->with('cost')
-                ->with('student')
-                ->with('student.classe')
-                ->with('student.classe.option')
-                ->get();
-            } else {
-                $paiements=Paiment::select('students.*','paiments.*')
-                ->join('students','paiments.student_id','=','students.id')
-                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
-                ->orderBy('paiments.created_at','ASC')
-                ->where('cost_general_id',$this->cost_id)
-                ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereNotIn('cost_generals.id',[8,10,13,14])
-                ->with('cost')
-                ->with('student')
-                ->with('student.classe')
-                ->with('student.classe.option')
-                ->get();
-            }
+            $paiements=(new PaimentHelper())
+                ->getPaimentYear($this->defaultScolaryYer->id,$this->cost_id,$this->classe_id,$this->type);
         } else {
-            if ($this->cost_id==0) {
-                $paiements=Paiment::select('students.*','paiments.*')
-                ->join('students','paiments.student_id','=','students.id')
-                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
-                ->orderBy('paiments.created_at','ASC')
-                ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereBetween('paiments.created_at',[$this->dateTo,$this->dateFrom])
-                ->whereNotIn('cost_generals.id',[8,10,13,14])
-                ->with('cost')
-                ->with('student')
-                ->with('student.classe')
-                ->with('student.classe.option')
-                ->get();
-            } else {
-                $paiements=Paiment::select('students.*','paiments.*')
-                ->join('students','paiments.student_id','=','students.id')
-                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
-                ->orderBy('paiments.created_at','ASC')
-                ->where('cost_general_id',$this->cost_id)
-                ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                ->whereBetween('paiments.created_at',[$this->dateTo,$this->dateFrom])
-                ->whereNotIn('cost_generals.id',[8,10,13,14])
-                ->with('cost')
-                ->with('student')
-                ->with('student.classe')
-                ->with('student.classe.option')
-                ->get();
-            }
+            $paiements=(new PaimentHelper())
+                ->getPaimentYearBetween($this->dateTo,$this->dateFrom,$this->defaultScolaryYer->id,$this->cost_id,$this->classe_id,$this->type);
         }
-
-
         return $paiements;
     }
 
@@ -155,13 +106,21 @@ class RapportPaimentFraisGlobalPage extends Component
     public function mount(){
         $this->costs=CostGeneral::orderBy('name','ASC')
                 ->where('active',true)
-                ->whereNotIn('id',[8,10,13,14])
+                ->where('type_other_cost_id',$this->type)
                 ->get();
+        $this->typeData=TypeOtherCost::find($this->type);
+        $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
+        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $this->scolaryyears=ScolaryYear::all();
+    }
+
+    public function changeScolaryid(){
+        $this->defaultScolaryYer->id=$this->scolary_id;
     }
 
     public function render()
     {
         $paiments=$this->paiements;
-        return view('livewire.paiment.rapport.rapport-paiment-frais-global-page',['paiments'=>$paiments]);
+        return view('livewire.paiment.rapport.rapport-frais-by-type-general',['paiments'=>$paiments]);
     }
 }

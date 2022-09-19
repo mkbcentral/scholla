@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Paiment\Rapport;
 
+use App\Http\Livewire\Helpers\InscriptionHelper;
+use App\Models\Classe;
+use App\Models\CostInscription;
 use App\Models\DepenseInInscription;
 use App\Models\DepotBank;
 use App\Models\Inscription;
@@ -11,10 +14,11 @@ use Livewire\Component;
 
 class RapportInscriptionPaimentGlobalPage extends Component
 {
-    public $taux=2000,$isFilted=0;
-    public $dateTo="none",$dateFrom="none",$keySearch='';
-    public $selectedRows=[],$selectPageRows=false,$inscription,$inscriptionDepense,$inscriptionDepenseShow,
-    $studentToDelete,$amount_depense,$insc_amount=0;
+    public $taux=2000,$isFilted=0,$typeFilters=['Tout','Dépot banque','Fonctionnement','Dépenses'];
+    public $dateTo="none",$dateFrom="none",$keySearch='',$scolaryyears,$scolary_id;
+    public $selectedRows=[],$selectPageRows=false,$inscription,$classes,
+        $inscriptionDepense,$inscriptionDepenseShow,$costs,$cost_id=0,
+    $studentToDelete,$amount_depense,$insc_amount=0,$classe_id=0,$classeNmae='';
     protected $listeners=['deleteInscriptionListener'=>'delete'];
 
     public function updatedDateTo(){
@@ -74,35 +78,27 @@ class RapportInscriptionPaimentGlobalPage extends Component
         $this->dispatchBrowserEvent('data-dialog-deleted',['message'=>"Inscription bien retirée !"]);
     }
 
-    public function getInscriptionsProperty(){
+    public function mount(){
+        $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
+        $this->costs=CostInscription::all();
+        $this->scolaryyears=ScolaryYear::all();
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
+    }
+
+    public function getInscriptionsProperty(){
         if ($this->isFilted==false) {
-            $inscriptions=Inscription::select('students.*','inscriptions.*')
-            ->join('students','inscriptions.student_id','=','students.id')
-            ->where('scolary_year_id',$this->defaultScolaryYer->id)
-            ->where('students.name','Like','%'.$this->keySearch.'%')
-            ->orderBy('inscriptions.created_at','DESC')
-            ->where('inscriptions.is_paied',true)
-            ->with('cost')
-            ->with('student')
-            ->with('student.classe')
-            ->with('student.classe.option')
-            ->get();
+            $inscriptions=(new InscriptionHelper())
+                ->getYearInscriptions($this->defaultScolaryYer->id,$this->classe_id,$this->cost_id,$this->keySearch);
         } else {
-            $inscriptions=Inscription::select('students.*','inscriptions.*')
-            ->join('students','inscriptions.student_id','=','students.id')
-            ->where('scolary_year_id',$this->defaultScolaryYer->id)
-            ->where('students.name','Like','%'.$this->keySearch.'%')
-            ->orderBy('inscriptions.created_at','DESC')
-            ->where('inscriptions.is_paied',true)
-            ->whereBetween('inscriptions.created_at',[$this->dateTo,$this->dateFrom])
-            ->with('cost')
-            ->with('student')
-            ->with('student.classe')
-            ->with('student.classe.option')
-            ->get();
+            $inscriptions= $inscriptions=(new InscriptionHelper())
+                ->getYearBetweenInscriptions($this->dateTo,$this->dateFrom,$this->defaultScolaryYer->id,$this->classe_id,$this->cost_id,$this->keySearch);
         }
+
         return $inscriptions;
+    }
+
+    public function changeScolaryid(){
+        $this->defaultScolaryYer->id=$this->scolary_id;
     }
 
     public function markIsBank(){

@@ -29,6 +29,16 @@
                              placeholder="Montant" wire:model.defer='state.amount'/>
                     @error('name') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
+                <div class="form-group">
+                    <label for="my-select">Type du frais</label>
+                    <select id="my-select" class="form-control" wire:model.defer='state.type_other_cost_id'>
+                        <option>Choisir...</option>
+                        @foreach ($types as $type)
+                            <option value="{{$type->id}}">{{$type->name}}</option>
+                        @endforeach
+                    </select>
+                    @error('type_other_cost_id') <span class="error text-danger">{{ $message }}</span> @enderror
+                </div>
             </div>
             <div class="modal-footer">
                 @if ($isEditable==false)

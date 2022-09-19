@@ -66,13 +66,15 @@ class DashbaordFinancePage extends Component
                 ->whereDate('paiments.created_at',$this->date_to_search)
                 ->sum('cost_generals.amount');
 
+            /*
             $depense=Depense::whereDate('created_at',$this->date_to_search)
             ->sum('amount');
             $depot=DepotBank::whereDate('created_at',$this->date_to_search)
             ->sum('amount');
+            */
         }
         $this->recette=($paiment+$inscription)*$this->taux;
-        $this->depense=$depense;
+        $this->depense=00;
         $this->dataRecetteY=[$this->recette,$this->depense];
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
 

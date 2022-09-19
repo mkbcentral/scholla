@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire\Paiment;
 
+use App\Http\Livewire\Helpers\InscriptionHelper;
 use App\Http\Livewire\Helpers\item;
 use App\Models\AppSetting;
+use App\Models\Classe;
+use App\Models\CostInscription;
 use App\Models\Inscription;
 use App\Models\ScolaryYear;
 use Livewire\Component;
@@ -14,13 +17,16 @@ use Mike42\Escpos\Printer;
 class InscriptionPaimentPage extends Component
 {
     public $date_to_search;
-    public $taux=2000;
+    public $taux=2000,$classes,$classe_id=0,$costs,$cost_id=0;
     public $inscription;
     public $paiment_date;
 
     public function mount(){
         $this->currenetDate=date('y-m-d');
         $this->date_to_search=$this->currenetDate;
+        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
+        $this->costs=CostInscription::all();
     }
     public function refreshData(){
         $this->date_to_search=date('y-m-d');
@@ -105,18 +111,8 @@ class InscriptionPaimentPage extends Component
     }
     public function render()
     {
-        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        $inscriptions=Inscription::select('students.*','inscriptions.*')
-                    ->join('students','inscriptions.student_id','=','students.id')
-                    ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                    ->whereDate('inscriptions.created_at',$this->date_to_search)
-                    ->orderBy('inscriptions.created_at','DESC')
-                    ->where('inscriptions.active',true)
-                    ->with('cost')
-                    ->with('student')
-                    ->with('student.classe')
-                    ->with('student.classe.option')
-                    ->get();
+        $inscriptions=(new InscriptionHelper())
+            ->getDateInscriptions($this->date_to_search,$this->defaultScolaryYer->id,$this->classe_id,$this->cost_id);
         return view('livewire.paiment.inscription-paiment-page',['inscriptions'=>$inscriptions]);
     }
 }

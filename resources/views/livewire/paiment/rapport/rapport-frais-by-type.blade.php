@@ -2,7 +2,25 @@
     <x-loading-indicator />
     <div class="card">
         <div class="card-body">
-            <h4 class="text-uppercase text-primary">&#x1F5C2; Rapport bus et Autres</h4>
+            <div class="d-flex justify-content-between">
+                <div><h4 class="text-uppercase text-primary">&#x1F5C2; Rapport périodique de paiement frais {{$typeData->name}}</h4></div>
+                <div>
+                    <div class="form-group">
+                        <label for="my-select">Anné scolaire</label>
+                          <div class="input-group date"  >
+                            <select id="my-select" class="form-control" wire:model.defer='scolary_id'>
+                                <option >Choisir...</option>
+                                @foreach ($scolaryyears as $year)
+                                    <option wire:click.prevent='changeScolaryid' value="{{$year->id}}">{{$year->name}}</option>
+                                @endforeach
+                            </select>
+                              <div class="input-group-append" >
+                                    <button wire:click='changeScolaryid' class="btn btn-info" type="button"><i class="fa fa-search"></i></button>
+                              </div>
+                          </div>
+                      </div>
+                </div>
+            </div>
         </div>
     </div>
     @php
@@ -41,17 +59,17 @@
         <div>
             @if ($isMonthSorted==true)
                 <a  target="_blank"
-                    class="btn btn-danger" href="{{ route('paiement.frais.month.print',[$month,$cost_id,$status,$month]) }}">
+                    class="btn btn-danger" href="{{ route('paiement.frais.month.print',[$month,$cost_id,$type]) }}">
                     &#x1F5A8; Imprimer
                 </a>
             @elseif ($itmePeriodSorted>0)
                 <a  target="_blank"
-                    class="btn btn-secondary" href="{{ route('paiement.frais.periode.print',[$itmePeriodSorted,$cost_id,$status]) }}">
+                    class="btn btn-secondary" href="{{ route('paiement.frais.periode.print',[$itmePeriodSorted,$cost_id,$month,$type]) }}">
                     &#x1F5A8; Imprimer
                 </a>
             @elseif ($isDaySorted==true)
                 <a  target="_blank"
-                    class="btn btn-secondary" href="{{ route('paiement.frais.day.print',[$date_to_search,$cost_id,$status,$month]) }}">
+                    class="btn btn-secondary" href="{{ route('paiement.frais.day.print',[$date_to_search,$cost_id,$month,$type]) }}">
                     &#x1F5A8; Imprimer
                 </a>
             @endif
@@ -62,13 +80,22 @@
     @else
         <div class="d-flex justify-content-between align-items-center mr-4">
             <div><h4 class="text-uppercase text-bold text-secondary mt-4">Liste Paiements</h4></div>
-            <div>
+            <div class="d-flex justify-content-end">
                 <div class="form-group pr-4">
                     <x-label value="{{ __('Filtrer par type frais') }}" />
                     <x-select wire:model='cost_id'>
                         <option value="0">Choisir...</option>
                         @foreach ($costs as $cost)
                             <option value="{{$cost->id}}">{{$cost->name}}</option>
+                        @endforeach
+                    </x-select>
+                </div>
+                <div class="form-group pr-4">
+                    <x-label value="{{ __('Filtrer par classe') }}" />
+                    <x-select wire:model='classe_id'>
+                        <option value="0">Choisir...</option>
+                        @foreach ($classes as $classe)
+                            <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
                         @endforeach
                     </x-select>
                 </div>
@@ -92,37 +119,29 @@
                         <td>{{$index+1}}</td>
                         <td class="text-primary">
                             <a href="#" data-toggle="modal"
-                              data-target="#editPaiementBusDateModal"
-                              wire:click.prevent='edit({{$paiment}})'>
+                              data-target="#editPaiementDateModal" wire:click.prevent='edit({{$paiment}})'>
                             {{$paiment->created_at->format('d/m/Y')}}
                             </a>
                         </td>
                         <td>
-
                             <a href="" data-toggle="modal"
-                                data-target="#editPaiementNumberBusModal"
-                                wire:click.prevent='edit({{$paiment}})'>
-                                {{$paiment->number_paiement}}
+                                data-target="#editPaiementNumberModal" wire:click.prevent='edit({{$paiment}})'>
+                                {{$paiment->number_paiement}}</td>
                             </a>
-                        </td>
                         <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
                         <td>{{$paiment->cost->name }}</td>
                         <td class="text-right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
                         <td class="text-center">
                             @if (Auth::user()->roles->pluck('name')->contains('Finance'))
                                 <a target="_blank" href="{{ route('recu.frais.print',$paiment->id) }}"
-                                         class="btn btn-sm btn-primary">&#x1F5A8;</a>
-                            <button class="btn btn-sm btn-danger"  wire:click.prevent='delete({{$paiment}})'>
-                                Retirer
-                            </button>
-
-                            @elseif (Auth::user()->roles->pluck('name')->contains('root'))
-                                <button class="btn btn-sm btn-danger"  wire:click.prevent='delete({{$paiment}})'>
-                                    Retirer
+                                         class="btn btn-sm btn-primary">&#x1F5A8;
+                                </a>
+                                <button class="btn btn-sm btn-danger"  wire:click.prevent='showDeleteDialog({{$paiment}})'>
+                                            Retirer
                                 </button>
+
                             @else
                                 <span>Ok !</span>
-
                             @endif
 
                         </td>
@@ -140,6 +159,6 @@
             </div>
         </div>
     @endif
-     @include('livewire.paiment.modals.edit-paiment-date-bus')
-     @include('livewire.paiment.modals.edit-paiment-number-bus')
+        @include('livewire.paiment.modals.edit-paiment-date')
+        @include('livewire.paiment.modals.edit-paiment-number')
 </div>

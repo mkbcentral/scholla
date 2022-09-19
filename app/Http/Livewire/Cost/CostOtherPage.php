@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Cost;
 
 use App\Models\CostGeneral;
+use App\Models\TypeOtherCost;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -10,7 +11,7 @@ use Livewire\WithPagination;
 class CostOtherPage extends Component
 {
     use WithPagination;
-    public $name,$isEditable=false,$cost,$costToDelete;
+    public $name,$isEditable=false,$cost,$costToDelete,$types;
     public $state =[];
     protected $listeners=['costOtherListener'=>'delete'];
 
@@ -20,6 +21,7 @@ class CostOtherPage extends Component
             [
                 'name'=>'required',
                 'amount'=>'required',
+                'type_other_cost_id'=>'nullable'
             ]
         )->validate();
     }
@@ -45,6 +47,7 @@ class CostOtherPage extends Component
         $this->validateData();
         $this->costToDelete->name=$this->state['name'];
         $this->costToDelete->amount=$this->state['amount'];
+        $this->costToDelete->type_other_cost_id=$this->state['type_other_cost_id'];
         $this->costToDelete->update();
         $this->isEditable=false;
         $this->dispatchBrowserEvent('data-updated',['message'=>"Frais bien mis à jour !"]);
@@ -63,6 +66,10 @@ class CostOtherPage extends Component
         }
         $this->costToDelete->update();
         $this->dispatchBrowserEvent('data-dialog-deleted',['message'=>"scolaryYear bien retirée !"]);
+    }
+
+    public function mount(){
+        $this->types=TypeOtherCost::orderBy('name','ASC')->get();
     }
 
     public function render()

@@ -6,13 +6,14 @@
             <div>
                 @if (Auth::user()->roles->pluck('name')->contains('Admin') or
                         Auth::user()->roles->pluck('name')->contains('root'))
-                    <x-button wire:click.prevent='resetFormState' class="btn-info" type="button" data-toggle="modal" data-target="#formCostModal">
+                    <x-button wire:click.prevent='resetFormState' class="btn-info"
+                    type="button" data-toggle="modal" data-target="#formCostModal">
                         <i class="fa fa-plus-circle" aria-hidden="true"></i>
                         Créer un nouveau frais
                     </x-button>
                 @endif
 
-            ></div>
+            </div>
         </div>
 
         <table class="table table-stripped table-sm mt-4">

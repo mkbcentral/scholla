@@ -1,0 +1,4 @@
+  <x-nav-link class="nav-link" href="{{ route('paie.papport.frais.mounth') }}" :active="request()->routeIs('paie.papport.frais.mounth')">
+                            &#x1F4C3;
+                            Rapport autres frais.
+                        </x-nav-link>

@@ -36,6 +36,11 @@
                                     &#x1F4B8; Devise
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="#type" data-toggle="tab">
+                                    &#x1F4B8; Type autre frais
+                                </a>
+                            </li>
                         @endif
 
                       </ul>
@@ -55,6 +60,11 @@
                          <div class=" tab-pane" id="devise">
                             <div>
                               @livewire('cost.cost-devise-page')
+                            </div>
+                         </div>
+                         <div class=" tab-pane" id="type">
+                            <div>
+                              @livewire('cost.type-other-cost-page')
                             </div>
                          </div>
                       </div>

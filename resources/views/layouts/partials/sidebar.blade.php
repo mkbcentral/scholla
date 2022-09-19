@@ -45,10 +45,8 @@
                             &#x1F4C3;
                             Rapport paiment insc.
                         </x-nav-link>
-                        <x-nav-link class="nav-link" href="{{ route('paie.papport.frais.mounth') }}" :active="request()->routeIs('paie.papport.frais.mounth')">
-                            &#x1F4C3;
-                            Rapport autres frais.
-                        </x-nav-link>
+                        @livewire('widgets.nav-other-cost')
+                        @livewire('widgets.nav-other-cost-general')
                         <x-nav-link class="nav-link" href="{{ route('control.index') }}" :active="request()->routeIs('control.index')">
                             &#x2611;
                             Controle paiement
@@ -90,10 +88,8 @@
                             &#x1F4C1;
                             Rapport paiment insc.
                         </x-nav-link>
-                        <x-nav-link class="nav-link" href="{{ route('paie.papport.frais.mounth') }}" :active="request()->routeIs('paie.papport.frais.mounth')">
-                            &#x1F4C3;
-                            Rapport autres frais.
-                        </x-nav-link>
+                        @livewire('widgets.nav-other-cost')
+                        @livewire('widgets.nav-other-cost-general')
                         <x-nav-link class="nav-link" href="{{ route('bank.index') }}" :active="request()->routeIs('bank.index')">
                             &#x1F6BC;
                             Mouvements banques
@@ -164,10 +160,8 @@
                             &#x1F4C3;
                             Rapport paiment insc.
                         </x-nav-link>
-                        <x-nav-link class="nav-link" href="{{ route('paie.papport.frais.mounth') }}" :active="request()->routeIs('paie.papport.frais.mounth')">
-                            &#x1F4C3;
-                            Rapport autres frais.
-                        </x-nav-link>
+                        @livewire('widgets.nav-other-cost')
+                        @livewire('widgets.nav-other-cost-general')
                         <x-nav-link class="nav-link" href="{{ route('bank.index') }}" :active="request()->routeIs('bank.index')">
                             &#x1F6BC;
                             Mouvements banques
@@ -179,6 +173,11 @@
                         <x-nav-link class="nav-link" href="{{ route('evolution.index') }}" :active="request()->routeIs('evolution.index')">
                             &#x1F4C8;
                             Evolution inscription
+                        </x-nav-link>
+                        <x-nav-link class="nav-link" href="{{ route('listing.index') }}"
+                                :active="request()->routeIs('listing.index')">
+                            &#x1F5C3;
+                            Listing élèves
                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('cost.index') }}" :active="request()->routeIs('cost.index')">
                             &#x1F4B0;
@@ -194,7 +193,6 @@
                             Mon profile
                         </x-nav-link>
                     @endif
-
                 </li>
             </ul>
         </nav>

@@ -10,12 +10,30 @@
     @endphp
     <div class="d-flex justify-content-between align-items-center">
         <div>
-            <div class="">
-                <div class="form-group">
+            <div class="d-flex justify-content-start align-items-center">
+                <div class="form-group pr-4">
                     <x-label value="{{ __('Filtrer par date') }}" />
                     <x-input class="" type='date'
                              placeholder="Lieu de naissance" wire:model='date_to_search'/>
                     @error('name') <span class="error text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="form-group pr-4">
+                    <x-label value="{{ __('Filtrer par classe') }}" />
+                    <x-select wire:model='classe_id'>
+                        <option value="0">Choisir...</option>
+                        @foreach ($classes as $classe)
+                            <option  value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
+                        @endforeach
+                    </x-select>
+                </div>
+                <div class="form-group pr-4">
+                    <x-label value="{{ __('Filtrer par type inscription') }}" />
+                    <x-select wire:model='cost_id'>
+                        <option value="0">Choisir...</option>
+                        @foreach ($costs as $cost)
+                            <option value="{{$cost->id}}">{{$cost->name}}</option>
+                        @endforeach
+                    </x-select>
                 </div>
             </div>
         </div>

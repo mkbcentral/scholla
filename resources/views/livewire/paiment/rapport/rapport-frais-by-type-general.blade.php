@@ -2,7 +2,29 @@
     <x-loading-indicator />
     <div class="card">
         <div class="card-body">
-            <h4 class="text-uppercase text-primary">&#x1F5C2; Rapport périodique de paiement d'autre frais</h4>
+
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h4 class="text-uppercase text-primary">&#x1F5C2; Rapport annuels de paiement des frais {{$typeData->name}}</h4>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="my-select">Anné scolaire</label>
+                          <div class="input-group date"  >
+                            <select id="my-select" class="form-control" wire:model.defer='scolary_id'>
+                                <option >Choisir...</option>
+                                @foreach ($scolaryyears as $year)
+                                    <option wire:click.prevent='changeScolaryid' value="{{$year->id}}">{{$year->name}}</option>
+                                @endforeach
+                            </select>
+                              <div class="input-group-append" >
+                                    <button wire:click='changeScolaryid' class="btn btn-info" type="button"><i class="fa fa-search"></i></button>
+                              </div>
+                          </div>
+                      </div>
+                </div>
+
+            </div>
         </div>
     </div>
     @php
@@ -40,53 +62,92 @@
                     <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item" href="#" wire:click.prevent='markIsBank'>Marquer dépôt banque</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" wire:click.prevent='markIsFonctionnement'>Marquer fonctionnement</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" wire:click.prevent='markIsDepense'>Marquer depensé</a>
+                        @if ($typeData->name=="Minerval")
+                            <a class="dropdown-item" href="#" wire:click.prevent='markIsBank'>Marquer dépôt banque</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" wire:click.prevent='markIsFonctionnement'>Marquer fonctionnement</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" wire:click.prevent='markIsDepense'>Marquer depensé</a>
+                        @else
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" wire:click.prevent='markIsFonctionnement'>Marquer fonctionnement</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" wire:click.prevent='markIsDepense'>Marquer depensé</a>
+                        @endif
+
                     </div>
                 </div>
                 <div class="btn-group">
 
                 <button type="button" class="btn btn-danger">Déactiver</button>
-                <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                <span class="sr-only">Toggle Dropdown</span>
+                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon"
+                     data-toggle="dropdown">
+                    <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" href="#" wire:click.prevent='desableIsBank'>Annuler dépôt banque</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" wire:click.prevent='desableIsFonctionnement'>Annuler fonctionnement</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" wire:click.prevent='desableIsDepense'>Annuler depensé</a>
+                    @if ($typeData->name=="Minerval")
+                        <a class="dropdown-item" href="#" wire:click.prevent='desableIsBank'>Annuler dépôt banque</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" wire:click.prevent='desableIsFonctionnement'>Annuler fonctionnement</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" wire:click.prevent='desableIsDepense'>Annuler depensé</a>
+                    @else
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" wire:click.prevent='desableIsFonctionnement'>Annuler fonctionnement</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" wire:click.prevent='desableIsDepense'>Annuler depensé</a>
+                    @endif
+
                 </div>
             </div>
            @endif
          </div>
         <div>
-            <a  target="_blank"
-            class="btn btn-danger" href="">
-            &#x1F5A8; Imprimer
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-danger">
+                    &#x1F5A8; Imprimer
+                </button>
+                <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon"
+                     data-toggle="dropdown">
+                <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" role="menu" >
+                    @foreach ($typeFilters as $item)
+                        <a target="_blank" class="dropdown-item" href="{{ route('paiement.frais.global.print', [$item,$cost_id,$type,$classe_id]) }}" >{{$item}}</a>
+                    @endforeach
+                </div>
+            </div>
         </a>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mr-4">
+        <div><h4 class="text-uppercase text-bold text-secondary mt-4">Liste Paiements</h4></div>
+        <div class="d-flex justify-content-end">
+            <div class="form-group pr-4">
+                <x-label value="{{ __('Filtrer par type frais') }}" />
+                <x-select wire:model='cost_id'>
+                    <option value="0">Choisir...</option>
+                    @foreach ($costs as $cost)
+                        <option value="{{$cost->id}}">{{$cost->name}}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <div class="form-group pr-4">
+                <x-label value="{{ __('Filtrer par classe') }}" />
+                <x-select wire:model='classe_id'>
+                    <option value="0">Choisir...</option>
+                    @foreach ($classes as $classe)
+                        <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
+                    @endforeach
+                </x-select>
+            </div>
         </div>
     </div>
     @if ($paiments->isEmpty())
         <h4 class="text-success text-center p-4">Aucun paiment trouvé !</h4>
     @else
-        <div class="d-flex justify-content-between align-items-center mr-4">
-            <div><h4 class="text-uppercase text-bold text-secondary mt-4">Liste Paiements</h4></div>
-            <div>
-                <div class="form-group pr-4">
-                    <x-label value="{{ __('Filtrer par type frais') }}" />
-                    <x-select wire:model='cost_id'>
-                        <option value="0">Choisir...</option>
-                        @foreach ($costs as $cost)
-                            <option value="{{$cost->id}}">{{$cost->name}}</option>
-                        @endforeach
-                    </x-select>
-                </div>
-            </div>
-        </div>
+
         <table class="table table-sm table-light">
             <thead class="thead-light">
                 <tr>

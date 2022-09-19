@@ -34,13 +34,23 @@
                     <span style="font-weight: bold">
                         Au
                     </span>: {{(new DateTime($dateFrom))->format('d/m/Y')}}
+
             </span>
             @else
                 <span style="margin-top: 8px;margin-bottom: 8px ">
                     <span style="font-weight: bold">
                         Type:
-                    </span>: Global
+                    </span>: Annuelle
+
                 </span>
+                <div>
+                    @if ($classe != null)
+                        <span style="font-weight: bold">
+                            Classe:
+                        </span>
+                        {{$classe->name.'/'.$classe->option->name}}
+                    @endif
+                </div>
             @endif
         </div>
         <div>

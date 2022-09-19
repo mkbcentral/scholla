@@ -6,6 +6,8 @@ use App\Http\Controllers\MouvementBankController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PaimentPrinterConteroller;
+use App\Http\Livewire\Paiment\Rapport\RapportFraisByType;
+use App\Http\Livewire\Paiment\Rapport\RapportFraisByTypeGeneral;
 use Illuminate\Support\Facades\Route;
 use Mike42\Escpos\CapabilityProfile;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
@@ -28,6 +30,9 @@ use Mike42\Escpos\Printer;
 
 
 Route::middleware('auth')->group(function(){
+    Route::get('rapport-paiment-type/{type}',RapportFraisByType::class)->name('rapport.frais.type');
+    Route::get('rapport-paiment-type-general/{type}',RapportFraisByTypeGeneral::class)
+        ->name('rapport.frais.type.general');
     Route::controller(PageController::class)->group(function(){
         Route::get('/','index')->name('dashboard');
         Route::get('gestionnaire-ecole','school')->name('school.index');
@@ -42,7 +47,6 @@ Route::middleware('auth')->group(function(){
         Route::get('mon-profile','profile')->name('profile.index');
         Route::get('settings','settings')->name('settings.index');
     });
-
     Route::controller(PaiementController::class)->group(function(){
         Route::get('paiement-inscription','inscriptionPaiement')->name('paiment.inscription');
         Route::get('paiement-autres-frais','costPaiment')->name('paiment.cost');
@@ -58,7 +62,6 @@ Route::middleware('auth')->group(function(){
         Route::get('ipression-paiment/{cost}/{month}/{option}/{inscription_id}','savePaiment')
                 ->name('print.paiement.cost');
     });
-
     Route::controller(DepenseController::class)->group(function(){
         Route::get('ipression-depense-jour/{date}','printDepenseDate')->name('depense.day.print');
         Route::get('ipression-depense-mois/{month}','printDepenseMonth')->name('depense.month.print');
@@ -71,7 +74,6 @@ Route::middleware('auth')->group(function(){
         Route::get('ipression-etatBesoin-not-active/{month}','printEtatBesoinNotActive')->name('etatBesoin.not.active.print');
 
     });
-
     Route::controller(InscriptionController::class)->group(function(){
         Route::get('ipression-liste/{classe}','printListStudent')->name('students.print');
     });
@@ -90,18 +92,22 @@ Route::middleware('auth')->group(function(){
         Route::get('print-rapport-periode-insc/{periode}','printRapportInscPeriode')
             ->name('inscription.paiement.periode.print');
 
-        Route::get('print-rapport-all-insc/{status}/{dateTo}/{dateFrom}','printRapportInscAll')
+        Route::get('print-rapport-all-insc/{status}/{dateTo}/{dateFrom}/{type}/{classeId}'
+                ,'printRapportInscAll')
             ->name('inscription.paiement.all.print');
 
         //RAPPORT DES AUTRES FRAIS
-        Route::get('print-rapport-paiment-frais/{month}/{cost_id}/{status1}','printRapportPaiemenFraisMonth')
+        Route::get('print-rapport-paiment-frais/{month}/{cost_id}/{type}','printRapportPaiemenFraisMonth')
             ->name('paiement.frais.month.print');
 
-        Route::get('print-rapport-paiment-frais-periode/{periode}/{cost_id}/{status2}/{month1}','printRapportPaiemenFraisPeriode')
+        Route::get('print-rapport-paiment-frais-periode/{periode}/{cost_id}/{month1}/{type}','printRapportPaiemenFraisPeriode')
             ->name('paiement.frais.periode.print');
 
-        Route::get('print-rapport-paiment-frais-day/{date}/{cost_id}/{status3}/{month2}','printRapportPaiemenFraisDay')
+        Route::get('print-rapport-paiment-frais-day/{date}/{cost_id}/{month2}/{type}','printRapportPaiemenFraisDay')
             ->name('paiement.frais.day.print');
+
+        Route::get('print-rapport-paiment-frais-global/{type}/{cost_id}/{paiement_type}/{classe_id}',
+            'printRapportGlobalFrais')->name('paiement.frais.global.print');
 
         //DEPOT BANK
         Route::get('print-bank-depot/{month}','printDepotBank')->name('bank.depot.print');
