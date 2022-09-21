@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Inscription;
 
+use App\Http\Livewire\Helpers\InscriptionHelper;
 use App\Models\Classe;
 use App\Models\ClasseOption;
 use App\Models\CostInscription;
@@ -15,7 +16,7 @@ use Livewire\Component;
 class InscriptionLinstingPage extends Component
 {
     public $selectedIndex=0;
-    public $classes,$classe_id=0;
+    public $classes,$classe_id=0,$scolaryyears,$scolary_id;
     public $keySearch='',$date_to_search;
     public $state=[],$studentToEdit,$studentToShow,$inscriptionToEdit;
     public $costs=[],$currenetDate;
@@ -39,7 +40,14 @@ class InscriptionLinstingPage extends Component
         $this->state['email']="Auacun";
 
         $this->classesToEdit=Classe::orderBy('name','ASC')->with('option')->get();
+        $this->scolaryyears=ScolaryYear::all();
+        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
     }
+
+    public function changeScolaryid(){
+        $this->defaultScolaryYer->id=$this->scolary_id;
+    }
+
 
     public function changeIndex(ClasseOption $option){
         $this->selectedIndex=$option->id;
@@ -170,18 +178,7 @@ class InscriptionLinstingPage extends Component
             ->with('option')
             ->get();
         $this->options=ClasseOption::orderBy('name','ASC')->get();
-        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
-            $inscriptions=Inscription::select('students.*','inscriptions.*')
-                        ->join('students','inscriptions.student_id','=','students.id')
-                        ->where('inscriptions.classe_id',$this->classe_id)
-                        ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                        ->where('students.name','Like','%'.$this->keySearch.'%')
-                        ->orderBy('students.name','ASC')
-                        ->where('inscriptions.active',true)
-                        ->with('student')
-                        ->with('student.classe')
-                        ->with('student.classe.option')
-                        ->get();
+            $inscriptions=(new InscriptionHelper())->getByScolaryYearByClasse($this->defaultScolaryYer->id,$this->keySearch,$this->classe_id);
         return view('livewire.inscription.inscription-linsting-page',['inscriptions'=>$inscriptions]);
     }
 }

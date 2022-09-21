@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Cost;
 
 use App\Models\CostGeneral;
+use App\Models\ScolaryYear;
 use App\Models\TypeOtherCost;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
@@ -12,8 +13,12 @@ class CostOtherPage extends Component
 {
     use WithPagination;
     public $name,$isEditable=false,$cost,$costToDelete,$types;
-    public $state =[];
+    public $state =[],$defaultScolaryYer,$scolaryyears,$scolary_id;
     protected $listeners=['costOtherListener'=>'delete'];
+
+    public function changeScolaryid(){
+        $this->defaultScolaryYer->id=$this->scolary_id;
+    }
 
     public function validateData(){
         Validator::make(
@@ -33,7 +38,8 @@ class CostOtherPage extends Component
 
     public function store(){
         $this->validateData();
-        CostGeneral::create($this->state);
+        $cost=CostGeneral::create($this->state);
+        $cost->scolary_year_id=$this->defaultScolaryYer->id;
         $this->dispatchBrowserEvent('data-added',['message'=>"Frais bien sauvegargé !"]);
     }
 
@@ -48,6 +54,7 @@ class CostOtherPage extends Component
         $this->costToDelete->name=$this->state['name'];
         $this->costToDelete->amount=$this->state['amount'];
         $this->costToDelete->type_other_cost_id=$this->state['type_other_cost_id'];
+        $this->costToDelete->scolary_year_id=$this->defaultScolaryYer->id;
         $this->costToDelete->update();
         $this->isEditable=false;
         $this->dispatchBrowserEvent('data-updated',['message'=>"Frais bien mis à jour !"]);
@@ -69,13 +76,17 @@ class CostOtherPage extends Component
     }
 
     public function mount(){
-        $this->types=TypeOtherCost::orderBy('name','ASC')->get();
+        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $this->types=TypeOtherCost::orderBy('name','ASC')
+                ->where('scolary_year_id', $this->defaultScolaryYer->id)
+                ->get();
+        $this->scolaryyears=ScolaryYear::all();
     }
-
     public function render()
     {
         $costs=CostGeneral::orderBy('name','ASC')
                     ->where('active',true)
+                    ->where('scolary_year_id', $this->defaultScolaryYer->id)
                     ->paginate(5);
         return view('livewire.cost.cost-other-page',['costs'=>$costs]);
     }

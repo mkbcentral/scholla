@@ -5,16 +5,26 @@ namespace App\Http\Livewire\Requisition;
 use App\Models\DetailRequisition;
 use App\Models\EmitReq;
 use App\Models\Requisition;
+use App\Models\ScolaryYear;
 use App\Models\SourceReq;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class RequisitionPage extends Component
 {
-    public $source,$solde,$isEditable=false,$requisitiion,$requisitiionToDelete,$requisitiionToAdd,$requisitiionToShow;
+    public $source,$solde,$isEditable=false,$requisitiion,$requisitiionToDelete,
+        $requisitiionToAdd,$requisitiionToShow;
     public $state =[],$emitters=[],$details=[],$sources=[];
     protected $listeners=['requisitiionListener'=>'delete'];
-    public $description,$amount;
+    public $month,$months=[],$currentMonth,$date_to_search='0',$scolaryyears,$scolary_id,$defaultScolaryYer;
+    public $description,$amount,$isDaySorted=false,$valuSorte=0;
+
+
+    public function updatedDateToSearch(){
+        $this->isDaySorted=true;
+        $this->valuSorte=1;
+    }
+
     public function validateData(){
         Validator::make(
             $this->state,
@@ -26,10 +36,9 @@ class RequisitionPage extends Component
     }
 
     public function store(){
-
         $randCode=date('d').'.'.date('m').'.'.date('Y').'.'.rand(100,999);
 
-        $this->validateData();
+        //$this->validateData();
         $requisitiion=new Requisition();
         $requisitiion->code=$randCode;
         $requisitiion->emit_req_id =$this->state['emit_req_id'];
@@ -98,15 +107,53 @@ class RequisitionPage extends Component
         $this->showDetails($requisitiion);
     }
 
+    public function activeDetal(DetailRequisition $detail, Requisition $requisitiion){
+        if ($detail->active==false) {
+            $detail->active=true;
+        } else {
+            $detail->active=false;
+        }
+        $detail->update();
+        $this->dispatchBrowserEvent('data-updated',['message'=>"Action bien réalisée !"]);
+        $this->showDetails($requisitiion);
+
+    }
+
+    public function activeRequisition(Requisition $requisitiion){
+        if ($requisitiion->active==false) {
+           $requisitiion->active=true;
+        } else {
+            $requisitiion->active=false;
+        }
+        $requisitiion->update();
+        $this->dispatchBrowserEvent('data-updated',['message'=>"Action bien réalisée !"]);
+
+    }
+
     public function mount(){
+        setlocale(LC_TIME, "fr_FR");
+            $this->currentMonth=date('m');
+            $this->month=$this->currentMonth;
+            foreach (range(1,12) as $m) {
+                $this->months[]=date('m',mktime(0,0,0,$m,1));
+            }
+        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $this->emitters=EmitReq::all();
         $this->sources=SourceReq::all();
     }
     public function render()
     {
-        $requisitions=Requisition::orderBy('created_at','ASC')
-                ->with('details')
-                ->get();
+        if ($this->isDaySorted==false) {
+            $requisitions=Requisition::orderBy('created_at','ASC')
+            ->with('details')
+            ->whereMonth('created_at',$this->month)
+            ->get();
+        } else {
+            $requisitions=Requisition::orderBy('created_at','ASC')
+            ->with('details')
+            ->whereDate('created_at',$this->date_to_search)
+            ->get();
+        }
         return view('livewire.requisition.requisition-page',['requisitions'=>$requisitions]);
     }
 }

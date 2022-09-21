@@ -4,6 +4,8 @@ namespace App\Http\Livewire\School;
 
 use App\Models\Classe;
 use App\Models\ClasseOption;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,6 +16,7 @@ class ClassePage extends Component
     public $name,$isEditable=false,$classe,
             $classeToDelete,$options,$option_id_serach=null;
     public $state =[];
+    public $users=[];
     protected $listeners=['classeListener'=>'delete'];
 
 
@@ -65,6 +68,8 @@ class ClassePage extends Component
     }
     public function mount(){
         $this->options=ClasseOption::orderBy('name','ASC')->get();
+        $role=Role::where('name','Titulaire')->first();
+        $this->users=$role->users;
     }
     public function render()
     {
@@ -73,10 +78,10 @@ class ClassePage extends Component
                 ->paginate(4);
         } else {
             $classes=Classe::orderBy('name','ASC')
-            ->where('classe_option_id',$this->option_id_serach)
-            ->with('option')
-            ->with('students')
-            ->paginate(10);
+                ->where('classe_option_id',$this->option_id_serach)
+                ->with('option')
+                ->with('students')
+                ->paginate(10);
 
         }
         return view('livewire.school.classe-page',['classes'=>$classes]);

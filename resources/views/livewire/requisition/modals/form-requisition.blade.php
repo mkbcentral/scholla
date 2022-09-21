@@ -26,7 +26,7 @@
                             @endforeach
                         </select>
                     </div>
-                    @error('emitter') <span class="error text-danger">{{ $message }}</span> @enderror
+                    @error('emit_req_id') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
                 @if ($isEditable==true)
                     <div class="form-group">
@@ -38,7 +38,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        @error('source') <span class="error text-danger">{{ $message }}</span> @enderror
+                        @error('source_req_id') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>
                 @endif
 

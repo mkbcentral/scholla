@@ -18,7 +18,7 @@ class RapportInscriptionPaimentGlobalPage extends Component
     public $dateTo="none",$dateFrom="none",$keySearch='',$scolaryyears,$scolary_id;
     public $selectedRows=[],$selectPageRows=false,$inscription,$classes,
         $inscriptionDepense,$inscriptionDepenseShow,$costs,$cost_id=0,
-    $studentToDelete,$amount_depense,$insc_amount=0,$classe_id=0,$classeNmae='';
+    $studentToDelete,$amount_depense,$insc_amount=0,$classe_id=0,$classeNmae='',$defaultScolaryYer;
     protected $listeners=['deleteInscriptionListener'=>'delete'];
 
     public function updatedDateTo(){
@@ -79,10 +79,11 @@ class RapportInscriptionPaimentGlobalPage extends Component
     }
 
     public function mount(){
-        $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
-        $this->costs=CostInscription::all();
-        $this->scolaryyears=ScolaryYear::all();
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
+        $this->costs=CostInscription::where('scolary_year_id', $this->defaultScolaryYer->id)->get();
+        $this->scolaryyears=ScolaryYear::all();
+
     }
 
     public function getInscriptionsProperty(){

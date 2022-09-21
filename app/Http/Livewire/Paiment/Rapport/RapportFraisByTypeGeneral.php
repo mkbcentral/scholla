@@ -104,13 +104,14 @@ class RapportFraisByTypeGeneral extends Component
     }
 
     public function mount(){
+        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $this->costs=CostGeneral::orderBy('name','ASC')
                 ->where('active',true)
+                ->where('scolary_year_id', $this->defaultScolaryYer->id)
                 ->where('type_other_cost_id',$this->type)
                 ->get();
         $this->typeData=TypeOtherCost::find($this->type);
         $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
-        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $this->scolaryyears=ScolaryYear::all();
     }
 

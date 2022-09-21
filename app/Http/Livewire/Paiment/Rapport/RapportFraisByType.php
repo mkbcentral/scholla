@@ -13,7 +13,7 @@ use Livewire\Component;
 
 class RapportFraisByType extends Component
 {
-    public $type,$typeData,$scolaryyears,$scolary_id;
+    public $type,$typeData,$scolaryyears,$scolary_id,$defaultScolaryYer;
     public $month,$months=[],$currentMonth;
     public $taux=2000,$periode,$classes,$classe_id=0;
     public $itemsPeriodeFilter=['Semain en cours','Semaine passée'];
@@ -36,6 +36,7 @@ class RapportFraisByType extends Component
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $this->costs=CostGeneral::orderBy('name','ASC')
             ->where('active',true)
+            ->where('scolary_year_id', $this->defaultScolaryYer->id)
             ->where('type_other_cost_id',$this->type)
             ->get();
         $this->typeData=TypeOtherCost::find($this->type);

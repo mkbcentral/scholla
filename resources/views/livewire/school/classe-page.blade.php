@@ -38,6 +38,7 @@
                         <x-button wire:click.prevent='edit({{$classe}})' class="btn-sm" type="button" data-toggle="modal" data-target="#formclasseModal">
                            <i class="fas fa-edit text-primary"></i>
                         </x-button>
+
                         <x-button wire:click.prevent='showDeleteDialog({{$classe}})' class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></x-button>
                     </td>
                 </tr>

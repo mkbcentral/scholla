@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Paiment;
 
+use App\Http\Livewire\Helpers\InscriptionHelper;
 use App\Models\CostGeneral;
 use App\Models\Inscription;
 use App\Models\Paiment;
@@ -51,16 +52,7 @@ class ListingPaimentPage extends Component
     public function render()
     {
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        $inscriptions=Inscription::select('students.*','inscriptions.*')
-                            ->join('students','inscriptions.student_id','=','students.id')
-                            ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                            ->where('students.name','Like','%'.$this->keySearch.'%')
-                            ->orderBy('students.name','ASC')
-                            ->where('inscriptions.active',true)
-                            ->with('student')
-                            ->with('student.classe')
-                            ->with('student.classe.option')
-                            ->get();
+        $inscriptions= (new InscriptionHelper())->getByScolaryYear($this->defaultScolaryYer->id,$this->keySearch);
         return view('livewire.paiment.listing-paiment-page',['inscriptions'=>$inscriptions]);
     }
 }

@@ -52,7 +52,9 @@ class Requisition extends Model
         $details=DetailRequisition::where('requisition_id',$id)->get();
         $total=0;
         foreach ($details as $detail) {
-            $total +=$detail->amount;
+            if ($detail->active==true) {
+                $total +=$detail->amount;
+            }
         }
         return $total;
     }

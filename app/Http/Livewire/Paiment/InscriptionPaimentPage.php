@@ -26,7 +26,7 @@ class InscriptionPaimentPage extends Component
         $this->date_to_search=$this->currenetDate;
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
-        $this->costs=CostInscription::all();
+        $this->costs=CostInscription::where('scolary_year_id', $this->defaultScolaryYer->id)->get();
     }
     public function refreshData(){
         $this->date_to_search=date('y-m-d');

@@ -28,7 +28,7 @@ class RapportInscriptionPaimentPage extends Component
             $this->months[]=date('m',mktime(0,0,0,$m,1));
         }
         $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
-        $this->costs=CostInscription::all();
+        $this->costs=CostInscription::where('scolary_year_id', $this->defaultScolaryYer->id)->get();
         $this->scolaryyears=ScolaryYear::all();
     }
     public function refreshData(){

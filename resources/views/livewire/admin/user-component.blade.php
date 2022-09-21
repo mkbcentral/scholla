@@ -17,7 +17,7 @@
                 <th>Adresse email</th>
                 <th>Roles</th>
                 <th>Etat</th>
-                <th>Actions</th>
+                <th class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,11 +27,16 @@
                     <td>{{$user->email}}</td>
                     <td>{{implode(" | ",$user->roles->pluck('name')->toArray())}}</td>
                     <td>Actif</td>
-                    <td>
-                        <x-button class="text-primary btn-sm"  data-toggle="modal" data-target="#EditUserModal"
+                    <td class="text-center">
+                        @if ($user->name=='root')
+                            -
+                        @else
+                            <x-button class="text-primary btn-sm"  data-toggle="modal" data-target="#EditUserModal"
                             wire:click.prevent='edit({{$user}})'> <i class="fas fa-edit"></i></x-button>
                             <x-button class="text-danger btn-sm"
                             wire:click.prevent='showDialog({{$user}})'> <i class="fa fa-trash" aria-hidden="true"></i></x-button>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach

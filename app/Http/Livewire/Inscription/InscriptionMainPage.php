@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Inscription;
 
+use App\Http\Livewire\Helpers\InscriptionHelper;
 use App\Models\Classe;
 use App\Models\ClasseOption;
 use App\Models\CostInscription;
@@ -25,9 +26,11 @@ class InscriptionMainPage extends Component
 
     public function mount(){
         $defualtOption=ClasseOption::where('name','Primaire')->first();
-
+        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $this->selectedIndex=$defualtOption->id;
-        $this->costs=CostInscription::orderBy('name','ASC')->where('active',true)->get();
+        $this->costs=CostInscription::orderBy('name','ASC')
+                    ->where('scolary_year_id', $this->defaultScolaryYer->id)
+                    ->where('active',true)->get();
         $this->option=$defualtOption;
 
         $this->currenetDate=date('y-m-d');
@@ -37,10 +40,7 @@ class InscriptionMainPage extends Component
         $this->state['place_of_birth']="Auacun";
         $this->state['email']="Auacun";
         $this->classesToEdit=Classe::orderBy('name','ASC')->with('option')->get();
-
         $this->options=ClasseOption::orderBy('name','ASC')->get();
-
-
         $this->classesToEdit=Classe::orderBy('name','ASC')->with('option')->get();
     }
     public function changeIndex(ClasseOption $option){
@@ -52,7 +52,6 @@ class InscriptionMainPage extends Component
     }
 
     public function store(){
-
         Validator::make(
             $this->state,
             [
@@ -75,9 +74,6 @@ class InscriptionMainPage extends Component
         }else{
             $this->saveInfos();
         }
-
-
-
     }
 
     public function edit(Student $student,Inscription $inscription){
@@ -149,7 +145,6 @@ class InscriptionMainPage extends Component
         $this->inscriptionToEdit->update();
         $this->dispatchBrowserEvent('data-updated',['message'=>"Infos bien mise à jour !"]);
     }
-
     public function generateNumberPaiement(){
         $number=0;
         if($this->option->name=='Primaire'){
@@ -188,19 +183,8 @@ class InscriptionMainPage extends Component
         ->where('classe_option_id',$this->selectedIndex)
         ->with('option')
         ->get();
-        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
-            $inscriptions=Inscription::select('students.*','inscriptions.*')
-                        ->join('students','inscriptions.student_id','=','students.id')
-                        ->where('inscriptions.classe_id',$this->classe_id)
-                        ->where('scolary_year_id',$this->defaultScolaryYer->id)
-                        ->where('students.name','Like','%'.$this->keySearch.'%')
-                        ->whereDate('inscriptions.created_at',$this->date_to_search)
-                        ->orderBy('students.name','ASC')
-                        ->with('student')
-                        ->with('student.classe')
-                        ->with('student.classe.option')
-                        ->get();
-
+        $inscriptions=(new InscriptionHelper())
+            ->getDateInscriptions($this->date_to_search,$this->defaultScolaryYer->id,$this->classe_id,0);
         return view('livewire.inscription.inscription-main-page',
                 ['inscriptions'=>$inscriptions]);
     }

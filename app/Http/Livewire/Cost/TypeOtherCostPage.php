@@ -2,15 +2,20 @@
 
 namespace App\Http\Livewire\Cost;
 
+use App\Models\ScolaryYear;
 use App\Models\TypeOtherCost;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class TypeOtherCostPage extends Component
 {
-    public $name,$isEditable=false,$type,$typeToDelete;
-    public $state =[];
+    public $name,$isEditable=false,$type,$typeToDelete,$defaultScolaryYer;
+    public $state =[],$scolaryyears,$scolary_id;
     protected $listeners=['typeOtherListener'=>'delete'];
+
+    public function changeScolaryid(){
+        $this->defaultScolaryYer->id=$this->scolary_id;
+    }
 
     public function validateData(){
         Validator::make(
@@ -28,7 +33,9 @@ class TypeOtherCostPage extends Component
 
     public function store(){
         $this->validateData();
-        TypeOtherCost::create($this->state);
+        $type=TypeOtherCost::create($this->state);
+        $type->scolary_year_id=$this->defaultScolaryYer->id;
+        $type->update();
         $this->dispatchBrowserEvent('data-added',['message'=>"Type bien sauvegargé !"]);
     }
 
@@ -41,6 +48,7 @@ class TypeOtherCostPage extends Component
     public function update(){
         $this->validateData();
         $this->typeToDelete->name=$this->state['name'];
+        $this->typeToDelete->scolary_year_id=$this->defaultScolaryYer->id;
         $this->typeToDelete->update();
         $this->isEditable=false;
         $this->dispatchBrowserEvent('data-updated',['message'=>"Type bien mis à jour !"]);
@@ -61,9 +69,15 @@ class TypeOtherCostPage extends Component
         $this->dispatchBrowserEvent('data-dialog-deleted',['message'=>"scolaryYear bien retirée !"]);
     }
 
+    public function mount(){
+        $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $this->scolaryyears=ScolaryYear::all();
+    }
+
     public function render()
     {
         $types=TypeOtherCost::orderBy('name','ASC')
+                    ->where('scolary_year_id', $this->defaultScolaryYer->id)
                     ->get();
         return view('livewire.cost.type-other-cost-page',['types'=>$types]);
     }

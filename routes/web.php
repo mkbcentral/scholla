@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\ControlPaimentController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\MouvementBankController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PaimentPrinterConteroller;
+use App\Http\Controllers\RequisitionController;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByType;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByTypeGeneral;
 use Illuminate\Support\Facades\Route;
@@ -76,6 +78,7 @@ Route::middleware('auth')->group(function(){
     });
     Route::controller(InscriptionController::class)->group(function(){
         Route::get('ipression-liste/{classe}','printListStudent')->name('students.print');
+        Route::get('rapport-insc-section/{section}','printBySection')->name('print.student.section');
     });
 
     Route::controller(PaimentPrinterConteroller::class)->group(function(){
@@ -111,6 +114,16 @@ Route::middleware('auth')->group(function(){
 
         //DEPOT BANK
         Route::get('print-bank-depot/{month}','printDepotBank')->name('bank.depot.print');
+    });
+
+    Route::controller(ControlPaimentController::class)->group(function(){
+        Route::get('print-control-paiment/{classeId}/{costId}/{month}/{scolaryYearId}','printControlPaiment')->name('control.paiment');
+    });
+
+    Route::controller(RequisitionController::class)->group(function(){
+        Route::get('print-requisition/{id}','printRequisition')->name('requisition.print');
+        Route::get('print-requisition-rapport/{status}/{month}/{date}','printRapportRequisition')
+        ->name('requisition.rapport.print');
     });
 
     Route::controller(MouvementBankController::class)->group(function(){

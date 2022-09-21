@@ -3,6 +3,20 @@
     <div>
         <div class="d-flex justify-content-between">
             <div><h4 class="text-uppercase text-bold text-primary">Liste autres frais</h4></div>
+            <div class="form-group">
+                <label for="my-select">Année scolaire</label>
+                  <div class="input-group date"  >
+                    <select id="my-select" class="form-control" wire:model.defer='scolary_id'>
+                        <option >Choisir...</option>
+                        @foreach ($scolaryyears as $year)
+                            <option wire:click.prevent='changeScolaryid' value="{{$year->id}}">{{$year->name}}</option>
+                        @endforeach
+                    </select>
+                      <div class="input-group-append" >
+                            <button wire:click='changeScolaryid' class="btn btn-info" type="button"><i class="fa fa-search"></i></button>
+                      </div>
+                  </div>
+              </div>
             <div>
                 @if (Auth::user()->roles->pluck('name')->contains('Admin') or
                     Auth::user()->roles->pluck('name')->contains('root'))
@@ -15,6 +29,9 @@
 
                 </div>
         </div>
+        @if ($costs->isEmpty())
+        <h4 class="text-success text-center p-4">Aucune donnée trouvée !</h4>
+        @else
         <table class="table table-stripped table-sm mt-4">
             <thead class="thead-light">
                 <tr class="text-uppercase">
@@ -57,6 +74,7 @@
         <div>
             {{$costs->links('livewire::bootstrap')}}
         </div>
+        @endif
 
     </div>
     @include('livewire.cost.modals.form-cost-other')

@@ -2,9 +2,27 @@
     <x-loading-indicator />
     <div class="content-header">
         <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-            <h1 class="m-0 text-danger text-uppercase"> &#x1F5C3;  Linsting des élèves</h1>
+        <div class="">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h1 class="m-0 text-danger text-uppercase"> &#x1F5C3;  Linsting des élèves</h1>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="my-select">Anné scolaire</label>
+                          <div class="input-group date"  >
+                            <select id="my-select" class="form-control" wire:model.defer='scolary_id'>
+                                <option >Choisir...</option>
+                                @foreach ($scolaryyears as $year)
+                                    <option wire:click.prevent='changeScolaryid' value="{{$year->id}}">{{$year->name}}</option>
+                                @endforeach
+                            </select>
+                              <div class="input-group-append" >
+                                    <button wire:click='changeScolaryid' class="btn btn-info" type="button"><i class="fa fa-search"></i></button>
+                              </div>
+                          </div>
+                      </div>
+                </div>
             </div>
         </div>
         </div>
@@ -22,7 +40,9 @@
                   <ul class="nav nav-pills">
                     @foreach ($options as $option)
                         <li class="nav-item">
-                            <a wire:click.prevent='changeIndex({{$option}})' class="nav-link {{$selectedIndex==$option->id?'active':''}} " href="#inscription" data-toggle="tab">
+                            <a wire:click.prevent='changeIndex({{$option}})'
+                                class="nav-link {{$selectedIndex==$option->id?'active':''}} "
+                                 href="#inscription" data-toggle="tab">
                                 &#x1F4C2; {{$option->name}}
                             </a>
                         </li>
@@ -34,7 +54,7 @@
                   <div class="tab-content">
                     <div class="active tab-pane" id="inscription">
                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="form-group w-25">
+                            <div class="form-group ">
                                 <x-label value="{{ __('Filtrer par par classe') }}" />
                                 <x-select wire:model='classe_id'>
                                     <option value="">Choisir...</option>
@@ -51,9 +71,6 @@
                                         Imprimer
                                     </a>
                                @endif
-                            </div>
-                            <div>
-
                             </div>
                        </div>
                        <div>

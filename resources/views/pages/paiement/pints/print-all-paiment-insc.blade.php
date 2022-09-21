@@ -93,15 +93,15 @@
                     </table>
                     @endif
         <div style="text-align: right;font-size: 30px;margin-top: 10px;">
-<span style="font-weight: bold">Total: </span><span>{{ number_format($total*$taux,1,',',' ') }} Fc</span>
-<div style="margin-top: 8px">
-    <span style="">Fiat à Lubumbashi,Le {{date('d/m/Y')}}</span>
-</div>
-</div>
-    </div>
-    <div style="font-size: 18px;margin-top: 20px; padding: 8px;color: rgb(32, 32, 32)">
-        <span style="font-weight: bold;margin-right: 400px">COMPTABLE</span>
-        <span style="font-weight: bold">COORDONATEUR</span>
+            <span style="font-weight: bold">Total: </span><span>{{ number_format($total*$taux,1,',',' ') }} Fc</span>
+            <div style="margin-top: 8px">
+                <span style="">Fiat à Lubumbashi,Le {{date('d/m/Y')}}</span>
+            </div>
+        </div>
+        <div style="font-size: 18px;margin-top: 20px; padding: 8px;color: rgb(32, 32, 32)">
+            <span style="font-weight: bold;margin-right: 400px">COMPTABLE</span>
+            <span style="font-weight: bold">COORDONATEUR</span>
+        </div>
     </div>
 </body>
 </html>

@@ -19,9 +19,9 @@ return new class extends Migration
         Schema::create('requisitions', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->foreignIdFor(EmitReq::class)->constrained();
+            $table->foreignIdFor(EmitReq::class)->nullable()->constrained();
             $table->foreignIdFor(SourceReq::class)->nullable()->constrained();
-            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(User::class)->nullable()->constrained();
             $table->timestamps();
         });
     }

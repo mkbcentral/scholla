@@ -25,4 +25,20 @@ class InscriptionController extends Controller
         compact(['inscriptions','classe','defaultScolaryYer']));
         return $pdf->stream();
     }
+
+    public function printBySection($idSection){
+        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $classes=Classe::select('classes.*')
+            ->join('classe_options','classes.classe_option_id','=','classe_options.id')
+            ->join('sections','classe_options.section_id','=','sections.id')
+            ->where('sections.id',$idSection)
+            ->orderBy('classes.name','ASC')
+            ->with('option')
+            ->with('students')
+            ->get();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.school.prints.print-effectif-by-section',
+            compact(['classes','defaultScolaryYer']));
+        return $pdf->stream();
+    }
 }

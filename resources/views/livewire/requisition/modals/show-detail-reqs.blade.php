@@ -31,14 +31,27 @@
                             <td>{{$index+1}}</td>
                             <td>{{$detail->description}}</td>
                             <td>{{$detail->amount}}</td>
-                            <td>Non validé</td>
                             <td>
+                                @if ($detail->active==false)
+                                    Non validé
+                                @else
+                                    <span class="text-success">Validé</span>
+                                @endif
+                            </td>
+                            <td>
+                                <x-button wire:click.prevent='activeDetal({{$detail}},{{$requisitiionToShow}})'
+                                    class=" {{$detail->active==false?'text-info':'text-dager'}}">
+                                    <i class="fa {{$detail->active==false?'fa-check':'fa-times'}}" aria-hidden="true"></i>
+                                </x-button>
+
                                 <x-button wire:click.prevent='deleteDetail({{$detail}},{{$requisitiionToShow}})'
                                 class="text-danger"><i class="fa fa-trash" aria-hidden="true"></i></x-button>
                             </td>
                         </tr>
                         @php
-                            $total+=$detail->amount;
+                            if ($detail->active==true) {
+                                $total+=$detail->amount;
+                            }
                         @endphp
                     @endforeach
                 </tbody>
