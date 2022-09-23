@@ -27,7 +27,7 @@
         </div>
         <div>
             <span style="margin-top: 8px;margin-bottom: 8px ">
-                Du moi de: {{strftime('%B', mktime(0, 0, 0, $month))}}
+                Du mois de: {{strftime('%B', mktime(0, 0, 0, $month))}}
             </span>
         </div>
         <div>

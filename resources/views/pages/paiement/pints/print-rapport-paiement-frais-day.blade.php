@@ -34,7 +34,7 @@
             <span>Motifs: {{$motif}}</span>
         </div>
         <span style="margin-top: 8px;margin-bottom: 8px ">
-            Du moi de: {{strftime('%B', mktime(0, 0, 0, $month))}}
+            Du mois de: {{strftime('%B', mktime(0, 0, 0, $month))}}
         </span>
         <div>
             <span>Année scolaire: {{$defaultScolaryYer->name}}</span>
@@ -72,7 +72,7 @@
                                         @if ($paiment->cost->amount==0)
                                             Exemplté
                                         @else
-                                            {{number_format($paiment->cost->amount*$taux,1,',',' ') }
+                                            {{number_format($paiment->cost->amount*$taux,1,',',' ') }}
                                         @endif
                                     }</td>
                                 </tr>

@@ -30,7 +30,7 @@
         <div>
             <div class="d-flex justify-content-between align-items-center mr-4">
                 <div class="form-group pr-4">
-                    <x-label value="{{ __('Filtrer par moi') }}" />
+                    <x-label value="{{ __('Filtrer par mois') }}" />
                     <x-select wire:model='month'>
                         @foreach ($months as $m)
                             <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m))}}</option>
@@ -59,48 +59,53 @@
         <div>
             @if ($isMonthSorted==true)
                 <a  target="_blank"
-                    class="btn btn-danger" href="{{ route('paiement.frais.month.print',[$month,$cost_id,$type]) }}">
-                    &#x1F5A8; Imprimer
+                    class="btn btn-danger"
+                    href="{{ route('paiement.frais.month.print',
+                    [$month,$cost_id,$type,$classe_id,$defaultScolaryYer->id]) }}"
+                   >
+                   &#x1F5A8; Imprimer
                 </a>
             @elseif ($itmePeriodSorted>0)
                 <a  target="_blank"
-                    class="btn btn-secondary" href="{{ route('paiement.frais.periode.print',[$itmePeriodSorted,$cost_id,$month,$type]) }}">
+                    class="btn btn-secondary" href="{{ route('paiement.frais.periode.print',
+                    [$itmePeriodSorted,$cost_id,$month,$type,$classe_id,$defaultScolaryYer->id]) }}">
                     &#x1F5A8; Imprimer
                 </a>
             @elseif ($isDaySorted==true)
                 <a  target="_blank"
-                    class="btn btn-secondary" href="{{ route('paiement.frais.day.print',[$date_to_search,$cost_id,$month,$type]) }}">
+                    class="btn btn-secondary" href="{{ route('paiement.frais.day.print',
+                    [$date_to_search,$cost_id,$month,$type,$classe_id,$defaultScolaryYer->id]) }}">
                     &#x1F5A8; Imprimer
                 </a>
             @endif
         </div>
     </div>
+    <div class="d-flex justify-content-between align-items-center mr-4">
+        <div><h4 class="text-uppercase text-bold text-secondary mt-4">Liste Paiements</h4></div>
+        <div class="d-flex justify-content-end">
+            <div class="form-group pr-4">
+                <x-label value="{{ __('Filtrer par type frais') }}" />
+                <x-select wire:model='cost_id'>
+                    <option value="0">Choisir...</option>
+                    @foreach ($costs as $cost)
+                        <option value="{{$cost->id}}">{{$cost->name}}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <div class="form-group pr-4">
+                <x-label value="{{ __('Filtrer par classe') }}" />
+                <x-select wire:model='classe_id'>
+                    <option value="0">Choisir...</option>
+                    @foreach ($classes as $classe)
+                        <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
+                    @endforeach
+                </x-select>
+            </div>
+        </div>
+    </div>
     @if ($paiments->isEmpty())
         <h4 class="text-success text-center p-4">Aucun paiment trouvé !</h4>
     @else
-        <div class="d-flex justify-content-between align-items-center mr-4">
-            <div><h4 class="text-uppercase text-bold text-secondary mt-4">Liste Paiements</h4></div>
-            <div class="d-flex justify-content-end">
-                <div class="form-group pr-4">
-                    <x-label value="{{ __('Filtrer par type frais') }}" />
-                    <x-select wire:model='cost_id'>
-                        <option value="0">Choisir...</option>
-                        @foreach ($costs as $cost)
-                            <option value="{{$cost->id}}">{{$cost->name}}</option>
-                        @endforeach
-                    </x-select>
-                </div>
-                <div class="form-group pr-4">
-                    <x-label value="{{ __('Filtrer par classe') }}" />
-                    <x-select wire:model='classe_id'>
-                        <option value="0">Choisir...</option>
-                        @foreach ($classes as $classe)
-                            <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
-                        @endforeach
-                    </x-select>
-                </div>
-            </div>
-        </div>
         <table class="table table-sm table-light">
             <thead class="thead-light">
                 <tr>

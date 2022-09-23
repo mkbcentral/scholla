@@ -100,13 +100,16 @@ Route::middleware('auth')->group(function(){
             ->name('inscription.paiement.all.print');
 
         //RAPPORT DES AUTRES FRAIS
-        Route::get('print-rapport-paiment-frais/{month}/{cost_id}/{type}','printRapportPaiemenFraisMonth')
+        Route::get('print-rapport-paiment-frais/{month}/{cost_id}/{type}/{classeId}/{yearId}',
+                    'printRapportPaiemenFraisMonth')
             ->name('paiement.frais.month.print');
 
-        Route::get('print-rapport-paiment-frais-periode/{periode}/{cost_id}/{month1}/{type}','printRapportPaiemenFraisPeriode')
+        Route::get('print-rapport-paiment-frais-periode/{periode}/{cost_id}/{month1}/{type}/{classeId}/{yearId}'
+                    ,'printRapportPaiemenFraisPeriode')
             ->name('paiement.frais.periode.print');
 
-        Route::get('print-rapport-paiment-frais-day/{date}/{cost_id}/{month2}/{type}','printRapportPaiemenFraisDay')
+        Route::get('print-rapport-paiment-frais-day/{date}/{cost_id}/{month2}/{type}/{classeId}/{yearId}'
+                ,'printRapportPaiemenFraisDay')
             ->name('paiement.frais.day.print');
 
         Route::get('print-rapport-paiment-frais-global/{type}/{cost_id}/{paiement_type}/{classe_id}',

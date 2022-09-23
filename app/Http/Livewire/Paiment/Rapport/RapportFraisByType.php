@@ -88,6 +88,7 @@ class RapportFraisByType extends Component
             $this->isMonthSorted=false;
             $this->itmePeriodSorted=1;
         } elseif($this->periode=="Semaine passée") {
+
             $paiments=(new PaimentHelper())
                 ->getPassWeekPaiement($this->defaultScolaryYer->id,$this->cost_id,$this->type,$this->classe_id);
             $this->isMonthSorted=false;
@@ -95,10 +96,22 @@ class RapportFraisByType extends Component
         }else{
             if ($this->isMonthSorted==true) {
                 $paiments=(new PaimentHelper())
-                    ->getMonthPaiments($this->month,$this->defaultScolaryYer->id,$this->cost_id,$this->type,$this->classe_id);
+                    ->getMonthPaiments(
+                        $this->month,
+                        $this->defaultScolaryYer->id,
+                        $this->cost_id,
+                        $this->type,
+                        $this->classe_id);
             } else {
-                $paiments=(new PaimentHelper())
-                    ->getDatePaiments('2022-09-12',$this->defaultScolaryYer->id,$this->cost_id,$this->type,$this->classe_id);
+                $paiments=
+                    (new PaimentHelper())
+                    ->getDatePaiments(
+                           $this->date_to_search,
+                            $this->defaultScolaryYer->id,
+                            $this->cost_id,
+                            $this->type,
+                            $this->classe_id);
+
             }
         }
         return view('livewire.paiment.rapport.rapport-frais-by-type',['paiments'=>$paiments]);

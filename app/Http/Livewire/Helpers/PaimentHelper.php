@@ -20,6 +20,7 @@ class PaimentHelper{
                 ->with('student.classe')
                 ->with('student.classe.option')
                 ->get();
+                //dd($date);
             } else {
                 $paiements=Paiment::select('students.*','paiments.*')
                 ->join('students','paiments.student_id','=','students.id')
@@ -67,7 +68,6 @@ class PaimentHelper{
                 ->get();
             }
        }
-
         return $paiements;
     }
     //GET PAIEMENT MONTH
@@ -78,7 +78,7 @@ class PaimentHelper{
                         ->join('students','paiments.student_id','=','students.id')
                         ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                         ->where('paiments.scolary_year_id',$idSColaryYear)
-                        ->whereMonth('paiments.created_at',$month)
+                        ->where('paiments.mounth_name',$month)
                         ->where('cost_generals.type_other_cost_id',$type)
                         ->orderBy('paiments.created_at','DESC')
                         ->with('cost')
@@ -91,7 +91,7 @@ class PaimentHelper{
                         ->join('students','paiments.student_id','=','students.id')
                         ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                         ->where('paiments.scolary_year_id',$idSColaryYear)
-                        ->whereMonth('paiments.created_at',$month)
+                        ->where('paiments.mounth_name',$month)
                         ->where('cost_generals.type_other_cost_id',$type)
                         ->where('cost_general_id',$idCost)
                         ->orderBy('paiments.created_at','DESC')
@@ -107,7 +107,7 @@ class PaimentHelper{
                         ->join('students','paiments.student_id','=','students.id')
                         ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                         ->where('paiments.scolary_year_id',$idSColaryYear)
-                        ->whereMonth('paiments.created_at',$month)
+                        ->where('paiments.mounth_name',$month)
                         ->where('cost_generals.type_other_cost_id',$type)
                         ->where('paiments.classe_id',$classeId)
                         ->orderBy('paiments.created_at','DESC')
@@ -121,7 +121,7 @@ class PaimentHelper{
                         ->join('students','paiments.student_id','=','students.id')
                         ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                         ->where('paiments.scolary_year_id',$idSColaryYear)
-                        ->whereMonth('paiments.created_at',$month)
+                        ->where('paiments.mounth_name',$month)
                         ->where('cost_generals.type_other_cost_id',$type)
                         ->where('cost_general_id',$idCost)
                         ->where('paiments.classe_id',$classeId)

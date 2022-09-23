@@ -102,6 +102,10 @@
                             &#x1F5C3;
                             Listing élèves
                         </x-nav-link>
+                        <x-nav-link class="nav-link" href="{{ route('control.index') }}" :active="request()->routeIs('control.index')">
+                            &#x2611;
+                            Controle paiement
+                        </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('evolution.index') }}" :active="request()->routeIs('evolution.index')">
                             &#x1F4C8;
                             Evolution inscription
@@ -174,6 +178,7 @@
                             &#x1F4C8;
                             Evolution inscription
                         </x-nav-link>
+
                         <x-nav-link class="nav-link" href="{{ route('listing.index') }}"
                                 :active="request()->routeIs('listing.index')">
                             &#x1F5C3;
