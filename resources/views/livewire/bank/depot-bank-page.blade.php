@@ -12,7 +12,7 @@
                         </x-select>
                     </div>
                     <div>
-                        @if (Auth::user()->roles->pluck('name')->contains('Finance') and
+                        @if (Auth::user()->roles->pluck('name')->contains('Finance') or
                         Auth::user()->roles->pluck('name')->contains('root'))
                         <a target="_blank" class="btn btn-primary"
                                 href="{{ route('bank.depot.print', $month) }}">&#x1F5A8; Imprimer par mois</a>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div>
-                    @if (Auth::user()->roles->pluck('name')->contains('Finance') and
+                    @if (Auth::user()->roles->pluck('name')->contains('Finance') or
                     Auth::user()->roles->pluck('name')->contains('root'))
                     <x-button
                     type="button"
@@ -69,7 +69,7 @@
                                         <span class="text-danger">En cours...</span>
                                     @endif
                                 </td>
-                                @if (Auth::user()->roles->pluck('name')->contains('Finance') and
+                                @if (Auth::user()->roles->pluck('name')->contains('Finance') or
                                     Auth::user()->roles->pluck('name')->contains('root'))
                                     <td  class="text-center">
                                         @if ($depot->active==false)
