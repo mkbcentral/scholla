@@ -184,6 +184,10 @@
                             &#x1F5C3;
                             Listing élèves
                         </x-nav-link>
+                        <x-nav-link class="nav-link" href="{{ route('control.index') }}" :active="request()->routeIs('control.index')">
+                            &#x2611;
+                            Controle paiement
+                        </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('cost.index') }}" :active="request()->routeIs('cost.index')">
                             &#x1F4B0;
                             @if (Auth::user()->roles->pluck('name')->contains('Finance'))
