@@ -12,20 +12,28 @@
                         </x-select>
                     </div>
                     <div>
+                        @if (Auth::user()->roles->pluck('name')->contains('Finance') and
+                        Auth::user()->roles->pluck('name')->contains('root'))
                         <a target="_blank" class="btn btn-primary"
-                            href="{{ route('bank.depot.print', $month) }}">&#x1F5A8; Imprimer par mois</a>
+                                href="{{ route('bank.depot.print', $month) }}">&#x1F5A8; Imprimer par mois</a>
                         <a target="_blank" class="btn btn-secondary"
-                            href="{{ route('bank.depot.print.all') }}">&#x1F5A8; Imprimer tout</a>
+                                href="{{ route('bank.depot.print.all') }}">&#x1F5A8; Imprimer tout</a>
+                        @endif
+
                     </div>
                 </div>
                 <div>
+                    @if (Auth::user()->roles->pluck('name')->contains('Finance') and
+                    Auth::user()->roles->pluck('name')->contains('root'))
                     <x-button
-                        type="button"
-                        class="btn btn-danger"
-                        data-toggle="modal"
-                        data-target="#formDepotBankModal">
-                        &#x2795; Nouveau dépoôt banque
-                    </x-button>
+                    type="button"
+                    class="btn btn-danger"
+                    data-toggle="modal"
+                    data-target="#formDepotBankModal">
+                    &#x2795; Nouveau dépoôt banque
+                </x-button>
+                    @endif
+
                 </div>
             </div>
             @php
@@ -61,24 +69,30 @@
                                         <span class="text-danger">En cours...</span>
                                     @endif
                                 </td>
-                                <td  class="text-center">
-                                    @if ($depot->active==false)
-                                        <button wire:click.prenvent='activeDepot({{$depot}})' class="btn btn-sm btn-secondary" type="button">
-                                            <i class="fa fa-check" aria-hidden="true"></i>
-                                        </button>
-                                    @else
-                                        <button wire:click.prenvent='activeDepot({{$depot}})' class="btn btn-sm btn-danger" type="button">
-                                            &#x274C;
-                                        </button>
-                                    @endif
+                                @if (Auth::user()->roles->pluck('name')->contains('Finance') and
+                                    Auth::user()->roles->pluck('name')->contains('root'))
+                                    <td  class="text-center">
+                                        @if ($depot->active==false)
+                                            <button wire:click.prenvent='activeDepot({{$depot}})' class="btn btn-sm btn-secondary" type="button">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </button>
+                                        @else
+                                            <button wire:click.prenvent='activeDepot({{$depot}})' class="btn btn-sm btn-danger" type="button">
+                                                &#x274C;
+                                            </button>
+                                        @endif
 
-                                    <button
-                                     wire:click.prevent='edit({{$depot}})' data-toggle="modal"
-                                    data-target="#formEditDepotBankModal" class="btn btn-sm btn-info" type="button"><i class="fas fa-edit    "></i></button>
-                                    <button wire:click.prevent='showDeleteDialog({{$depot}})' class="btn btn-sm btn-danger" type="button">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </td>
+                                        <button
+                                         wire:click.prevent='edit({{$depot}})' data-toggle="modal"
+                                        data-target="#formEditDepotBankModal" class="btn btn-sm btn-info" type="button"><i class="fas fa-edit    "></i></button>
+                                        <button wire:click.prevent='showDeleteDialog({{$depot}})' class="btn btn-sm btn-danger" type="button">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                @else
+                                    <td class="text-center"><span>Ok !</span></td>
+                                @endif
+
                             </tr>
                             @php
                                 if($depot->active==true){
