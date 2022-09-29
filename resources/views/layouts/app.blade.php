@@ -10,7 +10,7 @@
             <link rel="stylesheet" href="{{ asset('public/build/assets/app.6ccd8cd5.css') }}">
             <link rel="stylesheet" href="{{ asset('public/build/assets/app.eb801204.css') }}">
             <link rel="stylesheet" href="{{ asset('public/chargement.css') }}">
-            <script src="{{ asset('public/build/assets/app.a46b9522.js') }}"></script>
+            <script src="{{ asset('public/build/assets/app.62a36959.js') }}"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css"
                  integrity="sha512-3M00D/rn8n+2ZVXBO9Hib0GKNpkm8MSUU/e2VNthDyBYxKWG+BftNYYcuEjXlyrSO637tidzMBXfE7sQm0INUg=="
                  crossorigin="anonymous" referrerpolicy="no-ferrer" />
