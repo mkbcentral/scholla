@@ -76,6 +76,15 @@ class CostPaimentPage extends Component
         }
 
         public function validatePaiement(){
+            $paiments=Paiment::select('students.*','paiments.*')
+                ->join('students','paiments.student_id','=','students.id')
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->where('paiments.scolary_year_id',1)
+                ->where('students.id',$this->inscription->student->id)
+                ->get();
+
+            dd($paiments);
+
             $paiement=new Paiment();
             $paiement->scolary_year_id=$this->defaultScolaryYer->id;
             $paiement->cost_general_id=$this->cost_id;

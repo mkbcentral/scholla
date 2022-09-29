@@ -7,6 +7,7 @@ use App\Models\Classe;
 use App\Models\CostInscription;
 use App\Models\DepenseInInscription;
 use App\Models\DepotBank;
+use App\Models\InscRegularisation;
 use App\Models\Inscription;
 use App\Models\ScolaryYear;
 use App\Models\Student;
@@ -17,8 +18,8 @@ class RapportInscriptionPaimentGlobalPage extends Component
     public $taux=2000,$isFilted=0,$typeFilters=['Tout','Dépot banque','Fonctionnement','Dépenses'];
     public $dateTo="none",$dateFrom="none",$keySearch='',$scolaryyears,$scolary_id;
     public $selectedRows=[],$selectPageRows=false,$inscription,$classes,
-        $inscriptionDepense,$inscriptionDepenseShow,$costs,$cost_id=0,
-    $studentToDelete,$amount_depense,$insc_amount=0,$classe_id=0,$classeNmae='',$defaultScolaryYer;
+        $inscriptionDepense,$inscriptionDepenseShow,$inscriptionRegularistionShow,$inscriptionRegularisation,$costs,$cost_id=0,
+    $studentToDelete,$amount_depense,$insc_amount=0,$amount_regularisation=0,$classe_id=0,$classeNmae='',$defaultScolaryYer;
     protected $listeners=['deleteInscriptionListener'=>'delete'];
 
     public function updatedDateTo(){
@@ -31,6 +32,7 @@ class RapportInscriptionPaimentGlobalPage extends Component
 
     public function edit(Inscription $inscription){
         $this->inscriptionDepense=$inscription;
+        $this->inscriptionRegularisation=$inscription;
         $this->insc_amount=$inscription->cost->amount;
     }
 
@@ -42,14 +44,29 @@ class RapportInscriptionPaimentGlobalPage extends Component
         $this->dispatchBrowserEvent('data-added',['message'=>"Depense bien marquée !"]);
     }
 
+    public function addRegularisation(){
+        $regularisation=new InscRegularisation();
+        $regularisation->amount=$this->amount_regularisation;
+        $regularisation->inscription_id=$this->inscriptionRegularisation->id;
+        $regularisation->save();
+        $this->dispatchBrowserEvent('data-added',['message'=>"Regularisation bien marquée !"]);
+    }
+
     public function deleteDepense($id){
         $depense=DepenseInInscription::where('inscription_id',$id)->first();
         $depense->delete();
         $this->dispatchBrowserEvent('data-deleted',['message'=>"Depense bien annulée !"]);
     }
 
+    public function deleteRegularisation($id){
+        $regularisation=InscRegularisation::where('inscription_id',$id)->first();
+        $regularisation->delete();
+        $this->dispatchBrowserEvent('data-deleted',['message'=>"Régularisation bien annulée !"]);
+    }
+
     public function show(Inscription $inscription){
         $this->inscriptionDepenseShow=$inscription;
+        $this->inscriptionRegularistionShow=$inscription;
     }
 
     public function refreshData(){
@@ -115,6 +132,10 @@ class RapportInscriptionPaimentGlobalPage extends Component
         Inscription::whereIn('id',$this->selectedRows)->update(['is_depense'=>true]);
         $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué dépôt dépense"]);
     }
+    public function markIsRegularisation(){
+        Inscription::whereIn('id',$this->selectedRows)->update(['is_regularisation'=>true]);
+        $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué regularisé"]);
+    }
 
     public function desableIsBank(){
         Inscription::whereIn('id',$this->selectedRows)->update(['is_bank'=>false]);
@@ -127,6 +148,11 @@ class RapportInscriptionPaimentGlobalPage extends Component
     }
     public function desableIsDepense(){
         Inscription::whereIn('id',$this->selectedRows)->update(['is_depense'=>false]);
+        $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué dépôt dépense"]);
+    }
+
+    public function desableIsRegularisation(){
+        Inscription::whereIn('id',$this->selectedRows)->update(['is_regularisation'=>false]);
         $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué dépôt dépense"]);
     }
     public function render()

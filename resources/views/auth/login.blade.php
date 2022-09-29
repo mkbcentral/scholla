@@ -8,7 +8,7 @@
         @endif
         <div class="card card-outline card-primary">
         <div class="card-header text-center">
-            <a href="#" class="h1"><b>C.S</b>{{config('app.name','MASOMO')}}</a>
+            <a href="#" class="h1"><b>C.S </b>{{config('app.name','MASOMO')}}</a>
         </div>
         <div class="card-body">
             <x-validation-errors class="mb-4" />

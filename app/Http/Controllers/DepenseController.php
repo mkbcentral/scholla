@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Depense;
 use App\Models\EtatBesoin;
+use App\Models\Paiment;
+use App\Models\TypeOtherCost;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -104,6 +106,50 @@ class DepenseController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('livewire.depense.prints.print-etatBesoin-not-active',
         compact(['etatBesoins','month']));
+        return $pdf->stream();
+    }
+
+    public function printDepensePaimentDay($type,$day){
+        $paiments=Paiment::select('students.*','paiments.*')
+        ->join('students','paiments.student_id','=','students.id')
+        ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+        ->where('paiments.scolary_year_id',1)
+        ->whereDate('paiments.created_at',$day)
+        ->where('cost_generals.type_other_cost_id',$type)
+        ->where('paiments.is_depense',true)
+        ->orderBy('paiments.created_at','DESC')
+        ->with('cost')
+        ->with('student')
+        ->with('student.classe')
+        ->with('student.classe.option')
+        ->get();
+        $motif=TypeOtherCost::find($type);
+        $taux=2000;
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.depense.prints.print-depenses-paiment-day',
+        compact(['paiments','day','motif','day','taux']));
+        return $pdf->stream();
+    }
+
+    public function printDepensePaimentMonth($type,$month){
+        $paiments=Paiment::select('students.*','paiments.*')
+        ->join('students','paiments.student_id','=','students.id')
+        ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+        ->where('paiments.scolary_year_id',1)
+        ->whereMonth('paiments.created_at',$month)
+        ->where('cost_generals.type_other_cost_id',$type)
+        ->where('paiments.is_depense',true)
+        ->orderBy('paiments.created_at','DESC')
+        ->with('cost')
+        ->with('student')
+        ->with('student.classe')
+        ->with('student.classe.option')
+        ->get();
+        $taux=2000;
+        $motif=TypeOtherCost::find($type);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.depense.prints.print-depenses-paiment-month',
+        compact(['paiments','motif','month','taux']));
         return $pdf->stream();
     }
 }

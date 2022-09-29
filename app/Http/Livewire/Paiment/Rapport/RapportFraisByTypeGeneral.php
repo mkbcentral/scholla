@@ -6,6 +6,7 @@ use App\Http\Livewire\Helpers\PaimentHelper;
 use App\Models\Classe;
 use App\Models\CostGeneral;
 use App\Models\DepenseInPaiment;
+use App\Models\PaieRegularisation;
 use App\Models\Paiment;
 use App\Models\ScolaryYear;
 use App\Models\TypeOtherCost;
@@ -16,7 +17,8 @@ class RapportFraisByTypeGeneral extends Component
     public $type,$typeData,$typeFilters=['Tout','Dépot banque','Fonctionnement','Dépenses'];
     public $taux=2000,$costs=[],$cost_id=0,$defaultScolaryYer,$classes,$classe_id=0;
 
-    public $dateTo="none",$dateFrom="none",$paiementDepanse,$paiementDepanseShow,$pai_amount,$mt=0;
+    public $dateTo="none",$dateFrom="none",$paiementDepanse,$paiementDepanseShow,$paiementRegularisation,
+    $paiementRegularisationShow,$pai_amount,$mt=0;
     public $selectedRows=[],$selectPageRows=false,$isFilted=false,$scolaryyears,$scolary_id;
 
     public function updatedDateTo(){
@@ -44,6 +46,7 @@ class RapportFraisByTypeGeneral extends Component
     public function edit(Paiment $paiment){
         $this->paiementDepanse =$paiment;
         $this->mt=$paiment->cost->amount;
+        $this->paiementRegularisation=$paiment;
     }
 
     public function addDepense(){
@@ -54,10 +57,24 @@ class RapportFraisByTypeGeneral extends Component
         $this->dispatchBrowserEvent('data-added',['message'=>"Depense bien marquée !"]);
     }
 
+    public function addRegularisation(){
+        $depense=new PaieRegularisation();
+        $depense->amount=$this->pai_amount;
+        $depense->paiment_id=$this->paiementRegularisation->id;
+        $depense->save();
+        $this->dispatchBrowserEvent('data-added',['message'=>"Regularisation bien marquée !"]);
+    }
+
     public function deleteDepense($id){
         $depense=DepenseInPaiment::where('paiment_id',$id)->first();
         $depense->delete();
         $this->dispatchBrowserEvent('data-deleted',['message'=>"Depense bien annulée !"]);
+    }
+
+    public function deleteRegularisation($id){
+        $depense=PaieRegularisation::where('paiment_id',$id)->first();
+        $depense->delete();
+        $this->dispatchBrowserEvent('data-deleted',['message'=>"Régularisation bien annulée !"]);
     }
 
     public function show(Paiment $paiment){
@@ -89,6 +106,11 @@ class RapportFraisByTypeGeneral extends Component
         $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué dépôt dépense"]);
     }
 
+    public function markIsRegularisation(){
+        Paiment::whereIn('id',$this->selectedRows)->update(['is_regularisation'=>true]);
+        $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué rgularisation"]);
+    }
+
     public function desableIsBank(){
         Paiment::whereIn('id',$this->selectedRows)->update(['is_bank'=>false]);
         $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué dépôt banque"]);
@@ -98,8 +120,14 @@ class RapportFraisByTypeGeneral extends Component
         Paiment::whereIn('id',$this->selectedRows)->update(['is_fonctionnement'=>false]);
         $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué fonctionnment"]);
     }
+
     public function desableIsDepense(){
         Paiment::whereIn('id',$this->selectedRows)->update(['is_depense'=>false]);
+        $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué dépôt dépense"]);
+    }
+
+    public function desableRegularisation(){
+        Paiment::whereIn('id',$this->selectedRows)->update(['is_regularisation'=>false]);
         $this->dispatchBrowserEvent('data-updated',['message'=>"Paiement marqué dépôt dépense"]);
     }
 

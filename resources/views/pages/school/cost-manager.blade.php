@@ -4,7 +4,7 @@
             <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                <h1 class="m-0 text-danger"> &#x1F4B8; GESTION DES FRAIS SCOLAIRE</h1>
+                <h1 class="m-0 text-danger"> &#x1F4B8; GESTIONNAIRE DES FRAIS SCOLAIRE</h1>
                 </div>
             </div>
             </div>

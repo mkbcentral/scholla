@@ -57,7 +57,7 @@ class RequisitionPage extends Component
     }
 
     public function update(){
-        dd($this->state);
+        //dd($this->state);
         $this->validateData();
 
         $this->requisitiion->emit_req_id=$this->state['emit_req_id'];

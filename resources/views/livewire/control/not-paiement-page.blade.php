@@ -76,6 +76,7 @@
                             <thead class="thead-light">
                                 <tr class="text-uppercase">
                                     <th>N°</th>
+                                    <th>Date insc.</th>
                                     <th>Noms élèves</th>
                                 </tr>
                             </thead>
@@ -83,6 +84,7 @@
                                 @foreach ($inscriptions as $index=> $inscription)
                                 <tr>
                                     <td>{{ $index+1}}</td>
+                                    <td>{{$inscription->created_at->format('d/m/Y')}}</td>
                                     <td>{{$inscription->student->name}}</td>
                                 </tr>
                                 @endforeach

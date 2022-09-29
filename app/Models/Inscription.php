@@ -42,5 +42,15 @@ class Inscription extends Model
         return $this->hasOne(DepenseInInscription::class);
     }
 
+    /**
+     * Get the user associated with the Inscription
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function regularisation(): HasOne
+    {
+        return $this->hasOne(InscRegularisation::class);
+    }
+
 
 }

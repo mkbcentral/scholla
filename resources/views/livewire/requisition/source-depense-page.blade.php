@@ -15,6 +15,8 @@
             <thead class="thead-light">
                 <tr class="text-uppercase">
                     <th>Source</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center">Depense</th>
                     <th>Solde</th>
                     <th class="text-center">Actions</th>
                 </tr>
@@ -23,7 +25,9 @@
                 @foreach ($sources as $source)
                     <tr>
                         <td>{{$source->name}}</td>
-                        <td>{{$source->solde}}</td>
+                        <td class="text-center">{{$source->solde}}</td>
+                        <td class="text-center">{{0}}</td>
+                        <td class="text-center">{{0}}</td>
                         <td class="text-center ">
                             <x-button data-toggle="modal" data-target="#formSourceDepsModal"
                                  type='button' wire:click.prevent='edit({{$source}})'

@@ -8,15 +8,11 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PaimentPrinterConteroller;
 use App\Http\Controllers\RequisitionController;
+use App\Http\Livewire\Depense\DepensesByPaiments;
+use App\Http\Livewire\Helpers\RapportPaimentHepler;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByType;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByTypeGeneral;
 use Illuminate\Support\Facades\Route;
-use Mike42\Escpos\CapabilityProfile;
-use Mike42\Escpos\PrintConnectors\FilePrintConnector;
-use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
-use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
-use Mike42\Escpos\Printer;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,11 +26,16 @@ use Mike42\Escpos\Printer;
 })->name('dashboard');
 */
 
+Route::get('/test', function () {
+    return (new RapportPaimentHepler())->getPaiementsByType("2022-2023");
+});
+
 
 Route::middleware('auth')->group(function(){
     Route::get('rapport-paiment-type/{type}',RapportFraisByType::class)->name('rapport.frais.type');
     Route::get('rapport-paiment-type-general/{type}',RapportFraisByTypeGeneral::class)
         ->name('rapport.frais.type.general');
+        Route::get('/depense-in-paiment/{type}',DepensesByPaiments::class)->name('depnses.paiments');
     Route::controller(PageController::class)->group(function(){
         Route::get('/','index')->name('dashboard');
         Route::get('gestionnaire-ecole','school')->name('school.index');
@@ -75,6 +76,9 @@ Route::middleware('auth')->group(function(){
         Route::get('ipression-etatBesoin-periode/{periode}','printetatBesoinPeriode')->name('etatBesoin.periode.print');
         Route::get('ipression-etatBesoin-not-active/{month}','printEtatBesoinNotActive')->name('etatBesoin.not.active.print');
 
+
+        Route::get('print-depnses-in-paiments-day/{type}/{date}','printDepensePaimentDay')->name('print.depenses.in.paiments.day');
+        Route::get('print-depnses-in-paiments-month/{type}/{month}','printDepensePaimentMonth')->name('print.depenses.in.paiments.month');
     });
     Route::controller(InscriptionController::class)->group(function(){
         Route::get('ipression-liste/{classe}','printListStudent')->name('students.print');

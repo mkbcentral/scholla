@@ -80,6 +80,8 @@
                     <a class="dropdown-item" href="#" wire:click.prevent='markIsFonctionnement'>Marquer fonctionnement</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" wire:click.prevent='markIsDepense'>Marquer depensé</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" wire:click.prevent='markIsRegularisation'>Régulariser</a>
                 </div>
             </div>
             <div class="btn-group">
@@ -94,6 +96,8 @@
                     <a class="dropdown-item" href="#" wire:click.prevent='desableIsFonctionnement'>Annuler fonctionnement</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" wire:click.prevent='desableIsDepense'>Annuler depensé</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" wire:click.prevent='desableIsRegularisation'>Annuler regulariser</a>
                 </div>
             </div>
            @endif
@@ -204,12 +208,16 @@
                                 <span class="text-danger">Non validé</span>
                             @else
                                 @if ($inscription->depense)
-                                <span class="bg-danger p-1">
-                                <a href="" data-toggle="modal" wire:click.prevent='show({{$inscription->id}})'
-                                                data-target="#showInDepenseModal">
-                                    {{number_format($inscription->cost->amount*$taux-$inscription->depense->amount,1,',',' ')}}
-                                </a>
-                                </span>
+                                    <span class="bg-danger p-1">
+                                    <a href="" data-toggle="modal" wire:click.prevent='show({{$inscription->id}})'
+                                                    data-target="#showInDepenseModal">
+                                        {{number_format($inscription->cost->amount*$taux-$inscription->depense->amount,1,',',' ')}}
+                                    </a>
+                                    </span>
+                                @elseif ($inscription->regularisation)
+                                    <span class="bg-warning p-1">
+                                        {{number_format($inscription->cost->amount*$taux-$inscription->regularisation->amount,1,',',' ')}}
+                                    </span>
                                 @else
                                     {{number_format($inscription->cost->amount*$taux,1,',',' ')}}
                                 @endif
@@ -217,20 +225,31 @@
                             @endif
                         </td>
                     <td>
-                            @if (Auth::user()->roles->pluck('name')->contains('root'))
-                                <button class="btn btn-sm btn-danger"
-                                wire:click.prevent='showDeleteDialog({{$inscription}},{{$inscription->student}})'>
-                                Ratirer
-                            </button>
-                            @endif
-                            @if ($inscription->depense)
-                                <button wire:click='deleteDepense({{$inscription->id}})'  class="btn btn-sm btn-danger" type="button">Annuler</button>
-                            @else
-                                <button data-toggle="modal"
-                                    data-target="#addInDepenseModal"
-                                    wire:click.prevent='edit({{$inscription}})' class="btn btn-sm btn-primary" type="button">Marquer</button>
-                            @endif
-
+                        @if (Auth::user()->roles->pluck('name')->contains('root'))
+                        <button class="btn btn-sm btn-danger"
+                        wire:click.prevent='showDeleteDialog({{$inscription}},{{$inscription->student}})'>
+                        Ratirer
+                    </button>
+                    @endif
+                    @if ($inscription->is_regularisation==false)
+                        @if ($inscription->depense)
+                            <button wire:click='deleteDepense({{$inscription->id}})'  class="btn btn-sm btn-danger" type="button">Annuler</button>
+                        @else
+                            <button data-toggle="modal"
+                                data-target="#addInDepenseModal"
+                                wire:click.prevent='edit({{$inscription}})'
+                                class="btn btn-sm btn-primary" type="button">Marquer</button>
+                        @endif
+                    @else
+                        @if ($inscription->regularisation)
+                            <button wire:click='deleteRegularisation({{$inscription->id}})'  class="btn btn-sm btn-danger" type="button">Annuler</button>
+                        @else
+                            <button data-toggle="modal"
+                                data-target="#addReqularisationModal"
+                                wire:click.prevent='edit({{$inscription}})'
+                                class="btn btn-sm btn-info" type="button">Régler</button>
+                        @endif
+                    @endif
                     </td>
                     </tr>
                     @if ($inscription->is_paied==false)
@@ -253,6 +272,10 @@
                                 }
                                 $total+=$inscription->cost->amount*$taux-
                                         $inscription->depense->amount;
+                            }
+                            elseif ($inscription->regularisation) {
+                                $total+=$inscription->cost->amount*$taux-
+                                        $inscription->regularisation->amount;
                             } else {
                                 if ($inscription->is_bank==true){
                                     $total_bank+=$inscription->cost->amount*$taux;
@@ -287,11 +310,11 @@
 
                             </tr>
                             <tr class="text-bold">
-                                <td>{{number_format($total,1,',',' ')}} Fc</td>
-                                <td class="text-success">{{number_format($total_bank,1,',',' ')}} Fc</td>
-                                <td class="text-info">{{number_format($total_fonctionnement,1,',',' ')}} Fc</td>
-                                <td class="text-danger">{{number_format($total_depense,1,',',' ')}} FC</td>
-                                <td class="bg-dark text-right">{{number_format(($total)-($total_bank)-($total_depense)-($total_fonctionnement),1,',',' ')}} Fc</td>
+                                <td><a href="">{{number_format($total,1,',',' ')}} Fc</a></td>
+                                <td class="text-success"><a href="">{{number_format($total_bank,1,',',' ')}} Fc</a></td>
+                                <td class="text-info"><a href="">{{number_format($total_fonctionnement,1,',',' ')}} Fc</a></td>
+                                <td class="text-danger"><a href="">{{number_format($total_depense,1,',',' ')}} Fc</a></td>
+                                <td class="bg-dark text-right"><a href="">{{number_format(($total)-($total_bank)-($total_depense)-($total_fonctionnement),1,',',' ')}} Fc</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -301,4 +324,6 @@
     @endif
     @include('livewire.paiment.modals.add-depense-in-insc')
     @include('livewire.paiment.modals.show-depense-in-insc')
+    @include('livewire.paiment.modals.add-regularisation-in-insc')
+    @include('livewire.paiment.modals.show-regularisation')
 </div>

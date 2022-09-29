@@ -275,7 +275,7 @@ class PaimentPrinterConteroller extends Controller
             return $pdf->stream();
     }
 
-    public function printRapportGlobalFrais($type,$cost_id,$paiement_type,$classe_id){
+    public function printRapportGlobalFrais($type,$cost_id,$paiement_type,$classe_id,$idScolaryYer){
         $taux=2000;
         $motif='';
         $myTypeData='';

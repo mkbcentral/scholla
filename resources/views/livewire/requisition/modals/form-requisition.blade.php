@@ -21,6 +21,7 @@
                     <x-label value="{{ __('Nom emeteur') }}" />
                     <div class="form-group">
                         <select id="my-select" class="form-control" wire:model.defer='state.emit_req_id'>
+                            <option value="">Choisir...</option>
                             @foreach ($emitters as $emitter)
                                 <option value="{{$emitter->id}}">{{$emitter->name}}</option>
                             @endforeach

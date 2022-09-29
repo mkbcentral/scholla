@@ -74,7 +74,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" wire:click.prevent='markIsDepense'>Marquer depensé</a>
                         @endif
-
+                            <a class="dropdown-item" href="#" wire:click.prevent='markIsRegularisation'>Régulariser</a>
                     </div>
                 </div>
                 <div class="btn-group">
@@ -97,7 +97,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#" wire:click.prevent='desableIsDepense'>Annuler depensé</a>
                     @endif
-
+                    <a class="dropdown-item" href="#" wire:click.prevent='markIsDepense'>Annler Reg.</a>
                 </div>
             </div>
            @endif
@@ -219,19 +219,39 @@
                                     {{number_format($paiment->cost->amount*$taux-$paiment->depense->amount,1,',',' ') }}
                                    </a>
                                 </span>
+                            @elseif ($paiment->regularisation)
+                                <span class="bg-warning p-1">
+
+                                    {{number_format($paiment->cost->amount*$taux-$paiment->regularisation->amount,1,',',' ') }}
+
+                                </span>
                             @else
                                 {{number_format($paiment->cost->amount*$taux)}}
                             @endif
 
                         </td>
                         <td class="text-center">
-                            @if ($paiment->depense)
-                                <button wire:click='deleteDepense({{$paiment->id}})'  class="btn btn-sm btn-danger" type="button">Annuler</button>
+                            @if ($paiment->is_regularisation==false)
+                                @if ($paiment->depense)
+                                    <button wire:click='deleteDepense({{$paiment->id}})'
+                                        class="btn btn-sm btn-danger" type="button">Annuler</button>
+                                @else
+                                    <button data-toggle="modal"
+                                        data-target="#addInDepensePaimentModal"
+                                        wire:click.prevent='edit({{$paiment}})'
+                                        class="btn btn-sm btn-primary" type="button">Marquer</button>
+                                @endif
                             @else
-                                <button data-toggle="modal"
-                                    data-target="#addInDepensePaimentModal"
-                                    wire:click.prevent='edit({{$paiment}})' class="btn btn-sm btn-primary" type="button">Marquer</button>
-                             @endif
+                                @if ($paiment->regularisation)
+                                    <button wire:click='deleteRegularisation({{$paiment->id}})'
+                                        class="btn btn-sm btn-danger" type="button">Annuler</button>
+                                @else
+                                    <button data-toggle="modal"
+                                    data-target="#addReqularisationPaieModal"
+                                    wire:click.prevent='edit({{$paiment}})'
+                                    class="btn btn-sm btn-info" type="button">Régler</button>
+                                @endif
+                            @endif
                         </td>
 
                     </tr>
@@ -250,6 +270,9 @@
                                     $total_depense+=$paiment->cost->amount*2000-$paiment->depense->amount;
                                 }
                             $total+=$paiment->cost->amount*2000-$paiment->depense->amount;
+                        }
+                        elseif ($paiment->regularisation) {
+                            $total+=$paiment->cost->amount*2000-$paiment->regularisation->amount;
                         } else {
                             if ($paiment->is_bank==true){
                                     $total_bank+=$paiment->cost->amount*2000;
@@ -288,7 +311,9 @@
                                 <td>{{number_format($total,1,',',' ')}} Fc</td>
                                 <td class="text-success">{{number_format($total_bank,1,',',' ')}} Fc</td>
                                 <td class="text-info">{{number_format($total_fonctionnement,1,',',' ')}} Fc</td>
-                                <td class="text-danger">{{number_format($total_depense,1,',',' ')}} FC</td>
+                                <td class="text-danger">
+                                    <a href="{{ route('depnses.paiments',$type) }}" style="color: red">{{number_format($total_depense,1,',',' ')}} FC</a>
+                                </td>
                                 <td class="bg-dark text-right">{{number_format($total-$total_bank-$total_depense-$total_fonctionnement,1,',',' ')}} Fc</td>
                             </tr>
                         </tbody>
@@ -299,4 +324,5 @@
     @endif
     @include('livewire.paiment.modals.add-depense-in-paiement')
     @include('livewire.paiment.modals.show-depense-in-paiment')
+    @include('livewire.paiment.modals.add-regularisation-in-paiment')
 </div>

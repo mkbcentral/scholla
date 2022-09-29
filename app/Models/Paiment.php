@@ -41,4 +41,14 @@ class Paiment extends Model
         return $this->hasOne(DepenseInPaiment::class);
     }
 
+    /**
+     *
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function regularisation(): HasOne
+    {
+        return $this->hasOne(PaieRegularisation::class);
+    }
+
 }

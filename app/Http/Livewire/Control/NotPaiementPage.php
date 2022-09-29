@@ -10,6 +10,8 @@ use App\Models\Paiment;
 use App\Models\ScolaryYear;
 use App\Models\Student;
 use App\Models\TypeOtherCost;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class NotPaiementPage extends Component
@@ -52,6 +54,13 @@ class NotPaiementPage extends Component
 
     public function render()
     {
+        $days_numbers=$number = cal_days_in_month(CAL_GREGORIAN, $this->month, date('Y'));
+            $days_arry=array();
+            for ($i=1; $i <= $days_numbers; $i++) {
+                if ($i>= 25) {
+                    $days_arrys[$i]=$i;
+                }
+            }
         $this->classes=Classe::orderBy('name','ASC')
             ->with('option')
             ->get();
@@ -63,13 +72,18 @@ class NotPaiementPage extends Component
                     ->where('cost_generals.type_other_cost_id',$this->cost_id)
                     ->where('paiments.scolary_year_id', $this->defaultScolaryYer->id)
                     ->get();
+
             foreach ($paiments as $key => $paiment) {
                 $items[] = $paiment->student_id;
             }
             $inscriptions=Inscription::whereNotIn('student_id',$items)
                         ->where('classe_id',$this->classe_id)
                         ->where('scolary_year_id', $this->defaultScolaryYer->id)
+                        ->whereNotIn(DB::raw("(DATE_FORMAT(created_at,'%d'))"), $days_arrys)
                         ->get();
+
+
+
         return view('livewire.control.not-paiement-page',['inscriptions'=>$inscriptions]);
     }
 }

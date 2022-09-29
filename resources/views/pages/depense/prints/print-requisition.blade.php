@@ -34,6 +34,10 @@
             <span>{{$requisition->emetter->name}}</span>
         </div>
         <div>
+            <span style="font-weight: bold">Source : </span>
+            <span>{{$requisition->source->name}}</span>
+        </div>
+        <div>
             <span style="font-weight: bold">Date: </span>
             <span>{{$requisition->created_at->format('d/m/Y')}}</span>
         </div>

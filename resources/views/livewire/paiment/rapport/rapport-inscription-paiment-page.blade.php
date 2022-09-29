@@ -32,7 +32,7 @@
         <div>
             <div class="d-flex justify-content-between align-items-center mr-4">
                 <div class="form-group pr-4">
-                    <x-label value="{{ __('Filtrer par moi') }}" />
+                    <x-label value="{{ __('Filtrer par mois') }}" />
                     <x-select wire:model='month'>
                         @foreach ($months as $m)
                             <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m))}}</option>

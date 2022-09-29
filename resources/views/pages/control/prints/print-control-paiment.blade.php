@@ -55,6 +55,7 @@
                 <thead style="background: rgb(67, 67, 67);color: rgb(222, 221, 221)">
                     <tr>
                         <th style="text-align: center">N°</th>
+                        <th style="text-align: left">DATE INSC.</th>
                         <th style="text-align: left">NOM COMPLE</th>
                         <th style="text-align: right">TYPE</th>
                     </tr>
@@ -63,6 +64,7 @@
                     @foreach ($inscriptions as $index => $inscription)
                             <tr>
                                 <td style="text-align: center;width: 40px">{{$index+1}}</td>
+                                <td style="">{{$inscription->created_at->format('d/m/Y')}}</td>
                                 <td style="">{{$inscription->student->name}}</td>
                                 <td style="text-align: right">{{$cost->name}}</td>
                             </tr>

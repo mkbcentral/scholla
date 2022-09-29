@@ -11,6 +11,8 @@ class SourceDepensePage extends Component
     public $name,$solde,$isEditable=false,$sourceDeps,$sourceDepsToDelete;
     public $state =[];
     protected $listeners=['sourceDepsListener'=>'delete'];
+    public $total_fonc=0;
+    public $total_depense=0;
 
     public function validateData(){
         Validator::make(
