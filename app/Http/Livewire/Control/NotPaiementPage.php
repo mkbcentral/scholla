@@ -80,7 +80,7 @@ class NotPaiementPage extends Component
                         ->where('classe_id',$this->classe_id)
                         ->where('scolary_year_id', $this->defaultScolaryYer->id)
                         ->whereNotIn(DB::raw("(DATE_FORMAT(created_at,'%d'))"), $days_arrys)
-                        ->whereMonth('paiments.created_at', $this->month)
+                        ->whereMonth('created_at', $this->month)
                         ->get();
 
 
