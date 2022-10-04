@@ -33,6 +33,7 @@ class ControlPaimentController extends Controller
             }
             $inscriptions=Inscription::whereNotIn('student_id',$items)
                         ->where('classe_id',$classeId)
+                        ->whereMonth('created_at', $month)
                         ->where('scolary_year_id', $scolaryYearId)
                         ->whereNotIn(DB::raw("(DATE_FORMAT(created_at,'%d'))"), $days_arrys)
                         ->get();
