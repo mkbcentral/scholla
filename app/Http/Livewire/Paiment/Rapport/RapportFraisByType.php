@@ -56,6 +56,13 @@ class RapportFraisByType extends Component
         $this->dispatchBrowserEvent('data-added',['message'=>"Numero frais bien mise à jour !"]);
     }
 
+    public function update(){
+        $this->validate(['paiment_date'=>'required|date']);
+        $this->paiment->created_at=$this->paiment_date;
+        $this->paiment->update();
+        $this->dispatchBrowserEvent('data-updated',['message'=>"Date bien mise à jour"]);
+    }
+
     public function showDeleteDialog(Paiment $paiment){
         $this->paimentToDelete=$paiment;
         $this->dispatchBrowserEvent('delete-pamient-other-dialog');
