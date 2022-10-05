@@ -21,17 +21,24 @@
                     <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#paiment" data-toggle="tab">
+                            <a class="nav-link active" href="#notpaiment" data-toggle="tab">
                                 <i class="fas fa-file-alt"></i> Pas en ordre
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#paiment" data-toggle="tab">
+                                <i class="fas fa-file-alt"></i> En ordre
                             </a>
                         </li>
                     </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
                     <div class="tab-content">
-                        <div class="active tab-pane" id="paiment">
-                        <div>
+                        <div class="active tab-pane" id="notpaiment">
                           @livewire('control.not-paiement-page')
+                        </div>
+                        <div class=" tab-pane" id="paiment">
+                            @livewire('control.is-paiment')
                         </div>
                     </div>
                     <!-- /.tab-content -->

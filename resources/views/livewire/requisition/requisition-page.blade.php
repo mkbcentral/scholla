@@ -5,7 +5,7 @@
             <div>
                 <x-button wire:click.prevent='changeEditableState' class="btn-info" type="button" data-toggle="modal" data-target="#formReqModal">
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                    Créer un nouvelle requisition
+                    Créer une nouvelle requisition
                 </x-button>
             </div>
             <div>

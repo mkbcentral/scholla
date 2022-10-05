@@ -125,6 +125,7 @@ Route::middleware('auth')->group(function(){
 
     Route::controller(ControlPaimentController::class)->group(function(){
         Route::get('print-control-paiment/{classeId}/{costId}/{month}/{scolaryYearId}','printControlPaiment')->name('control.paiment');
+        Route::get('print-is-paiment/{classeId}/{costId}/{month}/{scolaryYearId}','printControlIsPaiment')->name('is.paiment');
     });
 
     Route::controller(RequisitionController::class)->group(function(){

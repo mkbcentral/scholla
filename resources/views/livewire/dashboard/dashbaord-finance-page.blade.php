@@ -45,15 +45,25 @@
                      </div>
                      <div class="col-md-6">
                          <!-- small box -->
-                     <div class="small-box bg-secondary
+                        <div class="small-box bg-secondary
                                  ">
                          <div class="inner">
                              <h3>{{number_format($depense,1,',',' ')}} Fc</h3>
                              <h4>Dépenses</h4>
                          </div>
-                       <a  class="small-box-footer"> <span class="p-2"></span></a>
+                        <a  class="small-box-footer"> <span class="p-2"></span></a>
                      </div>
                  </div>
+                 <div class="col-md-12">
+                    <!-- small box -->
+                   <div class="small-box bg-danger text-center
+                            ">
+                    <div class="inner">
+                        <h3>{{number_format($this->recette-$depense,1,',',' ')}} Fc</h3>
+                        <h2>SOLDE</h2>
+                    </div>
+                   <a  class="small-box-footer"> <span class="p-2"></span></a>
+                </div>
              </div>
 
          </div>

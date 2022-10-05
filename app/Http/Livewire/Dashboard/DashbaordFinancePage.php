@@ -86,13 +86,13 @@ class DashbaordFinancePage extends Component
                         $total_details+=$detail->amount;
                     }
                 }
-                $total+=$total_details;
+                $total=$total_details;
             }
         }
         $this->depense=$total;
         $this->recette=($paiment+$inscription)*$this->taux;
 
-        $this->dataRecetteY=[$this->recette,$this->depense];
+        $this->dataRecetteY=[$this->depense,$this->recette];
 
         return view('livewire.dashboard.dashbaord-finance-page');
     }
