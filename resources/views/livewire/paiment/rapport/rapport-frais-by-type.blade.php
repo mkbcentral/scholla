@@ -82,6 +82,19 @@
     </div>
     <div class="d-flex justify-content-between align-items-center mr-4">
         <div><h4 class="text-uppercase text-bold text-secondary mt-4">Liste Paiements</h4></div>
+        <div class="w-25 mt-4">
+            <div class="card-tools">
+                <div class="input-group input-group-sm">
+                  <input wire:model.debounce.500ms='keySearch' type="text"
+                  class="form-control" placeholder="Recheche ici...">
+                  <div class="input-group-append">
+                    <div class="btn btn-primary">
+                      <i class="fas fa-search"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
         <div class="d-flex justify-content-end">
             <div class="form-group pr-4">
                 <x-label value="{{ __('Filtrer par type frais') }}" />

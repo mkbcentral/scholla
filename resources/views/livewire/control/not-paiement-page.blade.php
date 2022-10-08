@@ -70,7 +70,8 @@
                         </div>
                         <div class="d-flex justify-content-end ">
                             <span class="mr-4"><h3>Total: {{$inscriptions->count()}}</h3></span>
-                            <a target="_blank" href="{{ route('control.paiment',[ $classe_id,$cost_id,$this->month,$this->defaultScolaryYer->id]) }}" class="btn btn-info btn-sm">Imprimer</a>
+                            <a target="_blank" href="{{ route('control.paiment',
+                                [ $classe_id,$cost_id,$this->month,$this->defaultScolaryYer->id,$classe_id]) }}" class="btn btn-info btn-sm">Imprimer</a>
                         </div>
                         <table class="table table-stripped table-sm mt-4">
                             <thead class="thead-light">
@@ -82,11 +83,20 @@
                             </thead>
                             <tbody>
                                 @foreach ($inscriptions as $index=> $inscription)
-                                <tr>
-                                    <td>{{ $index+1}}</td>
-                                    <td>{{$inscription->created_at->format('d/m/Y')}}</td>
-                                    <td>{{$inscription->student->name}}</td>
-                                </tr>
+                                @if (in_array($inscription->created_at->format('d'), $days) &&
+                                    $inscription->created_at->format('m')== $month)
+                                    <tr class="bg-secondary">
+                                        <td>{{ $index+1}}</td>
+                                        <td>{{$inscription->created_at->format('d/m/Y')}}</td>
+                                        <td>{{$inscription->student->name}}</td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td>{{ $index+1}}</td>
+                                        <td>{{$inscription->created_at->format('d/m/Y')}}</td>
+                                        <td>{{$inscription->student->name}}</td>
+                                    </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>

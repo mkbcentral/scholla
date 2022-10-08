@@ -214,7 +214,7 @@ class PaimentPrinterConteroller extends Controller
                             $idScolaryYer,
                             $cost_id,
                             $type,
-                            $classe_id
+                            $classe_id,''
                         );
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('pages.paiement.pints.print-rapport-paiement-frais-day',
@@ -235,7 +235,7 @@ class PaimentPrinterConteroller extends Controller
                         $idScolaryYer,
                         $cost_id,
                         $type,
-                        $classeId);
+                        $classeId,'');
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('pages.paiement.pints.print-rapport-paiement-frais-month',
             compact(['defaultScolaryYer','paiments','taux','month','motif']))
@@ -256,7 +256,7 @@ class PaimentPrinterConteroller extends Controller
                 $idScolaryYer,
                 $cost_id,
                 $type,
-                $classe_id
+                $classe_id,''
             );
             $label="Semaine en cours";
         } elseif($periode==2) {
@@ -265,7 +265,7 @@ class PaimentPrinterConteroller extends Controller
                 $idScolaryYer,
                 $cost_id,
                 $type,
-                $classe_id);
+                $classe_id,'');
                 $label="Semaine passée";
         }
         $pdf = App::make('dompdf.wrapper');

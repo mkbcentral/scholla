@@ -16,7 +16,17 @@
                               wire:model.defer='paiment_date'/>
                     @error('paiment_date') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
+                <div class="form-group pr-4">
+                    <x-label value="{{ __('Mois') }}" />
+                    <x-select wire:model='month_to_edit'>
+                        <option value="">Choisir</option>
+                        @foreach ($months as $m)
+                            <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m))}}</option>
+                        @endforeach
+                    </x-select>
+                </div>
             </div>
+
             <div class="modal-footer">
                 <x-button type="submit" class="btn btn-info" >Mettre à jour</x-button>
                 <x-button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</x-button>

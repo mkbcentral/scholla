@@ -5,7 +5,7 @@ use Carbon\Carbon;
 
 class PaimentHelper{
     //GET PAIMENT OF DAY
-    public function getDatePaiments($date,$idSColaryYear,$idCost,$type,$classeId){
+    public function getDatePaiments($date,$idSColaryYear,$idCost,$type,$classeId,$keySearch){
        if ($classeId==0) {
             if ($idCost==0) {
                 $paiements=Paiment::select('students.*','paiments.*')
@@ -14,6 +14,7 @@ class PaimentHelper{
                 ->where('paiments.scolary_year_id',$idSColaryYear)
                 ->whereDate('paiments.created_at',$date)
                 ->where('cost_generals.type_other_cost_id',$type)
+                ->where('students.name','Like','%'.$keySearch.'%')
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
                 ->with('student')
@@ -29,6 +30,7 @@ class PaimentHelper{
                 ->whereDate('paiments.created_at',$date)
                 ->where('cost_general_id',$idCost)
                 ->where('cost_generals.type_other_cost_id',$type)
+                ->where('students.name','Like','%'.$keySearch.'%')
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
                 ->with('student')
@@ -44,6 +46,7 @@ class PaimentHelper{
                 ->where('paiments.scolary_year_id',$idSColaryYear)
                 ->whereDate('paiments.created_at',$date)
                 ->where('cost_generals.type_other_cost_id',$type)
+                ->where('students.name','Like','%'.$keySearch.'%')
                 ->where('paiments.classe_id',$classeId)
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
@@ -60,6 +63,7 @@ class PaimentHelper{
                 ->where('cost_general_id',$idCost)
                 ->where('cost_generals.type_other_cost_id',$type)
                 ->where('paiments.classe_id',$classeId)
+                ->where('students.name','Like','%'.$keySearch.'%')
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
                 ->with('student')
@@ -71,7 +75,7 @@ class PaimentHelper{
         return $paiements;
     }
     //GET PAIEMENT MONTH
-    public function getMonthPaiments($month,$idSColaryYear,$idCost,$type,$classeId){
+    public function getMonthPaiments($month,$idSColaryYear,$idCost,$type,$classeId,$keySearch){
         if ($classeId==0) {
             if ($idCost==0) {
                 $paiments=Paiment::select('students.*','paiments.*')
@@ -80,6 +84,7 @@ class PaimentHelper{
                         ->where('paiments.scolary_year_id',$idSColaryYear)
                         ->where('paiments.mounth_name',$month)
                         ->where('cost_generals.type_other_cost_id',$type)
+                        ->where('students.name','Like','%'.$keySearch.'%')
                         ->orderBy('paiments.created_at','DESC')
                         ->with('cost')
                         ->with('student')
@@ -94,6 +99,7 @@ class PaimentHelper{
                         ->where('paiments.mounth_name',$month)
                         ->where('cost_generals.type_other_cost_id',$type)
                         ->where('cost_general_id',$idCost)
+                        ->where('students.name','Like','%'.$keySearch.'%')
                         ->orderBy('paiments.created_at','DESC')
                         ->with('cost')
                         ->with('student')
@@ -110,6 +116,7 @@ class PaimentHelper{
                         ->where('paiments.mounth_name',$month)
                         ->where('cost_generals.type_other_cost_id',$type)
                         ->where('paiments.classe_id',$classeId)
+                        ->where('students.name','Like','%'.$keySearch.'%')
                         ->orderBy('paiments.created_at','DESC')
                         ->with('cost')
                         ->with('student')
@@ -124,6 +131,7 @@ class PaimentHelper{
                         ->where('paiments.mounth_name',$month)
                         ->where('cost_generals.type_other_cost_id',$type)
                         ->where('cost_general_id',$idCost)
+                        ->where('students.name','Like','%'.$keySearch.'%')
                         ->where('paiments.classe_id',$classeId)
                         ->orderBy('paiments.created_at','DESC')
                         ->with('cost')
@@ -136,7 +144,7 @@ class PaimentHelper{
         return $paiments;
     }
      //GET PAIMENT CURRENT WEEK
-     public function getCureentWeekPaiement($idSColaryYear,$idCost,$type,$classeId){
+     public function getCureentWeekPaiement($idSColaryYear,$idCost,$type,$classeId,$keySearch){
         if ($classeId) {
             if ($idCost==0) {
                 $paiments=Paiment::select('students.*','paiments.*')
@@ -146,6 +154,7 @@ class PaimentHelper{
                     ->whereBetween('paiments.created_at',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
                     ->orderBy('paiments.created_at','DESC')
                     ->where('cost_generals.type_other_cost_id',$type)
+                    ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
                     ->with('student.classe')
@@ -160,6 +169,7 @@ class PaimentHelper{
                     ->orderBy('paiments.created_at','DESC')
                     ->where('cost_general_id',$idCost)
                     ->where('cost_generals.type_other_cost_id',$type)
+                    ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
                     ->with('student.classe')
@@ -176,6 +186,7 @@ class PaimentHelper{
                     ->orderBy('paiments.created_at','DESC')
                     ->where('cost_generals.type_other_cost_id',$type)
                     ->where('paiments.classe_id',$classeId)
+                    ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
                     ->with('student.classe')
@@ -191,6 +202,7 @@ class PaimentHelper{
                     ->where('cost_general_id',$idCost)
                     ->where('cost_generals.type_other_cost_id',$type)
                     ->where('paiments.classe_id',$classeId)
+                    ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
                     ->with('student.classe')
@@ -198,10 +210,11 @@ class PaimentHelper{
                     ->get();
            }
         }
+        dd($paiments);
        return $paiments;
     }
     //GET PAIMENT WEEK
-    public function getPassWeekPaiement($idSColaryYear,$idCost,$type,$classeId){
+    public function getPassWeekPaiement($idSColaryYear,$idCost,$type,$classeId,$keySearch){
         $date=Carbon::now()->subDays(7);
         if ($classeId==0) {
             if ($idCost==0) {
@@ -212,6 +225,7 @@ class PaimentHelper{
                     ->where('paiments.created_at', '>=', $date)
                     ->orderBy('paiments.created_at','DESC')
                     ->where('cost_generals.type_other_cost_id',$type)
+                    ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
                     ->with('student.classe')
@@ -226,6 +240,7 @@ class PaimentHelper{
                     ->orderBy('paiments.created_at','DESC')
                     ->where('cost_general_id',$idCost)
                     ->where('cost_generals.type_other_cost_id',$type)
+                    ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
                     ->with('student.classe')
@@ -242,6 +257,7 @@ class PaimentHelper{
                     ->orderBy('paiments.created_at','DESC')
                     ->where('cost_generals.type_other_cost_id',$type)
                     ->where('paiments.classe_id',$classeId)
+                    ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
                     ->with('student.classe')
@@ -257,6 +273,7 @@ class PaimentHelper{
                     ->where('cost_general_id',$idCost)
                     ->where('cost_generals.type_other_cost_id',$type)
                     ->where('paiments.classe_id',$classeId)
+                    ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
                     ->with('student.classe')
@@ -267,7 +284,7 @@ class PaimentHelper{
        return $paiments;
     }
     //GET BETWEEN 2 DATES
-    public function getBetweenDatePaiements($dateTo,$dateFrom,$idSColaryYear,$idCost,$type,$classeId){
+    public function getBetweenDatePaiements($dateTo,$dateFrom,$idSColaryYear,$idCost,$type,$classeId,$keySearch){
         if ($$classeId==0) {
             if ($idCost==0) {
                 $paiements=Paiment::select('students.*','paiments.*')
@@ -276,6 +293,7 @@ class PaimentHelper{
                 ->where('paiments.scolary_year_id',$idSColaryYear)
                 ->whereBetween('paiments.created_at',[$dateTo,$dateFrom])
                 ->where('cost_generals.type_other_cost_id',$type)
+                ->where('students.name','Like','%'.$keySearch.'%')
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
                 ->with('student')
@@ -290,6 +308,7 @@ class PaimentHelper{
                 ->whereBetween('paiments.created_at',[$dateTo,$dateFrom])
                 ->where('cost_general_id',$idCost)
                 ->where('cost_generals.type_other_cost_id',$type)
+                ->where('students.name','Like','%'.$keySearch.'%')
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
                 ->with('student')
@@ -306,6 +325,7 @@ class PaimentHelper{
                 ->whereBetween('paiments.created_at',[$dateTo,$dateFrom])
                 ->where('cost_generals.type_other_cost_id',$type)
                 ->where('paiments.classe_id',$classeId)
+                ->where('students.name','Like','%'.$keySearch.'%')
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
                 ->with('student')
@@ -321,6 +341,7 @@ class PaimentHelper{
                 ->where('cost_general_id',$idCost)
                 ->where('paiments.classe_id',$classeId)
                 ->where('cost_generals.type_other_cost_id',$type)
+                ->where('students.name','Like','%'.$keySearch.'%')
                 ->orderBy('paiments.created_at','DESC')
                 ->with('cost')
                 ->with('student')

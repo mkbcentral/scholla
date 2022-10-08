@@ -14,8 +14,8 @@ use Livewire\Component;
 class RapportFraisByType extends Component
 {
     public $type,$typeData,$scolaryyears,$scolary_id,$defaultScolaryYer;
-    public $month,$months=[],$currentMonth;
-    public $taux=2000,$periode,$classes,$classe_id=0;
+    public $month,$months=[],$currentMonth,$keySearch='';
+    public $taux=2000,$periode,$classes,$classe_id=0,$month_to_edit='';
     public $itemsPeriodeFilter=['Semain en cours','Semaine passée'];
     public  $isMonthSorted=true,$itmePeriodSorted=0,$isDaySorted=false,$status="Min";
     public $costs=[],$cost_id=0,$date_to_search='',$paiment_date,$number_paiment,$paimentToDelete;
@@ -57,8 +57,12 @@ class RapportFraisByType extends Component
     }
 
     public function update(){
+       ;
         $this->validate(['paiment_date'=>'required|date']);
         $this->paiment->created_at=$this->paiment_date;
+        if ($this->month_to_edit != "") {
+            $this->paiment->mounth_name=$this->month_to_edit;
+        }
         $this->paiment->update();
         $this->dispatchBrowserEvent('data-updated',['message'=>"Date bien mise à jour"]);
     }
@@ -91,13 +95,13 @@ class RapportFraisByType extends Component
     {
         if ($this->periode=="Semain en cours") {
             $paiments=(new PaimentHelper())
-            ->getCureentWeekPaiement($this->defaultScolaryYer->id,$this->cost_id,$this->type,$this->classe_id);
+            ->getCureentWeekPaiement($this->defaultScolaryYer->id,$this->cost_id,$this->type,$this->classe_id,$this->keySearch);
             $this->isMonthSorted=false;
             $this->itmePeriodSorted=1;
         } elseif($this->periode=="Semaine passée") {
 
             $paiments=(new PaimentHelper())
-                ->getPassWeekPaiement($this->defaultScolaryYer->id,$this->cost_id,$this->type,$this->classe_id);
+                ->getPassWeekPaiement($this->defaultScolaryYer->id,$this->cost_id,$this->type,$this->classe_id,$this->keySearch);
             $this->isMonthSorted=false;
             $this->itmePeriodSorted=2;
         }else{
@@ -108,7 +112,8 @@ class RapportFraisByType extends Component
                         $this->defaultScolaryYer->id,
                         $this->cost_id,
                         $this->type,
-                        $this->classe_id);
+                        $this->classe_id,
+                        $this->keySearch);
             } else {
                 $paiments=
                     (new PaimentHelper())
@@ -117,7 +122,7 @@ class RapportFraisByType extends Component
                             $this->defaultScolaryYer->id,
                             $this->cost_id,
                             $this->type,
-                            $this->classe_id);
+                            $this->classe_id,$this->keySearch);
 
             }
         }

@@ -62,12 +62,23 @@
                 </thead>
                 <tbody>
                     @foreach ($inscriptions as $index => $inscription)
-                            <tr>
-                                <td style="text-align: center;width: 40px">{{$index+1}}</td>
-                                <td style="">{{$inscription->created_at->format('d/m/Y')}}</td>
-                                <td style="">{{$inscription->student->name}}</td>
-                                <td style="text-align: right">{{$cost->name}}</td>
-                            </tr>
+                            @if (in_array($inscription->created_at->format('d'), $days_arrys) &&
+                                    $inscription->created_at->format('m') == $month)
+                                <tr style="background: rgb(67, 67, 67);color: rgb(222, 221, 221)">
+                                    <td style="text-align: center;width: 40px">{{$index+1}}</td>
+                                    <td style="">{{$inscription->created_at->format('d/m/Y')}}</td>
+                                    <td style="">{{$inscription->student->name}}</td>
+                                    <td style="text-align: right">{{$cost->name}}</td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td style="text-align: center;width: 40px">{{$index+1}}</td>
+                                    <td style="">{{$inscription->created_at->format('d/m/Y')}}</td>
+                                    <td style="">{{$inscription->student->name}}</td>
+                                    <td style="text-align: right">{{$cost->name}}</td>
+                                </tr>
+                            @endif
+
                     @endforeach
                 </tbody>
             </table>

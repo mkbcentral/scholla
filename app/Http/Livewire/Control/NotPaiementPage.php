@@ -24,6 +24,7 @@ class NotPaiementPage extends Component
     public $month_name,$months=[],$currentMonth,$inscription;
     public $paiments=[];
     public  $taux=2000;
+    public $days=[];
 
     public function changeScolaryid(){
         $this->defaultScolaryYer->id=$this->scolary_id;
@@ -54,33 +55,38 @@ class NotPaiementPage extends Component
 
     public function render()
     {
-        $days_numbers=$number = cal_days_in_month(CAL_GREGORIAN, $this->month, date('Y'));
+        $days_numbers= cal_days_in_month(CAL_GREGORIAN, $this->month, date('Y'));
             $days_arry=array();
             for ($i=1; $i <= $days_numbers; $i++) {
                 if ($i>= 25) {
                     $days_arrys[$i]=$i;
                 }
             }
+        $this->days=$days_arrys;
         $this->classes=Classe::orderBy('name','ASC')
             ->with('option')
             ->get();
             $items = array();
-            $paiments=Paiment::select('paiments.*','cost_generals.*')
-                    ->whereMonth('paiments.created_at', $this->month)
-                    ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
-                    ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
-                    ->where('cost_generals.type_other_cost_id',$this->cost_id)
-                    ->where('paiments.scolary_year_id', $this->defaultScolaryYer->id)
-                    ->get();
 
-            foreach ($paiments as $key => $paiment) {
+            $paiments=Paiment::select('paiments.*','cost_generals.*')
+                ->where('paiments.mounth_name', $this->month)
+                ->where('paiments.classe_id',$this->classe_id)
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+                ->where('cost_generals.type_other_cost_id',$this->cost_id)
+                ->where('paiments.scolary_year_id', $this->defaultScolaryYer->id)
+                ->get();
+
+            foreach ($paiments as $paiment) {
                 $items[] = $paiment->student_id;
             }
+            //dd($items);
             $inscriptions=Inscription::whereNotIn('student_id',$items)
-                        ->where('classe_id',$this->classe_id)
+                        ->join('students','inscriptions.student_id','=','students.id')
+                        ->where('inscriptions.classe_id',$this->classe_id)
                         ->where('scolary_year_id', $this->defaultScolaryYer->id)
-                        ->whereNotIn(DB::raw("(DATE_FORMAT(created_at,'%d'))"), $days_arrys)
-                        ->whereMonth('created_at', $this->month)
+                        ->orderBy('students.name','ASC')
+                        //->whereIn(DB::raw("(DATE_FORMAT(created_at,'%d'))"), $days_arrys)
                         ->get();
 
 

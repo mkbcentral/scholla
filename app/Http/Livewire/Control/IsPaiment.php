@@ -32,6 +32,7 @@ class IsPaiment extends Component
         $defualtOption=ClasseOption::where('name','Primaire')->first();
         $this->selectedIndex=$defualtOption->id;
 
+
         $this->option=$defualtOption;
 
         $this->costs=TypeOtherCost::where('active',true)
@@ -66,24 +67,25 @@ class IsPaiment extends Component
 
             $items = array();
             $paiments=Paiment::select('paiments.*','cost_generals.*')
-                    ->whereMonth('paiments.created_at', $this->month)
+                    ->where('paiments.mounth_name', $this->month)
+                    ->where('paiments.classe_id',$this->classe_id)
                     ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                     ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
                     ->where('cost_generals.type_other_cost_id',$this->cost_id)
                     ->where('paiments.scolary_year_id', $this->defaultScolaryYer->id)
                     ->get();
 
-            foreach ($paiments as $key => $paiment) {
+            foreach ($paiments as $paiment) {
                 $items[] = $paiment->student_id;
             }
-            $inscriptions=Inscription::whereNotIn('student_id',$items)
-                        ->where('classe_id',$this->classe_id)
+            $this->paiments=$items;
+
+            $inscriptions=Inscription::whereIn('student_id',$items)
+                        ->join('students','inscriptions.student_id','=','students.id')
+                        ->where('inscriptions.classe_id',$this->classe_id)
                         ->where('scolary_year_id', $this->defaultScolaryYer->id)
-                        ->whereIn(DB::raw("(DATE_FORMAT(created_at,'%d'))"), $days_arrys)
-                        ->whereMonth('created_at', $this->month)
+                        //->whereIn(DB::raw("(DATE_FORMAT(created_at,'%d'))"), $days_arrys)
                         ->get();
-
-
         return view('livewire.control.is-paiment',['inscriptions'=>$inscriptions]);
     }
 }
