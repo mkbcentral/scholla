@@ -16,7 +16,7 @@ use Mike42\Escpos\Printer;
 
 class InscriptionPaimentPage extends Component
 {
-    public $date_to_search,$months=[];
+    public $date_to_search='',$months=[];
     public $taux=2000,$classes,$classe_id=0,$costs,$cost_id=0;
     public $inscription;
     public $paiment_date;
