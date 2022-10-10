@@ -16,14 +16,19 @@ use Mike42\Escpos\Printer;
 
 class InscriptionPaimentPage extends Component
 {
-    public $date_to_search;
+    public $date_to_search,$months=[];
     public $taux=2000,$classes,$classe_id=0,$costs,$cost_id=0;
     public $inscription;
     public $paiment_date;
 
     public function mount(){
-        $this->currenetDate=date('y-m-d');
-        $this->date_to_search=$this->currenetDate;
+        setlocale(LC_TIME, "fr_FR");
+        $this->currentMonth=date('m');
+        $this->month=$this->currentMonth;
+        foreach (range(1,12) as $m) {
+            $this->months[]=date('m',mktime(0,0,0,$m,1));
+        }
+
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $this->classes=Classe::orderBy('name','ASC')->with('option')->get();
         $this->costs=CostInscription::where('scolary_year_id', $this->defaultScolaryYer->id)->get();
