@@ -79,7 +79,16 @@ class RequisitionPage extends Component
     }
 
     public function delete(){
-        $this->requisitiionToDelete->delete();
+        if ($this->requisitiionToDelete->details()) {
+            foreach ($this->requisitiionToDelete->details() as  $detail) {
+               $d=DetailRequisition::find($detail->id);
+               $d->delete();
+            }
+            $this->requisitiionToDelete->delete();
+        } else {
+            $this->requisitiionToDelete->delete();
+        }
+
         $this->dispatchBrowserEvent('data-dialog-deleted',['message'=>"requisitiion bien retirée !"]);
     }
 
