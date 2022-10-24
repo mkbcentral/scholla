@@ -67,14 +67,14 @@
                                     <td>{{$paiment->created_at->format('d/m/Y')}}</td>
                                     <td>{{$paiment->number_paiement}}</td>
                                     <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
-                                    <td>{{$paiment->cost->name }}</td>
+                                    <td>{{$paiment->cost->name.'/'.strftime('%B', mktime(0, 0, 0, $paiment->mounth_name)) }}</td>
                                     <td style="text-align: right">
                                         @if ($paiment->cost->amount==0)
                                             Exemplté
                                         @else
                                             {{number_format($paiment->cost->amount*$taux,1,',',' ') }}
                                         @endif
-                                    }</td>
+                                    </td>
                                 </tr>
                                 @php
                                     $total+=$paiment->cost->amount*$taux;
