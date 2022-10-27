@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group">
                     <x-label value="{{ __('Montant') }}" />
-                    <x-input class="" type='number'
+                    <x-input class="" type='text'
                              placeholder="Montant" wire:model.defer='state.amount'/>
                     @error('name') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
