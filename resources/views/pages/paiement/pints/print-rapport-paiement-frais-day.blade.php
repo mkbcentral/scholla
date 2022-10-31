@@ -33,9 +33,6 @@
         <div>
             <span>Motifs: {{$motif}}</span>
         </div>
-        <span style="margin-top: 8px;margin-bottom: 8px ">
-            Du mois de: {{strftime('%B', mktime(0, 0, 0, $month))}}
-        </span>
         <div>
             <span>Année scolaire: {{$defaultScolaryYer->name}}</span>
         </div>
@@ -67,7 +64,7 @@
                                     <td>{{$paiment->created_at->format('d/m/Y')}}</td>
                                     <td>{{$paiment->number_paiement}}</td>
                                     <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
-                                    <td>{{$paiment->cost->name.'/'.strftime('%B', mktime(0, 0, 0, $paiment->mounth_name)) }}</td>
+                                    <td>{{$paiment->cost->name.'/'.strftime('%B', mktime(0, 0, 0, $paiment->mounth_name,10)) }}</td>
                                     <td style="text-align: right">
                                         @if ($paiment->cost->amount==0)
                                             Exemplté

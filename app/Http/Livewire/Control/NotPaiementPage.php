@@ -32,6 +32,13 @@ class NotPaiementPage extends Component
 
     public function mount()
     {
+        setlocale(LC_TIME, "fr_FR");
+        $this->currentMonth=date('m');
+        $this->month=$this->currentMonth;
+        foreach (range(1,12) as $m) {
+            $this->months[]=date('m',mktime(0,0,0,$m,10));
+        }
+
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $defualtOption=ClasseOption::where('name','Primaire')->first();
         $this->selectedIndex=$defualtOption->id;
@@ -42,12 +49,7 @@ class NotPaiementPage extends Component
             ->where('scolary_year_id', $this->defaultScolaryYer->id)
             ->get();
 
-        setlocale(LC_TIME, "fr_FR");
-        $this->currentMonth=date('m');
-        $this->month=$this->currentMonth;
-        foreach (range(1,12) as $m) {
-            $this->months[]=date('m',mktime(0,0,0,$m,1));
-        }
+
         $this->options=ClasseOption::orderBy('name','ASC')->get();
         $this->scolaryyears=ScolaryYear::all();
 

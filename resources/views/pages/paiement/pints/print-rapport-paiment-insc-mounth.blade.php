@@ -26,7 +26,7 @@
             <span>SITUATION DE PAIMENT DES INSCRIPTIONS MENSUELLE</span>
         </div>
         <div>
-            <span style="margin-top: 8px;margin-bottom: 8px "><span style="font-weight: bold">Mois du</span>: {{strftime('%B', mktime(0, 0, 0, $month))}}</span>
+            <span style="margin-top: 8px;margin-bottom: 8px "><span style="font-weight: bold">Mois de</span>: {{strftime('%B', mktime(0, 0, 0, $month,10))}}</span>
         </div>
         <div>
             <span style="margin-top: 8px;margin-bottom: 8px "><span style="font-weight: bold">Année scolaire</span>: {{$defaultScolaryYer->name}}</span>
