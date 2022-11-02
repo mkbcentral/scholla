@@ -7,6 +7,7 @@ use App\Models\EmitReq;
 use App\Models\Requisition;
 use App\Models\ScolaryYear;
 use App\Models\SourceReq;
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
@@ -57,10 +58,15 @@ class RequisitionPage extends Component
     }
 
     public function update(){
-        //dd($this->state);
         $this->validateData();
 
+        $randCode= (new DateTime($this->state['created_at']))->format('d').'.'.
+                (new DateTime($this->state['created_at']))->format('m')
+                .'.'.(new DateTime($this->state['created_at']))->format('Y')
+                .'.'.rand(100,999);
+        $this->requisitiion->code=$randCode;
         $this->requisitiion->emit_req_id=$this->state['emit_req_id'];
+        $this->requisitiion->created_at=$this->state['created_at'];
         if ($this->state['source_req_id']) {
             $this->requisitiion->source_req_id =$this->state['source_req_id'];
         }

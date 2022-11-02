@@ -31,6 +31,10 @@
                 </div>
                 @if ($isEditable==true)
                     <div class="form-group">
+                        <label for="my-input">Date</label>
+                        <input id="my-input" class="form-control" type="date"  wire:model.defer='state.created_at'>
+                    </div>
+                    <div class="form-group">
                         <x-label value="{{ __('Source ') }}" />
                         <div class="form-group">
                             <select id="my-select" class="form-control" wire:model.defer='state.source_req_id'>
