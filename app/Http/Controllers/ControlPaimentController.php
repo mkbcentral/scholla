@@ -29,6 +29,7 @@ class ControlPaimentController extends Controller
                         ->where('cost_generals.type_other_cost_id',$costId)
                         ->where('paiments.scolary_year_id', $scolaryYearId)
                         ->get();
+                $items=array();
                 foreach ($paiments as $key => $paiment) {
                     $items[] = $paiment->student_id;
                 }
