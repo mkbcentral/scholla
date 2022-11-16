@@ -13,7 +13,7 @@ use Livewire\Component;
 class ListingPaimentPage extends Component
 {
     public $month_name='',$months=[],$currentMonth,$inscription,$isc_id=0;
-    public $paiments=[];
+    public $paiments=[],$studentPaiements=[],$inscriptionToShow;
     public  $taux=2000;
     public $month_select='',$cost_select=0;
     public $cost,$cost_price=0,$cost_id=0;
@@ -44,8 +44,14 @@ class ListingPaimentPage extends Component
     }
 
     public function getCost($id){
+
         $this->cost=CostGeneral::find($id);
         $this->cost_price=$this->cost->amount*2000;
+    }
+
+    public function getPaiements($id,$id_ins){
+        $this->inscriptionToShow=Inscription::find($id_ins);
+        $this->studentPaiements=Paiment::where('student_id',$id)->get();
     }
 
     public function validatePaiement(){

@@ -84,6 +84,12 @@
                                                         data-target="#formPaiementListingModal">
                                                     Passer paiment
                                                 </button>
+                                                <button wire:click.prevent='getPaiements({{$inscription->student->id}},{{$inscription->id}})'
+                                                            class="btn btn-sm btn-primary" type="button"
+                                                        data-toggle="modal"
+                                                        data-target="#showDetailsPaiements">
+                                                   Voir détails
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -105,4 +111,5 @@
 
     @include('livewire.paiment.modals.paiement-form-listing')
     @include('livewire.paiment.modals.show-paiement')
+    @include('livewire.paiment.modals.show-detail-paiement')
 </div>

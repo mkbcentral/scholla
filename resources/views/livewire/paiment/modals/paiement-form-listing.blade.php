@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form
+        <form-
             wire:submit.prevent='validatePaiement'>
             <div class="modal-body">
                 <div class="form-group">
