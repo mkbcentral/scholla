@@ -10,7 +10,20 @@
         </div>
         <form-
             wire:submit.prevent='validatePaiement'>
+
             <div class="modal-body">
+                @if ($inscriptionToShow != null)
+                <div class="card">
+                    <div class="card-body">
+                        <div><span class="text-bold">Nom: </span>{{$inscriptionToShow->student->name}}</div>
+                        <div>
+                            <span class="text-bold">Calsse: </span>
+                            {{$inscriptionToShow->student->classe->name.'/'.$inscriptionToShow->student->classe->option->name}}
+                        </div>
+                    </div>
+                </div>
+                @endif
+
                 <div class="form-group">
                     <x-label value="{{ __('Type frais') }}" />
                     <x-select wire:model='cost_id'>
@@ -36,14 +49,12 @@
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <x-button type="submit" class="btn btn-primary">Valider</x-button>
+            <div class="modal-footer ">
+                <a target="_blank"
+                href="{{ route('print.paiement.cost', [$cost_id,$month_name,$option_id,$isc_id]) }}"
+                  class="btn btn-danger w-100">Valider</a>
             </div>
         </form>
-        <a target="_blank"
-                href="{{ route('print.paiement.cost', [$cost_id,$month_name,$option_id,$isc_id]) }}"
-                  class="btn btn-danger">Valider</a>
-
       </div>
     </div>
   </div>

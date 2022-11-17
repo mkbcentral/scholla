@@ -39,6 +39,7 @@ class ListingPaimentPage extends Component
 
     public function show(Inscription $inscription){
         $this->inscription=$inscription;
+        $this->inscriptionToShow=$inscription;
         $this->isc_id=$inscription->id;
         $this->option_id=$inscription->student->classe->option->id;
     }

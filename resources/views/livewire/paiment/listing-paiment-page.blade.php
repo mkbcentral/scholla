@@ -73,11 +73,6 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                @if (Auth::user()->roles->pluck('name')->contains('Secretaire'))
-
-                                                @else
-
-                                                @endif
                                                 <button wire:click.prevent='show({{$inscription}})'
                                                             class="btn btn-sm btn-info" type="button"
                                                         data-toggle="modal"

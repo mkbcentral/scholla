@@ -29,6 +29,7 @@ class PaiementController extends Controller
 
     public function savePaiment($cost_id,$month,$option_id,$inscription_id){
         //dd($cost_id.' '.$month.' '.$option.' '.$inscription_id);
+        $taux=2000;
         $inscription=Inscription::find($inscription_id);
         $option=ClasseOption::find($option_id);
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
@@ -41,15 +42,22 @@ class PaiementController extends Controller
         $paiement->number_paiement=$this->generateNumberPaiement($option);
         $paiement->user_id=auth()->user()->id;
 
-        if ($paiement->save()) {
+        $paiementExist=Paiment::where('student_id',$inscription->student->id)
+                                ->where('mounth_name',$month)
+                                ->where('scolary_year_id',$defaultScolaryYer->id)
+                                ->first();
+        if ($paiementExist) {
+            $paiement=$paiementExist;
+        }else{
+            $paiement->save();
             $paiement->is_paied=true;
-            $taux=2000;
+
             $paiement->update();
-            $pdf = App::make('dompdf.wrapper');
-            $pdf->loadView('pages.paiement.pints.print-recu-paiment',
-                compact(['paiement','taux']));
-            return $pdf->stream();
         }
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.paiement.pints.print-recu-paiment',
+            compact(['paiement','taux']));
+        return $pdf->stream();
 
 
 
