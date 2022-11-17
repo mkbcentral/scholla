@@ -41,19 +41,20 @@ class PaiementController extends Controller
         $paiement->mounth_name=$month;
         $paiement->number_paiement=$this->generateNumberPaiement($option);
         $paiement->user_id=auth()->user()->id;
-
+        /*
         $paiementExist=Paiment::where('student_id',$inscription->student->id)
                                 ->where('mounth_name',$month)
                                 ->where('scolary_year_id',$defaultScolaryYer->id)
-                                ->first();
+                               ->first();
         if ($paiementExist) {
            dd($paiementExist);
         }else{
-            $paiement->save();
-            $paiement->is_paied=true;
 
-            $paiement->update();
         }
+        */
+        $paiement->save();
+        $paiement->is_paied=true;
+        $paiement->update();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('pages.paiement.pints.print-recu-paiment',
             compact(['paiement','taux']));
