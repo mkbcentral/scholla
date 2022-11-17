@@ -47,7 +47,7 @@ class PaiementController extends Controller
                                 ->where('scolary_year_id',$defaultScolaryYer->id)
                                 ->first();
         if ($paiementExist) {
-            $paiement=$paiementExist;
+           dd("Exist");
         }else{
             $paiement->save();
             $paiement->is_paied=true;
