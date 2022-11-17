@@ -131,9 +131,21 @@
                     <th class="text-center">ACTIONS</th>
                 </tr>
             </thead>
+
             <tbody>
+                @php
+                    $dups=array();
+                    $rep=0;
+                @endphp
                 @foreach ($paiments as $index=> $paiment)
-                    <tr>
+                    @php
+                        $dups[]=$paiment->student->id;
+                        $array = array_unique( array_diff_assoc( $dups, array_unique( $dups ) ) );
+                       foreach ($array as $a) {
+                            $rep=$a;
+                       }
+                    @endphp
+                    <tr class="{{$paiment->student->id==$rep?'text-danger':''}}">
                         <td>{{$index+1}}</td>
                         <td class="text-primary">
                             <a href="#" data-toggle="modal"
