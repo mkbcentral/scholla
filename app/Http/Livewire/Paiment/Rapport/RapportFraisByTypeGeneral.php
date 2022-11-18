@@ -15,7 +15,7 @@ use Livewire\Component;
 class RapportFraisByTypeGeneral extends Component
 {
     public $type,$typeData,$typeFilters=['Tout','Dépot banque','Fonctionnement','Dépenses'];
-    public $taux=2000,$costs=[],$cost_id=0,$defaultScolaryYer,$classes,$classe_id=0;
+    public $taux=2000,$costs=[],$cost_id=0,$defaultScolaryYer=0,$classes,$classe_id=0;
 
     public $dateTo="none",$dateFrom="none",$paiementDepanse,$paiementDepanseShow,$paiementRegularisation,
     $paiementRegularisationShow,$pai_amount,$mt=0;

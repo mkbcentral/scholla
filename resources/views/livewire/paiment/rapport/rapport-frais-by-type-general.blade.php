@@ -114,7 +114,9 @@
                 </button>
                 <div class="dropdown-menu" role="menu" >
                     @foreach ($typeFilters as $item)
-                        <a target="_blank" class="dropdown-item" href="{{ route('paiement.frais.global.print', [$item,$cost_id,$type,$classe_id]) }}" >{{$item}}</a>
+                        <a target="_blank" class="dropdown-item"
+                        href="{{ route('paiement.frais.global.print',
+                        [$item,$cost_id,$type,$classe_id,$defaultScolaryYer]) }}" >{{$item}}</a>
                     @endforeach
                 </div>
             </div>
@@ -209,7 +211,7 @@
                         </td>
                         <td>{{$paiment->number_paiement}}</td>
                         <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
-                        <td>{{$paiment->cost->name }}</td>
+                        <td>{{$paiment->cost->name.'/'.$paiment->mounth_name }}</td>
                         <td class="text-right">
                             @if ($paiment->depense)
                                 <span class="bg-danger p-1">

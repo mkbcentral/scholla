@@ -116,7 +116,7 @@ Route::middleware('auth')->group(function(){
                 ,'printRapportPaiemenFraisDay')
             ->name('paiement.frais.day.print');
 
-        Route::get('print-rapport-paiment-frais-global/{type}/{cost_id}/{paiement_type}/{classe_id}',
+        Route::get('print-rapport-paiment-frais-global/{type}/{cost_id}/{paiement_type}/{classe_id}/{idScolaryYer}',
             'printRapportGlobalFrais')->name('paiement.frais.global.print');
 
         //DEPOT BANK
