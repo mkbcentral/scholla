@@ -34,10 +34,12 @@ class RecttesController extends Controller
                 $total_deps=$total_details;
             }
         return response()->json([
-            'amount_paiment'=>$paiment*2000,
-            'amount_inscrption'=>$inscription*2000,
-            'amount_depense'=>$total_deps,
-            'solde'=>($paiment*2000+$inscription*2000)-$total_deps
+            'recette'=>[
+                'amount_paiment'=>$paiment*2000,
+                'amount_inscrption'=>$inscription*2000,
+                'amount_depense'=>$total_deps,
+                'solde'=>($paiment*2000+$inscription*2000)-$total_deps
+            ]
         ],200);
     }
 }
