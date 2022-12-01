@@ -52,7 +52,7 @@ class RecttesController extends Controller
         ->where('inscriptions.is_paied',true)
         ->sum('cost_inscriptions.amount');
         $paiment=Paiment::join('cost_generals','paiments.cost_general_id','=','cost_generals.id')
-            ->where('paiments.mounth_name',$this->month)
+            ->where('paiments.mounth_name',$month)
             ->where('paiments.is_paied',true)
             ->sum('cost_generals.amount');
         $depenses=Requisition::whereMonth('created_at',$month)
