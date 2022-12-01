@@ -52,7 +52,7 @@ class DashbaordFinancePage extends Component
                 ->where('inscriptions.is_paied',true)
                 ->sum('cost_inscriptions.amount');
             $paiment=Paiment::join('cost_generals','paiments.cost_general_id','=','cost_generals.id')
-                ->whereMonth('paiments.created_at',$this->month)
+                ->where('paiments.mounth_name',$this->month)
                 ->where('paiments.is_paied',true)
                 ->sum('cost_generals.amount');
             $depenses=Requisition::whereMonth('created_at',$this->month)
