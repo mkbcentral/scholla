@@ -22,4 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(RecttesController::class)->group(function(){
     Route::get('recettes-by-day/{date}','getRecttesByDay');
     Route::get('recettes-by-month/{month}','getByMonth');
+    Route::get('recettes-minerval-by-month/{month}','getMinervalByMonth');
+    Route::get('recettes-minerval-by-day/{day}','getMinervalByDay');
 });
