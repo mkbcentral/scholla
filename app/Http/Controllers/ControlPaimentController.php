@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use App\Models\CostGeneral;
 use App\Models\Inscription;
 use App\Models\Paiment;
 use App\Models\ScolaryYear;
@@ -83,6 +84,33 @@ class ControlPaimentController extends Controller
                 $pdf = App::make('dompdf.wrapper');
                 $pdf->loadView('pages.control.prints.print-is-paiment',
                 compact(['inscriptions','scolaryYear','classe','cost','month']));
+                return $pdf->stream();
+        }
+
+        public function printControlNotOtherPaiment($classeId,$costId,$scolaryYearId){
+            $cost=CostGeneral::find($costId);
+            $paiments=Paiment::select('paiments.*','cost_generals.*')
+                ->where('paiments.classe_id',$classeId)
+                ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+                ->where('paiments.cost_general_id',$costId)
+                ->where('paiments.scolary_year_id', $scolaryYearId)
+                ->get();
+                foreach ($paiments as $key => $paiment) {
+                    $items[] = $paiment->student_id;
+                }
+                $inscriptions=Inscription::whereNotIn('student_id',$items)
+                        ->join('students','inscriptions.student_id','=','students.id')
+                        ->where('inscriptions.classe_id',$classeId)
+                        ->where('scolary_year_id', $scolaryYearId)
+                        ->orderBy('students.name','ASC')
+                        //->whereIn(DB::raw("(DATE_FORMAT(created_at,'%d'))"), $days_arrys)
+                        ->get();
+                $scolaryYear=ScolaryYear::find($scolaryYearId);
+                $classe=Classe::find($classeId);
+                $pdf = App::make('dompdf.wrapper');
+                $pdf->loadView('pages.control.prints.print-other-control-page',
+                compact(['inscriptions','scolaryYear','classe','cost']));
                 return $pdf->stream();
         }
 

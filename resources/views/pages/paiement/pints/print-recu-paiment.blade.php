@@ -25,7 +25,7 @@
                 font-family: Consolas, monaco, monospace;
                 font-size: 23px;">
    <div>
-    <div style="font-weight: bold"><Span>COMPLEX SCOLAIRE AQUILA</Span></div>
+    <div style="font-weight: bold"><Span>COMPLEXE SCOLAIRE AQUILA</Span></div>
     <div><span style="font-weight: bold">Golf Plateau </span></div>
     <div><span style="font-weight: bold">Q.MUKUNTO C/ANNEXE</span></div>
     <br>
