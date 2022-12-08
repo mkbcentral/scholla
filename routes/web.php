@@ -126,6 +126,7 @@ Route::middleware('auth')->group(function(){
     Route::controller(ControlPaimentController::class)->group(function(){
         Route::get('print-control-paiment/{classeId}/{costId}/{month}/{scolaryYearId}','printControlPaiment')->name('control.paiment');
         Route::get('print-is-paiment/{classeId}/{costId}/{month}/{scolaryYearId}','printControlIsPaiment')->name('is.paiment');
+        Route::get('print-other-paiment/{classeId}/{costId}/{scolaryYearId}','printControlIsOtherPaiment')->name('is.other.paiment');
         Route::get('print-not-other-paiment/{classeId}/{costId}/{scolaryYearId}','printControlNotOtherPaiment')->name('not.other.paiment');
     });
 

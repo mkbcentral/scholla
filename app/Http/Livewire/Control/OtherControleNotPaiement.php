@@ -11,7 +11,7 @@ use App\Models\ScolaryYear;
 use App\Models\TypeOtherCost;
 use Livewire\Component;
 
-class OtherControlePaiement extends Component
+class OtherControleNotPaiement extends Component
 {
     public $selectedIndex=0;
     public $classes,$classe_id=0,$cost_id=0,$scolaryyears,$scolary_id;
@@ -82,7 +82,7 @@ class OtherControlePaiement extends Component
                 $items[] = $paiment->student_id;
             }
             //dd($items);
-            $inscriptions=Inscription::whereIn('student_id',$items)
+            $inscriptions=Inscription::whereNotIn('student_id',$items)
                         ->join('students','inscriptions.student_id','=','students.id')
                         ->where('inscriptions.classe_id',$this->classe_id)
                         ->where('scolary_year_id', $this->defaultScolaryYer->id)
@@ -90,6 +90,6 @@ class OtherControlePaiement extends Component
                         ->with(['student.classe.option'])
                         ->get();
             $this->tranches=CostGeneral::where('type_other_cost_id',$this->cost_id)->get();
-        return view('livewire.control.other-controle-paiement',['inscriptions'=>$inscriptions]);
+        return view('livewire.control.other-controle-not-paiement',['inscriptions'=>$inscriptions]);
     }
 }

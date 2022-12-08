@@ -31,8 +31,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link " href="#otherNot" data-toggle="tab">
+                                <i class="fas fa-file-alt"></i> Frais de l'état et connxes pas en ordre
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link " href="#other" data-toggle="tab">
-                                <i class="fas fa-file-alt"></i> Frais de l'état et connxes
+                                <i class="fas fa-file-alt"></i> Frais de l'état et connxes en ordre
                             </a>
                         </li>
                     </ul>
@@ -45,9 +50,13 @@
                         <div class=" tab-pane" id="paiment">
                             @livewire('control.is-paiment')
                         </div>
-                        <div class=" tab-pane" id="other">
-                           @livewire('control.other-controle-paiement')
+                        <div class=" tab-pane" id="otherNot">
+
+                           @livewire('control.other-controle-not-paiement')
                         </div>
+                        <div class=" tab-pane" id="other">
+                            @livewire('control.other-controle-paiement')
+                         </div>
                     </div>
                     <!-- /.tab-content -->
                     </div><!-- /.card-body -->

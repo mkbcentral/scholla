@@ -65,11 +65,11 @@
                             </span>
                         @else
                         <div>
-                            <div><h4 class="text-uppercase text-bold text-danger">Liste des élèves qui sont en ordre</h4></div>
+                            <div><h4 class="text-uppercase text-bold text-danger">Liste des élèves qui ne sont pas en ordre</h4></div>
                         </div>
                         <div class="d-flex justify-content-end ">
                             <span class="mr-4"><h3>Total: {{$inscriptions->count()}}</h3></span>
-                            <a target="_blank" href="{{ route('is.other.paiment',
+                            <a target="_blank" href="{{ route('not.other.paiment',
                                 [ $classe_id,$tranche_id,$this->defaultScolaryYer->id]) }}" class="btn btn-info btn-sm">Imprimer</a>
                         </div>
                         <table class="table table-stripped table-sm mt-4">
