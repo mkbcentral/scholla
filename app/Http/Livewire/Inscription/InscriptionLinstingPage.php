@@ -23,6 +23,7 @@ class InscriptionLinstingPage extends Component
     public $optionn,$defaultScolaryYer,$options=[];
     public $label_date='';
     public $classesToEdit;
+    public $isBascule=false,$isAbondon=false,$isRefresh=false;
     public $studentToDelete,$inscriptionToActive,$inscriptionToDelete;
     protected $listeners=['deleteStudentListener'=>'deleteStudent','activeStudentListener'=>'activeStudent'];
 
@@ -165,9 +166,42 @@ class InscriptionLinstingPage extends Component
     }
 
     public function activeStudent(){
+        if ( $this->inscriptionToActive->active==false) {
+            $this->inscriptionToActive->active=true;
+        } else {
+            $this->inscriptionToActive->active=false;
+        }
         $this->inscriptionToActive->active=false;
         $this->inscriptionToActive->update();
         $this->dispatchBrowserEvent('data-updated',['message'=>"Elève marqué abondon !"]);
+    }
+
+    public function markIsBascule(Inscription $inscription){
+        if ($inscription->is_bascule==false) {
+            $inscription->is_bascule=true;
+        } else {
+            $inscription->is_bascule=false;
+        }
+        $inscription->update();
+        $this->dispatchBrowserEvent('data-updated',['message'=>"Eleve marqué bascule !"]);
+    }
+
+    public function isBascule(){
+        $this->isBascule=true;
+        $this->isAbondon=false;
+        $this->isRefresh=false;
+    }
+
+    public function isRefresh(){
+        $this->isBascule=false;
+        $this->isAbondon=false;
+        $this->isRefresh=true;
+    }
+
+    public function isAbondon(){
+        $this->isBascule=false;
+        $this->isAbondon=true;
+        $this->isRefresh=false;
     }
 
 
@@ -178,7 +212,21 @@ class InscriptionLinstingPage extends Component
             ->with('option')
             ->get();
         $this->options=ClasseOption::orderBy('name','ASC')->get();
-            $inscriptions=(new InscriptionHelper())->getByScolaryYearByClasse($this->defaultScolaryYer->id,$this->keySearch,$this->classe_id);
+
+        if ($this->isBascule==true) {
+            $inscriptions=(new InscriptionHelper())
+                ->getByScolaryYearByClasse($this->defaultScolaryYer->id,$this->keySearch,$this->classe_id,true,true);
+        } elseif($this->isAbondon==true) {
+            $inscriptions=(new InscriptionHelper())
+                ->getByScolaryYearByClasse($this->defaultScolaryYer->id,$this->keySearch,$this->classe_id,false,false);
+        }elseif ($this->isRefresh==true) {
+            $inscriptions=(new InscriptionHelper())
+            ->getByScolaryYearByClasse($this->defaultScolaryYer->id,$this->keySearch,$this->classe_id,false,true);
+        }else{
+            $inscriptions=(new InscriptionHelper())
+            ->getByScolaryYearByClasse($this->defaultScolaryYer->id,$this->keySearch,$this->classe_id,false,true);
+        }
+
         return view('livewire.inscription.inscription-linsting-page',['inscriptions'=>$inscriptions]);
     }
 }

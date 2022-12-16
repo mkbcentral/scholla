@@ -50,7 +50,7 @@
                                     <tr class="text-uppercase">
                                         <th>N°</th>
                                         <th>Noms élèves</th>
-                                        <th>Calsse</th>
+                                        <th>Classe</th>
                                         <th class="text-center">Genre</th>
                                         <th class="text-center">Age</th>
                                         <th class="text-center">Actions</th>
@@ -58,10 +58,13 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($inscriptions as $index=> $inscription)
-                                        <tr>
+                                        <tr class="{{$inscription->is_bascule==true?'bg-danger':''}}">
                                             <td>{{ $index+1}}</td>
                                             <td>{{$inscription->student->name}}</td>
-                                            <td>{{$inscription->student->classe->name.'/'.$inscription->student->classe->option->name}}</td>
+                                            <td>
+                                                {{$inscription->student->classe->name.'/'.$inscription->student->classe->option->name}}
+                                                {{$inscription->is_bascule==true?'| Ancienne classe de bascule':''}}
+                                            </td>
                                             <td class="text-center">{{$inscription->student->gender}}</td>
                                             <td class="text-center">
                                                 @if (date('Y')-$inscription->student->date_of_birth->format('Y')==0)

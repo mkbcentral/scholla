@@ -49,17 +49,17 @@
                     <table sty>
                         <thead style="background: rgb(67, 67, 67);color: rgb(222, 221, 221)">
                             <tr>
-                                <th>N°</th>
+                                <th >N°</th>
                                 <th>DATE</th>
                                 <th>CODE</th>
                                 <th>ELEVE</th>
                                 <th>TYPE</th>
                                 <th style="text-align: right">MONTANT</th>
                             </tr>
-                        </thead>
+                        </thead >
                         <tbody>
                             @foreach ($paiments as $index=> $paiment)
-                                <tr>
+                                <tr style="{{$paiment->is_paied==false?'background: rgb(67, 67, 67);color:rgb(222, 221, 221)':''}}">
                                     <td>{{$index+1}}</td>
                                     <td>{{$paiment->created_at->format('d/m/Y')}}</td>
                                     <td>{{$paiment->number_paiement}}</td>

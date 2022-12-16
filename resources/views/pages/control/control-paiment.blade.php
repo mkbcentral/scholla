@@ -40,6 +40,11 @@
                                 <i class="fas fa-file-alt"></i> Frais de l'état et connxes en ordre
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#general" data-toggle="tab">
+                                <i class="fas fa-file-alt"></i>Control général
+                            </a>
+                        </li>
                     </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
@@ -56,6 +61,9 @@
                         </div>
                         <div class=" tab-pane" id="other">
                             @livewire('control.other-controle-paiement')
+                         </div>
+                         <div class=" tab-pane" id="general">
+                            @livewire('control.general-control')
                          </div>
                     </div>
                     <!-- /.tab-content -->

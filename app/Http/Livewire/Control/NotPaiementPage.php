@@ -59,15 +59,15 @@ class NotPaiementPage extends Component
     {
         $days_numbers= cal_days_in_month(CAL_GREGORIAN, $this->month, date('Y'));
             $days_arry=array();
-            for ($i=1; $i <= $days_numbers; $i++) {
+            for ($i=1; $i <= $days_numbers; $i++) {$this->classes=Classe::orderBy('name','ASC')
+            ->with('option')
+            ->get();
                 if ($i>= 25) {
                     $days_arrys[$i]=$i;
                 }
             }
         $this->days=$days_arrys;
-        $this->classes=Classe::orderBy('name','ASC')
-            ->with('option')
-            ->get();
+
             $items = array();
 
             $paiments=Paiment::select('paiments.*','cost_generals.*')

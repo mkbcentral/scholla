@@ -457,14 +457,15 @@ class InscriptionHelper{
         return $inscriptions;
     }
 
-    public function getByScolaryYearByClasse($scolaryYearId,$keySearch,$classeId){
+    public function getByScolaryYearByClasse($scolaryYearId,$keySearch,$classeId,$is_bascule,$abandon){
         $inscriptions=Inscription::select('students.*','inscriptions.*')
                 ->join('students','inscriptions.student_id','=','students.id')
                 ->where('inscriptions.classe_id',$classeId)
                 ->where('inscriptions.scolary_year_id',$scolaryYearId)
                 ->where('students.name','Like','%'.$keySearch.'%')
                 ->orderBy('students.name','ASC')
-                ->where('inscriptions.active',true)
+                ->where('inscriptions.active',$abandon)
+                ->where('inscriptions.is_bascule',$is_bascule)
                 ->with('student')
                 ->with('student.classe')
                 ->with('student.classe.option')

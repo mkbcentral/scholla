@@ -4,7 +4,6 @@
      <section class="content">
         <div class="container-fluid">
           <div class="row">
-
             <!-- /.col -->
             <div class="col-md-12">
               <div class="card">
@@ -22,40 +21,7 @@
                                     @endforeach
                                 </x-select>
                             </div>
-                            <div class="form-group pr-4">
-                                <x-label value="{{ __('Filtrer par type frais') }}" />
-                                <x-select wire:model='cost_id'>
-                                    <option value="0">Choisir...</option>
-                                    @foreach ($costs as $cost)
-                                        <option value="{{$cost->id}}">{{$cost->name}}</option>
-                                    @endforeach
-                                </x-select>
-                            </div>
                            </div>
-                           <div class="form-group">
-                                <label for="my-select">Anné scolaire</label>
-                              <div class="input-group date"  >
-                                <select id="my-select" class="form-control" wire:model.defer='scolary_id'>
-                                    <option >Choisir...</option>
-                                    @foreach ($scolaryyears as $year)
-                                        <option wire:click.prevent='changeScolaryid' value="{{$year->id}}">{{$year->name}}</option>
-                                    @endforeach
-                                </select>
-                                  <div class="input-group-append" >
-                                        <button wire:click='changeScolaryid' class="btn btn-info" type="button"><i class="fa fa-search"></i></button>
-                                  </div>
-                              </div>
-                          </div>
-                            <div class="mr-4">
-                                <div class="form-group pr-4">
-                                    <x-label value="{{ __('Filtrer par moi') }}" />
-                                    <x-select wire:model='month'>
-                                        @foreach ($months as $m)
-                                            <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m,10))}}</option>
-                                        @endforeach
-                                    </x-select>
-                                </div>
-                            </div>
                        </div>
                        <div>
                         @if ($inscriptions->isEmpty())
@@ -70,8 +36,7 @@
                         </div>
                         <div class="d-flex justify-content-end ">
                             <span class="mr-4"><h3>Total: {{$inscriptions->count()}}</h3></span>
-                            <a target="_blank" href="{{ route('control.paiment',
-                                [ $classe_id,$cost_id,$this->month,$this->defaultScolaryYer->id,$classe_id]) }}" class="btn btn-info btn-sm">Imprimer</a>
+                            <a target="_blank" href="" class="btn btn-info btn-sm">Imprimer</a>
                         </div>
                         <table class="table table-stripped table-sm mt-4">
                             <thead class="thead-light">
@@ -79,8 +44,15 @@
                                     <th>N°</th>
                                     <th>Date insc.</th>
                                     <th>Noms élèves</th>
-                                    @for ($i = 10; $i <= 12; $i++)
-                                        <th>{{$i}}</th>
+                                    @for ($i = 12; $i >=1; $i--)
+                                        @php
+                                           if ($i<10) {
+                                            $month="0".$i;
+                                           }else {
+                                            $month=$i;
+                                           }
+                                        @endphp
+                                        <th>{{$month}}</th>
                                     @endfor
                                 </tr>
                             </thead>
@@ -92,8 +64,15 @@
                                         <td>{{ $index+1}}</td>
                                         <td>{{$inscription->created_at->format('d/m/Y')}}</td>
                                         <td>{{$inscription->student->name}}</td>
-                                        @for ($i = 10; $i <= 12; $i++)
-                                            @if ($inscription->student->paiement->month_name==$i)
+                                        @for ($i = 12; $i >=1 ; $i--)
+                                            @php
+                                                if ($i<10) {
+                                                    $month="0".$i;
+                                                }else {
+                                                    $month=$i;
+                                                }
+                                            @endphp
+                                            @if ($inscription->student->paiement->month_name==$month)
                                                 <td>OK</td>
                                             @else
                                                 <td>-</td>
@@ -106,8 +85,15 @@
                                         <td>{{ $index+1}}</td>
                                         <td>{{$inscription->created_at->format('d/m/Y')}}</td>
                                         <td>{{$inscription->student->name}}</td>
-                                        @for ($i = 10; $i <= 12; $i++)
-                                            @if ($inscription->student->paiement?->mounth_name == $i)
+                                        @for ($i = 12; $i >=1; $i--)
+                                            @php
+                                                if ($i<10) {
+                                                    $month="0".$i;
+                                                }else {
+                                                    $month=$i;
+                                                }
+                                            @endphp
+                                            @if ($inscription->student->paiement?->mounth_name == $month)
                                                <td>OK</td>
                                             @else
                                                 <td>-</td>

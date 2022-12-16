@@ -158,7 +158,7 @@
                                 data-target="#editPaiementNumberModal" wire:click.prevent='edit({{$paiment}})'>
                                 {{$paiment->number_paiement}}</td>
                             </a>
-                        <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
+                        <td  class="{{$paiment->is_paied==false?'text-danger':''}}">{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
                         <td>{{$paiment->cost->name.'/'.strftime('%B', mktime(0, 0, 0, $paiment->mounth_name,10)) }}</td>
                         <td class="text-right">{{number_format($paiment->cost->amount*$taux,1,',',' ') }}</td>
                         <td class="text-center">
