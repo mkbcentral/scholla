@@ -90,6 +90,10 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
+                        <x-nav-link class="nav-link" href="{{ route('recettes.index') }}" :active="request()->routeIs('recettes.index')">
+                            &#x1F4C1;
+                            Nos recettes
+                        </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('bank.index') }}" :active="request()->routeIs('bank.index')">
                             &#x1F6BC;
                             Mouvements banques
@@ -109,6 +113,13 @@
                         <x-nav-link class="nav-link" href="{{ route('evolution.index') }}" :active="request()->routeIs('evolution.index')">
                             &#x1F4C8;
                             Evolution inscription
+                        </x-nav-link>
+                        <x-nav-link class="nav-link" href="{{ route('paiment.cost') }}" :active="request()->routeIs('paiment.cost')">
+                            <i class="fa fa-file" aria-hidden="true"></i>
+                            <p>{{Auth::user()->roles->pluck('name')->contains('Finance')?
+                                'Paiement autres frais':
+                                'Historique éleves'
+                                }}</p>
                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('school.index') }}" :active="request()->routeIs('school.index')">
                             &#x1F3EB;
@@ -158,7 +169,10 @@
                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('paiment.cost') }}" :active="request()->routeIs('paiment.cost')">
                             &#x1F4B8;
-                            Paiment autres frais
+                            <p>{{Auth::user()->roles->pluck('name')->contains('Finance')?
+                                'Paiement autres frais':
+                                'Historique éleves'
+                                }}</p>
                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('paie.papport.inscription.mounth') }}" :active="request()->routeIs('paie.papport.inscription.mounth')">
                             &#x1F4C3;
@@ -166,6 +180,10 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
+                        <x-nav-link class="nav-link" href="{{ route('recettes.index') }}" :active="request()->routeIs('recettes.index')">
+                            &#x1F4C1;
+                            Nos recettes
+                        </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('bank.index') }}" :active="request()->routeIs('bank.index')">
                             &#x1F6BC;
                             Mouvements banques

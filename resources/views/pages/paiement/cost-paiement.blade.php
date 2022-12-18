@@ -24,19 +24,20 @@
                                &#x1F4B8; Sous listing
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#bus" data-toggle="tab">
-                                &#x1F4B0; Par option
-                            </a>
-                        </li>
-
+                            @if (Auth::user()->roles->pluck('name')->contains('Finance'))
+                                <li class="nav-item">
+                                    <a class="nav-link  " href="#bus" data-toggle="tab">
+                                        &#x1F4B0; Par option
+                                    </a>
+                                </li>
+                            @endif
                       </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
                       <div class="tab-content">
                         <div class="active tab-pane" id="mouth">
                            <div>
-                                @livewire('paiment.listing-paiment-page')
+                                    @livewire('paiment.listing-paiment-page')
                            </div>
                         </div>
                         <div class=" tab-pane" id="bus">

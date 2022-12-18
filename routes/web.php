@@ -7,11 +7,13 @@ use App\Http\Controllers\MouvementBankController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PaimentPrinterConteroller;
+use App\Http\Controllers\RecetteController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Livewire\Depense\DepensesByPaiments;
 use App\Http\Livewire\Helpers\RapportPaimentHepler;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByType;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByTypeGeneral;
+use App\Http\Livewire\Recettes\RecettesPage;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', function () {
     return (new RapportPaimentHepler())->getPaiementsByType("2022-2023");
 });
+
+Route::get('/lit-student', function () {
+    return view('dashbaord');
+
+})->name('student.list');
 
 
 Route::middleware('auth')->group(function(){
@@ -139,6 +146,10 @@ Route::middleware('auth')->group(function(){
     Route::controller(MouvementBankController::class)->group(function(){
         Route::get('print-bank-depot/{month}','printDepotBank')->name('bank.depot.print');
         Route::get('print-bank-depot-all','printDepotBankAll')->name('bank.depot.print.all');
+    });
+    Route::get('/recettes',RecettesPage::class)->name('recettes.index');
+    Route::controller(RecetteController::class)->group(function(){
+        Route::get('/print-recettes/{month}','printRecettes')->name('recettes.print');
     });
 });
 

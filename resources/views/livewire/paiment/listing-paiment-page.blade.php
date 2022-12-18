@@ -76,12 +76,15 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
+                                                @if (Auth::user()->roles->pluck('name')->contains('Finance'))
                                                 <button wire:click.prevent='show({{$inscription}})'
-                                                            class="btn btn-sm btn-info" type="button"
-                                                        data-toggle="modal"
-                                                        data-target="#formPaiementListingModal">
-                                                    Passer paiment
+                                                    class="btn btn-sm btn-info" type="button"
+                                                    data-toggle="modal"
+                                                    data-target="#formPaiementListingModal">
+                                                    Payer
                                                 </button>
+                                                @endif
+
                                                 <button wire:click.prevent='getPaiements({{$inscription->student->id}},{{$inscription->id}})'
                                                             class="btn btn-sm btn-primary" type="button"
                                                         data-toggle="modal"
