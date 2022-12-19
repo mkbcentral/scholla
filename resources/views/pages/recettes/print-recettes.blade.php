@@ -48,30 +48,37 @@ PA<!DOCTYPE html>
                 @foreach ($costs as $index => $cost)
                     <tr>
                         <td style="text-align: center;width: 40px">{{$index+1}}</td>
-                        <td style="text-align: left">
+                        <td style="text-align: left;text-transform: uppercase">
                             {{$cost->name}}
                         </td>
                         <td style="text-align: right">{{number_format($cost->getTotal($month,$cost->id)*2000,1,',',' ')}}</td>
                     </tr>
                     @php
-                        $total+=$cost->getTotal('12',$cost->id)*2000;
+                        $total+=$cost->getTotal($month,$cost->id)*2000;
                         if ($cost->id==6) {
-                            $total_etat+=$cost->getTotal('12',$cost->id)*2000;
+                            $total_etat+=$cost->getTotal($month,$cost->id)*2000;
                         }
                     @endphp
                 @endforeach
+                <tr>
+                    <td style="text-align: center;width: 40px">7</td>
+                    <td style="text-align: left">
+                        INSCRIPTION
+                    </td>
+                    <td style="text-align: right">{{number_format($inscription*2000,1,',',' ')}}</td>
+                </tr>
             </tbody>
         </table>
         <div style="text-align: right;font-size: 20px;margin-top: 10px;">
            <div style=" border: 1px solid rgb(112, 104, 104)">
                 <div style="background: rgb(132, 131, 131);color: white">
-                    <span style="font-weight: bold">Total: </span><span>{{ number_format($total,1,',',' ') }} Fc</span>
+                    <span style="font-weight: bold">Total: </span><span>{{ number_format($total+$inscription*2000,1,',',' ') }} Fc</span>
                 </div>
                 <div style="background: rgb(126, 115, 115);color: white">
                     <span style="font-weight: bold">Compte état: </span><span>{{ number_format($total_etat,1,',',' ') }} Fc</span>
                 </div>
                 <div style="background: rgb(66, 66, 66);color: white">
-                    <span style="font-weight: bold;">Solde école: </span><span>{{ number_format($total-$total_etat,1,',',' ') }} Fc</span>
+                    <span style="font-weight: bold;">Solde école: </span><span>{{ number_format($total+$inscription*2000-$total_etat,1,',',' ') }} Fc</span>
                 </div>
            </div>
             <div style="margin-top: 8px">
