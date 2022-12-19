@@ -81,57 +81,7 @@
     </div>
 </div>
 <script setup>
-    var options = {
-        chart: {
-            type: 'area',
-            height: 350,
-            zoom: {
-                enabled: true
-            },
-            animations:{
-                enabled:true
-            }
-        },
 
-        legend: {
-          horizontalAlign: 'left'
-        },
-        series: [{
-            name: 'Nombre',
-            data: @json($valuesTypesX)
-        },
-    ],
-        xaxis: {
-            categories: @json($valuesTypesY)
-        }
-
-    }
-    var options2 = {
-        legend: {
-          horizontalAlign: 'left'
-        },
-        dataLabels: {
-                enabled: false,
-            },
-        chart: {
-            type: 'pie',
-            height:500,
-            expandOnClick: true,
-            customScale: 0.8,
-            size: 100,
-            zoom: {
-                enabled: true
-            },
-            animations:{
-                enabled:true
-            }
-        },
-        series: @json($valuesInscData),
-        labels: @json($valuesInscLabel),
-        chartOptions: {
-            labels: @json($valuesInscLabel)
-        }
-    }
     var chart = new ApexCharts(document.querySelector("#chart-dash"), options);
     var chart2 = new ApexCharts(document.querySelector("#chart-dash2"), options2);
     chart2.render();

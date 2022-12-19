@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div class="card">
      <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
@@ -70,7 +71,11 @@
      </div>
      </div>
     </div>
-
+    <div class="card">
+        <div class="card-body">
+            <div id="chart-paie"></div>
+        </div>
+    </div>
  </div>
 
  <script setup>
@@ -100,9 +105,36 @@
              labels: @json($dataRecetteLabel)
          }
      }
-
+     var options2 = {
+        legend: {
+          horizontalAlign: 'left'
+        },
+        dataLabels: {
+                enabled: false,
+            },
+        chart: {
+            type: 'pie',
+            height:500,
+            expandOnClick: true,
+            customScale: 0.8,
+            size: 100,
+            zoom: {
+                enabled: true
+            },
+            animations:{
+                enabled:true
+            }
+        },
+        series: @json($valuesMonthY),
+        labels: @json($valuesMonthY),
+        chartOptions: {
+            labels: @json($valuesMonthY)
+        }
+    }
      var chart = new ApexCharts(document.querySelector("#chart-dash-fin"), options);
+     var chart2 = new ApexCharts(document.querySelector("#chart-paie"), options2);
      chart.render();
+     chart2.render();
 
 
  </script>

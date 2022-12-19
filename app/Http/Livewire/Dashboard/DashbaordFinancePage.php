@@ -9,6 +9,7 @@ use App\Models\Inscription;
 use App\Models\Paiment;
 use App\Models\Requisition;
 use App\Models\ScolaryYear;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class DashbaordFinancePage extends Component
@@ -19,6 +20,7 @@ class DashbaordFinancePage extends Component
     public $isFilterdByDay=true,$date_to_search,$currentDay;
     public $monthsDataY=[],$amountDataX=[];
     public $monthsPaieDataY=[],$amountPaieDataX=[];
+    public $valuesMonthY=[],$valueAmountX=[],$valuesPaie;
 
     public $înscriptionByTypes;
     public $taux=2000;
@@ -95,6 +97,20 @@ class DashbaordFinancePage extends Component
 
         $this->dataRecetteY=[$this->depense,$this->recette];
 
+        //All paiement group by month
+        $paimentMonth=Paiment::join('cost_generals','paiments.cost_general_id','=','cost_generals.id')
+                ->select(
+                    DB::raw('sum(cost_generals.amount) as amount'),
+                    DB::raw("paiments.mounth_name as month"),
+                )
+                ->groupBy('month')
+                ->get();
+        foreach ($paimentMonth as $paie) {
+           $this->valuesMonthY[]=$paie->month;
+           $this->amountDataX[]=$paie->amount*2000;
+           //$this->valuesPaie=[];
+        }
+        //dd($this->amountDataX);
         return view('livewire.dashboard.dashbaord-finance-page');
     }
 }
