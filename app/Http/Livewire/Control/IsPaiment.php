@@ -68,7 +68,7 @@ class IsPaiment extends Component
             $items = array();
             $paiments=Paiment::select('paiments.*','cost_generals.*')
                     ->where('paiments.mounth_name', $this->month)
-                    ->where('paiments.classe_id',$this->classe_id)
+                    //->where('paiments.classe_id',$this->classe_id)
                     ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                     ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
                     ->where('cost_generals.type_other_cost_id',$this->cost_id)

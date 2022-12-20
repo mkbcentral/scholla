@@ -24,7 +24,6 @@ class ControlPaimentController extends Controller
             }
             $paiments=Paiment::select('paiments.*','cost_generals.*')
                         ->where('paiments.mounth_name', $month)
-                        ->where('paiments.classe_id',$classeId)
                         ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                         ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
                         ->where('cost_generals.type_other_cost_id',$costId)
@@ -61,7 +60,7 @@ class ControlPaimentController extends Controller
             }
             $paiments=Paiment::select('paiments.*','cost_generals.*')
                 ->where('paiments.mounth_name', $month)
-                ->where('paiments.classe_id',$classeId)
+
                 ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
                 ->where('cost_generals.type_other_cost_id',$costId)
@@ -90,7 +89,7 @@ class ControlPaimentController extends Controller
         public function printControlNotOtherPaiment($classeId,$costId,$scolaryYearId){
             $cost=CostGeneral::find($costId);
             $paiments=Paiment::select('paiments.*','cost_generals.*')
-                ->where('paiments.classe_id',$classeId)
+
                 ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
                 ->where('paiments.cost_general_id',$costId)
