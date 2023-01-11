@@ -9,6 +9,7 @@ use App\Models\Inscription;
 use App\Models\Paiment;
 use App\Models\Requisition;
 use App\Models\ScolaryYear;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -19,6 +20,7 @@ class DashbaordFinancePage extends Component
     public $dataRecetteY=[],$dataRecetteLabel=['Dépenses','Entrées'];
     public $isFilterdByDay=true,$date_to_search,$currentDay;
     public $monthsDataY=[],$amountDataX=[];
+    public $monthsDataInscY=[],$amountDataInscX=[];
     public $monthsPaieDataY=[],$amountPaieDataX=[];
     public $valuesMonthY=[],$valueAmountX=[],$valuesPaie;
 
@@ -105,12 +107,37 @@ class DashbaordFinancePage extends Component
                 )
                 ->groupBy('month')
                 ->get();
+
+        $arrayMonthData=array();
+        $arrayAmountData=array();
         foreach ($paimentMonth as $paie) {
-           $this->valuesMonthY[]=$paie->month;
-           $this->amountDataX[]=$paie->amount*2000;
-           //$this->valuesPaie=[];
+            $dateObj = DateTime::createFromFormat('!m', $paie->month);
+            $monthName = $dateObj->format('F');
+            $arrayMonthData[]=$monthName;
+            $arrayAmountData[]=$paie->amount*2000;
         }
-        //dd($this->amountDataX);
+        $this->valuesMonthY=array_reverse($arrayMonthData);
+        $this->amountDataX=array_reverse($arrayAmountData);
+
+        //All inscriptions group by month
+        $inscriptionsMonth=Inscription::join('cost_inscriptions','inscriptions.cost_inscription_id','=','cost_inscriptions.id')
+                ->select(
+                    DB::raw('sum(cost_inscriptions.amount) as amount'),
+                    DB::raw("(DATE_FORMAT(inscriptions.created_at, '%m')) as month")
+                )
+                ->groupBy('month')
+                ->get();
+        //dd($inscriptionsMonth);
+        $arrayMonthDataInsc=array();
+        $arrayAmountDataInsc=array();
+        foreach ($inscriptionsMonth as $insc) {
+            $dateObj2 = DateTime::createFromFormat('!m', $insc->month);
+            $monthNameInsc = $dateObj2->format('F');
+            $arrayMonthDataInsc[]=$monthNameInsc;
+            $arrayAmountDataInsc[]=$insc->amount*2000;
+        }
+        $this->monthsPaieDataY=array_reverse($arrayMonthDataInsc);
+        $this->amountDataInscX=array_reverse($arrayAmountDataInsc);
         return view('livewire.dashboard.dashbaord-finance-page');
     }
 }

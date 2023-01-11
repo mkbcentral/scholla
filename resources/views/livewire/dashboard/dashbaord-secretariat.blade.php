@@ -81,7 +81,7 @@
     </div>
 </div>
 <script setup>
- var options = {
+    var options = {
         chart: {
             type: 'area',
             height: 350,
@@ -96,11 +96,12 @@
         legend: {
           horizontalAlign: 'left'
         },
-        series: [{
-            name: 'Nombre',
-            data: @json($valuesTypesX)
-        },
-    ],
+        series: [
+            {
+                name: 'Nombre',
+                data: @json($valuesTypesX)
+            },
+        ],
         xaxis: {
             categories: @json($valuesTypesY)
         }
