@@ -30,12 +30,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthController::class)->group(function(){
     Route::post('login','login');
 });
-Route::controller(RecttesController::class)->group(function(){
-    Route::get('recettes-all/{month}','getAllRecettes');
-});
+
 Route::middleware(['auth:sanctum'])->group(function(){
-
-
+    Route::controller(RecttesController::class)->group(function(){
+        Route::get('recettes-all/{month}','getAllRecettes');
+    });
     Route::controller(AuthController::class)->group(function(){
         Route::get('user','user');
     });
