@@ -113,7 +113,6 @@ class ControlPaimentController extends Controller
                 return $pdf->stream();
         }
 
-
         public function printControlIsOtherPaiment($classeId,$costId,$scolaryYearId){
             $cost=CostGeneral::find($costId);
             $paiments=Paiment::select('paiments.*','cost_generals.*')
@@ -139,6 +138,24 @@ class ControlPaimentController extends Controller
                 $pdf->loadView('pages.control.prints.print-is_other-control-page',
                 compact(['inscriptions','scolaryYear','classe','cost']));
                 return $pdf->stream();
+        }
+
+        public function printAllcontrol($classe_id,$type_id,$scolaryid){
+            $inscriptions=Inscription::join('students','inscriptions.student_id','=','students.id')
+            ->where('inscriptions.classe_id',$classe_id)
+            ->where('scolary_year_id', $scolaryid)
+                ->orderBy('students.name','ASC')
+            ->get();
+
+            $scolaryYear=ScolaryYear::find($scolaryid);
+            $typeCost=TypeOtherCost::find($type_id);
+            $classe=Classe::find($classe_id);
+
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadView('pages.control.prints.print-all-control-paiement',
+            compact(['inscriptions','scolaryYear','classe','typeCost','type_id']))
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');;
+            return $pdf->stream();
         }
 
 

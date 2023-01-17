@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Inscription;
 use App\Models\Paiment;
 use App\Models\Requisition;
+use App\Models\ScolaryYear;
+use App\Models\TypeOtherCost;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Nette\Utils\Json;
 
 class RecttesController extends Controller
 {
@@ -34,7 +38,6 @@ class RecttesController extends Controller
                 }
                 $total_deps=$total_details;
             }
-
         return response()->json([
             'recette'=>[
                 'amount_entree'=>$paiment*2000+$inscription*2000,
@@ -131,5 +134,24 @@ class RecttesController extends Controller
                 'solde'=>($paiment*2000)-$total_deps
             ]]
         );
+    }
+
+    public function getAllRecettes($month){
+        $defaultScolary=ScolaryYear::where('active',true)->first();
+        $costs=TypeOtherCost::join('cost_generals','cost_generals.type_other_cost_id','=','type_other_costs.id')
+            ->join('paiments','paiments.cost_general_id','=','cost_generals.id')
+            ->where('paiments.scolary_year_id',1)
+            ->select(DB::raw("SUM(cost_generals.amount*2000) as amount,type_other_costs.name"))
+                ->groupBy(DB::raw("type_other_costs.name"))
+            ->where('paiments.mounth_name',$month)
+            ->get();
+        $inscription=Inscription::
+        join('cost_inscriptions','inscriptions.cost_inscription_id','=','cost_inscriptions.id')
+            ->whereMonth('inscriptions.created_at','01')
+            ->where('inscriptions.is_paied',true)
+            ->where('inscriptions.scolary_year_id',$defaultScolary->id)
+            ->sum('cost_inscriptions.amount')*2000;
+
+        return $costs;
     }
 }

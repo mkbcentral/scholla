@@ -63,5 +63,19 @@ class Student extends Model
         return $paimement;
     }
 
+    public function getPaimentByMont($student_id,$mounth,$cost_id){
+        $paimement=Paiment::join('cost_generals','paiments.cost_general_id','=','cost_generals.id')
+            ->join('type_other_costs','cost_generals.type_other_cost_id','=','type_other_costs.id')
+            ->where('paiments.student_id',$student_id)
+            ->where('paiments.mounth_name',$mounth)
+            ->where('cost_generals.type_other_cost_id',$cost_id)
+            ->first();
+        if ($paimement) {
+           return 'Ok';
+        } else {
+           return '-';
+        }
+    }
+
 
 }

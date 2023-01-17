@@ -19,25 +19,43 @@
                 @endforeach
             </x-select>
         </div>
-        <div class="form-group pr-4">
-           <a target="_blank" href="{{ route('recettes.print',$month) }}">Imprimer rapport</a>
+        <div>
+            <div class="form-group">
+                <label for="my-select">Anné scolaire</label>
+                  <div class="input-group date"  >
+                    <select id="my-select" class="form-control" wire:model.defer='scolary_id'>
+                        <option >Choisir...</option>
+                        @foreach ($scolaryyears as $year)
+                            <option wire:click.prevent='changeScolaryid' value="{{$year->id}}">{{$year->name}}</option>
+                        @endforeach
+                    </select>
+                      <div class="input-group-append" >
+                            <button wire:click='changeScolaryid' class="btn btn-info" type="button"><i class="fa fa-search"></i></button>
+                      </div>
+                  </div>
+              </div>
         </div>
     </div>
-    <div class="row mt-4">
+    <div class="d-flex justify-content-end  mt-4">
+        <div class="form-group pr-4">
+            <a target="_blank" href="{{ route('recettes.print',[$month,$defaultScolaryYer->id]) }}"><i class="fa fa-print" aria-hidden="true"></i> Imprimer rapport</a>
+         </div>
+    </div>
+    <div class="row">
         @foreach ($costs as $cost)
             <div class="col-md-3">
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner  text-center">
-                        <h3>{{number_format($cost->getTotal($month,$cost->id)*2000,1,',',' ')}}  FC</h3>
+                        <h3>{{number_format($cost->getTotal($month,$cost->id,$defaultScolaryYer->id)*2000,1,',',' ')}}  FC</h3>
                         <h4>{{$cost->name}}</h4>
                     </div>
                     <a  class="small-box-footer"> <span class="p-2"></span></a>
                 </div>
                 @php
-                    $total+=$cost->getTotal($month,$cost->id)*2000;
+                    $total+=$cost->getTotal($month,$cost->id,$defaultScolaryYer->id)*2000;
                     if ($cost->id==6) {
-                        $total_etat+=$cost->getTotal($month,$cost->id)*2000;
+                        $total_etat+=$cost->getTotal($month,$cost->id,$defaultScolaryYer->id)*2000;
                     }
                 @endphp
             </div>

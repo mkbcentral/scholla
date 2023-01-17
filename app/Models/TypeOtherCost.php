@@ -22,11 +22,12 @@ class TypeOtherCost extends Model
         return $this->hasMany(CostGeneral::class);
     }
 
-    public function getTotal($month,$id){
+    public function getTotal($month,$id,$idSColaryYear){
         $paiment=Paiment::join('cost_generals','paiments.cost_general_id','=','cost_generals.id')
                 ->join('type_other_costs','cost_generals.type_other_cost_id','=','type_other_costs.id')
                 ->where('type_other_costs.id',$id)
                 ->where('paiments.mounth_name',$month)
+                ->where('paiments.scolary_year_id',$idSColaryYear)
                 //->where('paiments.is_paied',true)
                 ->sum('cost_generals.amount');
         return $paiment;

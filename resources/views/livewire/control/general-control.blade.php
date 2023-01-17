@@ -21,6 +21,15 @@
                                     @endforeach
                                 </x-select>
                             </div>
+                            <div class="form-group mr-2">
+                                <x-label value="{{ __('Type des frais') }}" />
+                                <x-select wire:model='type_id'>
+                                    <option value="">Choisir...</option>
+                                    @foreach ($typeFrais as $type)
+                                        <option value="{{$type->id}}">{{$type->name}}</option>
+                                    @endforeach
+                                </x-select>
+                            </div>
                            </div>
                        </div>
                        <div>
@@ -31,12 +40,15 @@
                                 </h4>
                             </span>
                         @else
+                        @php
+                            $month='';
+                        @endphp
                         <div>
                             <div><h4 class="text-uppercase text-bold text-danger">Liste des élèves qui ne sont pas en ordre</h4></div>
                         </div>
                         <div class="d-flex justify-content-end ">
                             <span class="mr-4"><h3>Total: {{$inscriptions->count()}}</h3></span>
-                            <a target="_blank" href="" class="btn btn-info btn-sm">Imprimer</a>
+                            <a target="_blank" href="{{ route('control.all.paiment', [$classe_id,$defaultScolaryYer->id,$type_id]) }}" class="btn btn-info btn-sm">Imprimer</a>
                         </div>
                         <table class="table table-stripped table-sm mt-4">
                             <thead class="thead-light">
@@ -72,12 +84,15 @@
                                                     $month=$i;
                                                 }
                                             @endphp
-                                            @if ($inscription->student->paiement->month_name==$month)
-                                                <td>OK</td>
-                                            @else
-                                                <td>-</td>
-                                            @endif
-
+                                             <td>
+                                                {{
+                                                    $inscription->student->getPaimentByMont(
+                                                        $inscription->student->id,
+                                                        $month,
+                                                        $type_id
+                                                    )
+                                                }}
+                                            </td>
                                         @endfor
                                     </tr>
                                 @else
@@ -93,11 +108,15 @@
                                                     $month=$i;
                                                 }
                                             @endphp
-                                            @if ($inscription->student->paiement?->mounth_name == $month)
-                                               <td>OK</td>
-                                            @else
-                                                <td>-</td>
-                                            @endif
+                                         <td>
+                                            {{
+                                                $inscription->student->getPaimentByMont(
+                                                    $inscription->student->id,
+                                                    $month,
+                                                    $type_id
+                                                )
+                                            }}
+                                        </td>
                                         @endfor
                                     </tr>
                                 @endif

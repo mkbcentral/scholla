@@ -135,6 +135,7 @@ Route::middleware('auth')->group(function(){
         Route::get('print-is-paiment/{classeId}/{costId}/{month}/{scolaryYearId}','printControlIsPaiment')->name('is.paiment');
         Route::get('print-other-paiment/{classeId}/{costId}/{scolaryYearId}','printControlIsOtherPaiment')->name('is.other.paiment');
         Route::get('print-not-other-paiment/{classeId}/{costId}/{scolaryYearId}','printControlNotOtherPaiment')->name('not.other.paiment');
+        Route::get('print-all-cpntrol-paiment/{classeId}/{typeId}/{scolaryYearId}','printAllcontrol')->name('control.all.paiment');
     });
 
     Route::controller(RequisitionController::class)->group(function(){
@@ -149,7 +150,7 @@ Route::middleware('auth')->group(function(){
     });
     Route::get('/recettes',RecettesPage::class)->name('recettes.index');
     Route::controller(RecetteController::class)->group(function(){
-        Route::get('/print-recettes/{month}','printRecettes')->name('recettes.print');
+        Route::get('/print-recettes/{month}/{scolaryId}','printRecettes')->name('recettes.print');
     });
 });
 

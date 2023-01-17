@@ -27,7 +27,7 @@ PA<!DOCTYPE html>
         </div>
         <div>
             <span style="font-weight: bold">Du mois de: {{strftime('%B', mktime(0, 0, 0, $month))}}</span>
-            <div> <span>Année scolaire: 2022-2023</span></div>
+            <div> <span>Année scolaire: {{$scolarYear->name}}</span></div>
         </div>
 
     </div>
@@ -51,12 +51,12 @@ PA<!DOCTYPE html>
                         <td style="text-align: left;text-transform: uppercase">
                             {{$cost->name}}
                         </td>
-                        <td style="text-align: right">{{number_format($cost->getTotal($month,$cost->id)*2000,1,',',' ')}}</td>
+                        <td style="text-align: right">{{number_format($cost->getTotal($month,$cost->id,$scolaryId)*2000,1,',',' ')}}</td>
                     </tr>
                     @php
-                        $total+=$cost->getTotal($month,$cost->id)*2000;
+                        $total+=$cost->getTotal($month,$cost->id,$scolaryId)*2000;
                         if ($cost->id==6) {
-                            $total_etat+=$cost->getTotal($month,$cost->id)*2000;
+                            $total_etat+=$cost->getTotal($month,$cost->id,$scolaryId)*2000;
                         }
                     @endphp
                 @endforeach

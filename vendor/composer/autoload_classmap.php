@@ -110,6 +110,7 @@ return array(
     'App\\Models\\StudentResponsable' => $baseDir . '/app/Models/StudentResponsable.php',
     'App\\Models\\TypeOtherCost' => $baseDir . '/app/Models/TypeOtherCost.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
+    'App\\Models\\salary' => $baseDir . '/app/Models/salary.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',

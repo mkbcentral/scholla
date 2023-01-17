@@ -25,6 +25,16 @@
                 @endif
 
                 <div class="form-group">
+                    <x-label value="{{ __('Catégorie frais') }}" />
+                    <x-select wire:model='category_id'>
+                        <option value="">Choisir...</option>
+                        @foreach ($costCategries as $category)
+                            <option  value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+                    </x-select>
+                    @error('category_id') <span class="error text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="form-group">
                     <x-label value="{{ __('Type frais') }}" />
                     <x-select wire:model='cost_id'>
                         <option value="">Choisir...</option>
