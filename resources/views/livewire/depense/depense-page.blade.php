@@ -32,7 +32,7 @@
                         <x-label value="{{ __('Filtrer par moi') }}" />
                         <x-select wire:model='month'>
                             @foreach ($months as $m)
-                                <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m))}}</option>
+                            <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m,10))}}</option>
                             @endforeach
                         </x-select>
                     </div>
