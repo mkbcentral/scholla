@@ -21,16 +21,32 @@
                     <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item">
-                            <a class="active nav-link " href="#general" data-toggle="tab">
+                            <a class="nav-link " href="#general" data-toggle="tab">
                                 <i class="fas fa-file-alt"></i>Control général
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="active nav-link " href="#etat" data-toggle="tab">
+                                <i class="fas fa-file-alt"></i>Control Frais de d'état
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#notEtat" data-toggle="tab">
+                                <i class="fas fa-file-alt"></i>Control Frais de d'état pas en ordre
                             </a>
                         </li>
                     </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
                     <div class="tab-content">
-                         <div class="active tab-pane" id="general">
+                         <div class="tab-pane" id="general">
                             @livewire('control.general-control')
+                         </div>
+                         <div class="active tab-pane" id="etat">
+                            @livewire('control.frais-etat-control')
+                         </div>
+                         <div class="tab-pane" id="notEtat">
+                            @livewire('control.not-frais-etat-control')
                          </div>
                     </div>
                     <!-- /.tab-content -->
