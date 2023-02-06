@@ -154,7 +154,70 @@ class ControlPaimentController extends Controller
             $pdf = App::make('dompdf.wrapper');
             $pdf->loadView('pages.control.prints.print-all-control-paiement',
             compact(['inscriptions','scolaryYear','classe','typeCost','type_id']))
-            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');;
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+        }
+
+
+        public function printIsFraiEtat($cost_id,$classe_id,){
+            //dd($cost_id);
+            $scolaryYear=ScolaryYear::where('active',true)->first();
+            $cost=CostGeneral::find($cost_id);
+            $items = array();
+            $paiments=Paiment::select('paiments.*','cost_generals.*')
+                        ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                        ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+                        ->where('cost_generals.type_other_cost_id',6)
+                        ->where('cost_generals.id',$cost_id)
+                        ->where('paiments.scolary_year_id', $scolaryYear->id)
+                        ->get();
+
+                foreach ($paiments as $paiment) {
+                    $items[] = $paiment->student_id;
+                }
+
+            $inscriptions=Inscription::join('students','inscriptions.student_id','=','students.id')
+                            ->where('inscriptions.classe_id',$classe_id)
+                            ->where('scolary_year_id', $scolaryYear->id)
+                            ->orderBy('students.name','ASC')
+                            ->whereIn('student_id',$items)
+                            ->get();
+            $classe=Classe::orderBy('name','ASC')->where('id',$classe_id)->first();
+            $pdf=App::make('dompdf.wrapper');
+                $pdf->loadView('pages.control.prints.print-is-fais-etat-paiement',
+                compact(['inscriptions','scolaryYear','classe','cost']))
+                ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+        }
+
+        public function printIsNotFraiEtat($cost_id,$classe_id,){
+            //dd($cost_id);
+            $scolaryYear=ScolaryYear::where('active',true)->first();
+            $cost=CostGeneral::find($cost_id);
+            $items = array();
+            $paiments=Paiment::select('paiments.*','cost_generals.*')
+                        ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+                        ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+                        ->where('cost_generals.type_other_cost_id',6)
+                        ->where('cost_generals.id',$cost_id)
+                        ->where('paiments.scolary_year_id', $scolaryYear->id)
+                        ->get();
+
+                foreach ($paiments as $paiment) {
+                    $items[] = $paiment->student_id;
+                }
+
+            $inscriptions=Inscription::join('students','inscriptions.student_id','=','students.id')
+                            ->where('inscriptions.classe_id',$classe_id)
+                            ->where('scolary_year_id', $scolaryYear->id)
+                            ->orderBy('students.name','ASC')
+                            ->whereNotIn('student_id',$items)
+                            ->get();
+            $classe=Classe::orderBy('name','ASC')->where('id',$classe_id)->first();
+            $pdf=App::make('dompdf.wrapper');
+                $pdf->loadView('pages.control.prints.print-is-not-fais-etat-paiement',
+                compact(['inscriptions','scolaryYear','classe','cost']))
+                ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
             return $pdf->stream();
         }
 

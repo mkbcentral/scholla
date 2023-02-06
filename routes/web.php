@@ -136,6 +136,9 @@ Route::middleware('auth')->group(function(){
         Route::get('print-other-paiment/{classeId}/{costId}/{scolaryYearId}','printControlIsOtherPaiment')->name('is.other.paiment');
         Route::get('print-not-other-paiment/{classeId}/{costId}/{scolaryYearId}','printControlNotOtherPaiment')->name('not.other.paiment');
         Route::get('print-all-cpntrol-paiment/{classeId}/{typeId}/{scolaryYearId}','printAllcontrol')->name('control.all.paiment');
+
+        Route::get('print-is-frais-etat-paiment/{costId}/{classeId}','printIsFraiEtat')->name('is.fais.etatpaiment');
+        Route::get('print-is-not-frais-etat-paiment/{costId}/{classeId}','printIsNotFraiEtat')->name('is.not.fais.etatpaiment');
     });
 
     Route::controller(RequisitionController::class)->group(function(){

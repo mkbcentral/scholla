@@ -48,7 +48,7 @@
                         </div>
                         <div class="d-flex justify-content-end ">
                             <span class="mr-4"><h3>Total: {{$inscriptions->count()}}</h3></span>
-                            <a target="_blank" href="{{ route('control.all.paiment', [$classe_id,$defaultScolaryYer->id,$type_id]) }}" class="btn btn-info btn-sm">Imprimer</a>
+                            <a target="_blank" href="{{ route('is.fais.etatpaiment', [$cost_id,$classe_id]) }}" class="btn btn-info btn-sm">Imprimer</a>
                         </div>
                         <table class="table table-stripped table-sm mt-4">
                             <thead class="thead-light">
@@ -63,7 +63,7 @@
                                 <tr>
                                     <td>{{ $index+1}}</td>
                                     <td>{{$inscription->created_at->format('d/m/Y')}}</td>
-                                    <td>{{$inscription->student->name}}</td>
+                                    <td>{{$inscription->student->paiement->cost->amount*2000}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
