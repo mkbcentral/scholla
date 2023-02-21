@@ -76,5 +76,9 @@ class PaiementController extends Controller
         return $number;
     }
 
+    public function printFraisEtat($classeId,$costId){
+
+    }
+
 
 }

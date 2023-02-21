@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-*/
-
 Route::controller(RecttesController::class)->group(function(){
     Route::get('recettes-by-day/{date}','getRecttesByDay');
     Route::get('recettes-by-month/{month}','getByMonth');
@@ -27,6 +25,9 @@ Route::controller(RecttesController::class)->group(function(){
     Route::get('recettes-minerval-by-day/{day}','getMinervalByDay');
     Route::get('recettes-all/{month}','getAllRecettes');
 });
+*/
+
+
 
 Route::controller(AuthController::class)->group(function(){
     Route::post('login','login');
@@ -34,7 +35,8 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::controller(RecttesController::class)->group(function(){
-        Route::get('recettes-all/{month}','getAllRecettes');
+        Route::get('recettes-frais-by-month/{month}','getRecetteFraisByMonth');
+        Route::get('recettes-inscription-by-month/{month}','getRecetteInscriptionByMonth');
     });
     Route::controller(AuthController::class)->group(function(){
         Route::get('user','user');

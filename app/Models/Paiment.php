@@ -51,4 +51,23 @@ class Paiment extends Model
         return $this->hasOne(PaieRegularisation::class);
     }
 
+
+    public function getArchiveAmoun($id){
+        $amount=0;
+        if ($id==38) {
+            $amount=($this->cost->amount * 2000)-40000;
+        } elseif($id==37) {
+            $amount=($this->cost->amount * 2000)-50000;
+        }elseif($id==39) {
+            $amount=($this->cost->amount * 2000)-50000;
+        }elseif($id==40) {
+            $amount=($this->cost->amount * 2000)-60000;
+        }elseif($id==41) {
+            $amount=($this->cost->amount * 2000)-80000;
+        }elseif($id==42) {
+            $amount=($this->cost->amount * 2000)-90000;
+        }
+        return $amount;
+    }
+
 }

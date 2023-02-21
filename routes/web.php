@@ -11,8 +11,10 @@ use App\Http\Controllers\RecetteController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Livewire\Depense\DepensesByPaiments;
 use App\Http\Livewire\Helpers\RapportPaimentHepler;
+use App\Http\Livewire\Paiment\Rapport\ArchiveJuinPage;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByType;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByTypeGeneral;
+use App\Http\Livewire\Paiment\Rapport\RapportFraisEtatPage;
 use App\Http\Livewire\Recettes\RecettesPage;
 use Illuminate\Support\Facades\Route;
 /*
@@ -42,7 +44,9 @@ Route::middleware('auth')->group(function(){
     Route::get('rapport-paiment-type/{type}',RapportFraisByType::class)->name('rapport.frais.type');
     Route::get('rapport-paiment-type-general/{type}',RapportFraisByTypeGeneral::class)
         ->name('rapport.frais.type.general');
-        Route::get('/depense-in-paiment/{type}',DepensesByPaiments::class)->name('depnses.paiments');
+    Route::get('/depense-in-paiment/{type}',DepensesByPaiments::class)->name('depnses.paiments');
+    Route::get('rapport/frais/etat',RapportFraisEtatPage::class)->name("rapport.frais.etat");
+    Route::get('archive/juin',ArchiveJuinPage::class)->name("archive.juin");
     Route::controller(PageController::class)->group(function(){
         Route::get('/','index')->name('dashboard');
         Route::get('gestionnaire-ecole','school')->name('school.index');
@@ -125,6 +129,12 @@ Route::middleware('auth')->group(function(){
 
         Route::get('print-rapport-paiment-frais-global/{type}/{cost_id}/{paiement_type}/{classe_id}/{idScolaryYer}',
             'printRapportGlobalFrais')->name('paiement.frais.global.print');
+
+        Route::get('ipression-paiment-frais-etat/{classeId}/{costId}','printFraisEtat')
+            ->name('print.paiement.frais.etat');
+        Route::get('ipression-paiment-archive/{classeId}/{costId}/{month}','printArchive')
+            ->name('print.paiement.frais.archive');
+
 
         //DEPOT BANK
         Route::get('print-bank-depot/{month}','printDepotBank')->name('bank.depot.print');

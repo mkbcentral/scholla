@@ -47,6 +47,10 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
+                        <x-nav-link class="nav-link" href="{{ route('print.paiement.frais.etat') }}" :active="request()->routeIs('print.paiement.frais.etat')">
+                            &#x2611;
+                           Rapp. Frais Etat
+                        </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('control.index') }}" :active="request()->routeIs('control.index')">
                             &#x2611;
                             Controle paiement
@@ -90,6 +94,10 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
+                        <x-nav-link class="nav-link" href="{{ route('print.paiement.frais.etat') }}" :active="request()->routeIs('print.paiement.frais.etat')">
+                            &#x2611;
+                           Rapp. Frais Etat
+                        </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('recettes.index') }}" :active="request()->routeIs('recettes.index')">
                             &#x1F4C1;
                             Nos recettes
@@ -180,6 +188,14 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
+                        <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat') }}" :active="request()->routeIs('rapport.frais.etat')">
+                           <i class="fa fa-file" aria-hidden="true"></i>
+                           Rapp. Frais Etat
+                        </x-nav-link>
+                        <x-nav-link class="nav-link" href="{{ route('archive.juin') }}" :active="request()->routeIs('archive.juin')">
+                            &#x1F5C3;
+                            Archive juin
+                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('recettes.index') }}" :active="request()->routeIs('recettes.index')">
                             &#x1F4C1;
                             Nos recettes

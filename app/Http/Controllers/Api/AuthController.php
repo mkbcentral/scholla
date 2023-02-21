@@ -16,10 +16,10 @@ class AuthController extends Controller
         $creds=$request->only(['email','password']);
         if (Auth::attempt($creds)) {
             $user =auth()->user();
-           return response()->json([
+            return response()->json([
                 'user'=>$user,
                 'token'=>$user->createToken('token')->plainTextToken
-           ]);
+            ]);
         } else {
             return response()->json([
                 'message'=>'Make sure your email and password'

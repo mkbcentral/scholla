@@ -537,5 +537,47 @@ class PaimentPrinterConteroller extends Controller
 
     }
 
+    public function printFraisEtat($classeId,$costId){
+        $taux=2000;
+        $cost=CostGeneral::find($costId);
+        $classe=Classe::find($classeId);
+        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $paiments=Paiment::select('paiments.*','cost_generals.*')
+            ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+            ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+            ->where('cost_generals.type_other_cost_id',6)
+            ->where('cost_generals.id',$costId)
+            ->where('paiments.classe_id',$classeId)
+            ->where('paiments.scolary_year_id', $defaultScolaryYer->id)
+            ->get();
+        //dd($paiments);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.paiement.pints.print-rapport-frais-etat',
+            compact(['defaultScolaryYer','paiments','cost','classe','taux']))
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+    }
+
+    public function printArchive($classeId,$costId,$month){
+        $taux=2000;
+        $cost=CostGeneral::find($costId);
+        $classe=Classe::find($classeId);
+        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $paiments=Paiment::select('paiments.*','cost_generals.*')
+            ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+            ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+            ->where('paiments.mounth_name',$month)
+            ->where('cost_generals.id',$costId)
+            ->where('paiments.classe_id',$classeId)
+            ->where('paiments.scolary_year_id', $defaultScolaryYer->id)
+            ->get();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.paiement.pints.print-rapport-frais-archive',
+            compact(['defaultScolaryYer','paiments','cost','classe','taux','month','costId']))
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+    }
+
+
 
 }
