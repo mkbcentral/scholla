@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Recettes;
 
+use App\Models\AmoutPaie;
 use App\Models\Inscription;
 use App\Models\ScolaryYear;
 use App\Models\TypeOtherCost;
@@ -9,8 +10,8 @@ use Livewire\Component;
 
 class RecettesPage extends Component
 {
-    public $currentMonth,$month,$months;
-    public $scolaryyears,$scolary_id,$defaultScolaryYer;
+    public $currentMonth,$month,$months,$month_name,$amount_salire;
+    public $scolaryyears,$scolary_id,$defaultScolaryYer,$paie=0;
     public function mount(){
         $this->scolaryyears=ScolaryYear::all();
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
@@ -20,6 +21,32 @@ class RecettesPage extends Component
         $this->month=$this->currentMonth;
         foreach (range(1,12) as $m) {
             $this->months[]=date('m',mktime(0,0,0,$m,1));
+        }
+
+        $salaire=AmoutPaie::where('month',$this->month)->whereYear('created_at',date('Y'))->first();
+        if ($salaire) {
+            $this->paie=$salaire->amount;
+        } else {
+            $this->paie=0;
+        }
+
+
+    }
+    public function addSalaire(){
+        $this->validate([
+            'amount_salire'=>'required|numeric',
+            'month_name'=>'required'
+        ]);
+
+        $paie=AmoutPaie::where('month',$this->month_name)->whereYear('created_at',date('Y'))->first();
+        if($paie){
+            $this->dispatchBrowserEvent('data-deleted',['message'=>"Ce mois est déjà programmé veillze choisir un autre mois SVP!"]);
+        }else{
+            AmoutPaie::create([
+                'month'=>$this->month_name,
+                'amount'=>$this->amount_salire,
+            ]);
+            $this->dispatchBrowserEvent('data-updated',['message'=>"Salaire bien fixé"]);
         }
 
     }

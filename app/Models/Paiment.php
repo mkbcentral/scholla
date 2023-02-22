@@ -52,7 +52,7 @@ class Paiment extends Model
     }
 
 
-    public function getArchiveAmoun($id){
+    public function getArchiveAmount($id){
         $amount=0;
         if ($id==38) {
             $amount=($this->cost->amount * 2000)-40000;

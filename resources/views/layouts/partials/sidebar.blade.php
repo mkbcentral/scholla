@@ -47,6 +47,10 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
+                        <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat.date') }}" :active="request()->routeIs('rapport.frais.etat.date')">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            Rapp. Frais Etat par jour
+                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat') }}" :active="request()->routeIs('rapport.frais.etat')">
                             <i class="fa fa-file" aria-hidden="true"></i>
                             Rapp. Frais Etat
@@ -94,6 +98,10 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
+                        <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat.date') }}" :active="request()->routeIs('rapport.frais.etat.date')">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            Rapp. Frais Etat par jour
+                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat') }}" :active="request()->routeIs('rapport.frais.etat')">
                             <i class="fa fa-file" aria-hidden="true"></i>
                             Rapp. Frais Etat
@@ -188,6 +196,10 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
+                        <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat.date') }}" :active="request()->routeIs('rapport.frais.etat.date')">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            Rapp. Frais Etat par jour
+                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat') }}" :active="request()->routeIs('rapport.frais.etat')">
                            <i class="fa fa-file" aria-hidden="true"></i>
                            Rapp. Frais Etat

@@ -7,7 +7,7 @@
      <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                <div><h4 class="text-uppercase text-primary">&#x1F5C2;aRCHIVE MEMSUEL POUR MOIS DE JUIN</h4></div>
+                <div><h4 class="text-uppercase text-primary">&#x1F5C2; Situation frais de l'états</h4></div>
             </div>
         </div>
     </div>
@@ -22,31 +22,10 @@
                     <div class="active tab-pane" id="inscription">
                        <div class="d-flex justify-content-between align-items-center">
                            <div class="d-flex justify-content-start align-items-center">
-                            <div class="form-group pr-4">
-                                <x-label value="{{ __('Filtrer par mois') }}" />
-                                <x-select wire:model='month'>
-                                    @foreach ($months as $m)
-                                        <option value="{{$m}}">{{strftime('%B', mktime(0, 0, 0, $m,10))}}</option>
-                                    @endforeach
-                                </x-select>
-                            </div>
                             <div class="form-group">
-                                <x-label value="{{ __('Filtrer par par classe') }}" />
-                                <x-select wire:model='classe_id'>
-                                    <option value="">Choisir...</option>
-                                    @foreach ($classes as $classe)
-                                        <option value="{{$classe->id}}">{{$classe->name.'/'.$classe->option->name}}</option>
-                                    @endforeach
-                                </x-select>
-                            </div>
-                            <div class="form-group mr-2">
-                                <x-label value="{{ __('Type tranche') }}" />
-                                <x-select wire:model='cost_id'>
-                                    <option value="">Choisir...</option>
-                                    @foreach ($costs as $cost)
-                                        <option value="{{$cost->id}}">{{$cost->name}}</option>
-                                    @endforeach
-                                </x-select>
+                                <x-label value="{{ __('Filtrer par date') }}" />
+                                <x-input class="" type='date'
+                                         placeholder="Date" wire:model='date_to_search'/>
                             </div>
                            </div>
                        </div>
@@ -58,15 +37,13 @@
                                 </h4>
                             </span>
                         @else
-
                         <div>
-                            <div><h4 class="text-uppercase text-bold text-danger">Rapport</h4></div>
+                            <div><h4 class="text-uppercase text-bold text-danger">Rapport de paiemnt par date</h4></div>
                         </div>
                         <div class="d-flex justify-content-end ">
                             <span class="mr-4"><h3>Total: {{$paiments->count()}}</h3></span>
-                            <a target="_blank" href="{{ route('print.paiement.frais.archive', [$classe_id,$cost_id,$month]) }}" class="btn btn-info btn-sm">Imprimer</a>
+                            <a target="_blank" href="{{ route('print.paiement.frais.etat.by.date', $date_to_search) }}" class="btn btn-info btn-sm">Imprimer</a>
                         </div>
-
                         <table class="table table-stripped table-sm">
                             <thead class="thead-light">
                                 <tr class="text-uppercase">
@@ -81,11 +58,11 @@
                                     <tr>
                                         <td>{{ $index+1 }}</td>
                                         <td>{{ $paiment->created_at->format('d/m/Y') }}</td>
-                                        <td>{{ $paiment->student->name }}</td>
-                                        <td class="text-right">{{number_format($paiment->getArchiveAmount($cost_id),1,',',' ')}}</td>
+                                        <td>{{ $paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name }}</td>
+                                        <td class="text-right">{{number_format($paiment->cost->amount * 2000,1,',',' ')}}</td>
                                     </tr>
                                     @php
-                                        $total +=($paiment->getArchiveAmount($cost_id))
+                                        $total +=($paiment->cost->amount)*2000
                                     @endphp
                                 @endforeach
                             </tbody>

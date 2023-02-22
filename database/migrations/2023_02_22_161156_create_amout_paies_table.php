@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('inscriptions', function (Blueprint $table) {
-            $table->boolean('is_bascule')->default(false)->after('active');
+        Schema::create('amout_paies', function (Blueprint $table) {
+            $table->id();
+            $table->string('month');
+            $table->double('amount')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('inscriptions', function (Blueprint $table) {
-            $table->dropColumn('is_bascule');
-        });
+        Schema::dropIfExists('amout_paies');
     }
 };

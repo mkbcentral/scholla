@@ -67,6 +67,13 @@ PA<!DOCTYPE html>
                     </td>
                     <td style="text-align: right">{{number_format($inscription*2000,1,',',' ')}}</td>
                 </tr>
+                <tr>
+                    <td style="text-align: center;width: 40px">7</td>
+                    <td style="text-align: left">
+                        PAIE
+                    </td>
+                    <td style="text-align: right">{{number_format($amount_salire*2000,1,',',' ')}}</td>
+                </tr>
             </tbody>
         </table>
         <div style="text-align: right;font-size: 20px;margin-top: 10px;">
@@ -77,8 +84,11 @@ PA<!DOCTYPE html>
                 <div style="background: rgb(126, 115, 115);color: white">
                     <span style="font-weight: bold">Compte état: </span><span>{{ number_format($total_etat,1,',',' ') }} Fc</span>
                 </div>
+                <div style="background: rgb(126, 115, 115);color: white">
+                    <span style="font-weight: bold">Paie: </span><span>{{ number_format($amount_salire,1,',',' ') }} Fc</span>
+                </div>
                 <div style="background: rgb(66, 66, 66);color: white">
-                    <span style="font-weight: bold;">Solde école: </span><span>{{ number_format($total+$inscription*2000-$total_etat,1,',',' ') }} Fc</span>
+                    <span style="font-weight: bold;">Solde école: </span><span>{{ number_format(($total+$inscription*2000-$total_etat)-$amount_salire,1,',',' ') }} Fc</span>
                 </div>
            </div>
             <div style="margin-top: 8px">

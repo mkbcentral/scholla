@@ -558,6 +558,24 @@ class PaimentPrinterConteroller extends Controller
             return $pdf->stream();
     }
 
+    public function printFraisEtatByDate($date){
+        $taux=2000;
+        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        $paiments=Paiment::select('paiments.*','cost_generals.*')
+            ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+            ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+            ->where('cost_generals.type_other_cost_id',6)
+            ->whereDate('paiments.created_at',$date)
+            ->where('paiments.scolary_year_id', $defaultScolaryYer->id)
+            ->get();
+        //dd($paiments);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.paiement.pints.print-rapport-frais-etat-by-date',
+            compact(['defaultScolaryYer','paiments','date','taux']))
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+    }
+
     public function printArchive($classeId,$costId,$month){
         $taux=2000;
         $cost=CostGeneral::find($costId);

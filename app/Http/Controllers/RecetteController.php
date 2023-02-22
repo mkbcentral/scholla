@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AmoutPaie;
 use App\Models\Inscription;
 use App\Models\ScolaryYear;
 use App\Models\TypeOtherCost;
@@ -12,6 +13,14 @@ class RecetteController extends Controller
 {
     public function printRecettes($month,$scolaryId){
         $costs=TypeOtherCost::all();
+        $paie=AmoutPaie::where('month',$month)->whereYear('created_at',date('Y'))->first();
+        $amount_salire=0;
+        if ($paie) {
+            $amount_salire=$paie->amount;
+        } else {
+            $amount_salire=0;
+        }
+
         $inscription=Inscription::
             join('cost_inscriptions','inscriptions.cost_inscription_id','=','cost_inscriptions.id')
             ->whereMonth('inscriptions.created_at',$month)
@@ -21,7 +30,7 @@ class RecetteController extends Controller
         $scolarYear=ScolaryYear::find($scolaryId);
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('pages.recettes.print-recettes',
-            compact(['costs','month','inscription','scolaryId','scolarYear']));
+            compact(['costs','month','inscription','scolaryId','scolarYear','amount_salire']));
         return $pdf->stream();
     }
 }

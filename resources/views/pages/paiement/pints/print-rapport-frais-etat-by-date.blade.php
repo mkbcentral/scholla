@@ -23,13 +23,10 @@
 <body>
     <div style="border: 1px solid black;padding: 6px">
         <div style="text-align: center;padding: 15px;font-size: 22px">
-            <span style="text-transform: uppercase">ARCHIVE DES PAIMENTS ARCHIVES POUR LE MOIS DE JUIN</span>
+            <span style="text-transform: uppercase">RAPPORT DE PAIMENT FRAS DE  L'ETAT PAR DATE</span>
         </div>
         <div>
-            <span>Classe: {{$classe->name.'/'.$classe->option->name}}</span>
-        </div>
-        <div>
-            Du mois de: {{strftime('%B', mktime(0, 0, 0, $month,10))}}
+            <span>Date: {{(new DateTime($date))->format('d/m/Y')}}</span>
         </div>
         <div>
             <span>Année scolaire: {{$defaultScolaryYer->name}}</span>
@@ -49,20 +46,19 @@
                     <th style="text-align: left">NOMS ELEVE</th>
                     <th style="text-align: right">MONTANT</th>
                 </tr>
-                </tr>
             </thead>
             <tbody>
                 @foreach ($paiments as $index=> $paiment)
                     <tr>
                         <td style="text-align: center">{{$index+1}}</td>
                         <td style="text-align: left">{{$paiment->created_at->format('d/m/Y')}}</td>
-                        <td>{{$paiment->student->name}}</td>
+                        <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
                         <td style="text-align: right">
-                            {{number_format($paiment->getArchiveAmount($costId),1,',',' ') }}
+                            {{number_format($paiment->cost->amount*$taux,1,',',' ') }}
                         </td>
                     </tr>
                     @php
-                        $total+=$paiment->getArchiveAmount($costId);
+                        $total+=$paiment->cost->amount*$taux;
                     @endphp
                 @endforeach
             </tbody>
