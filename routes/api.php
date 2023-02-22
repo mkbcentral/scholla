@@ -28,7 +28,7 @@ Route::controller(RecttesController::class)->group(function(){
 */
 
 
-
+/*
 Route::controller(AuthController::class)->group(function(){
     Route::post('login','login');
 });
@@ -41,5 +41,13 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::controller(AuthController::class)->group(function(){
         Route::get('user','user');
     });
+});
+*/
+Route::controller(RecttesController::class)->group(function(){
+    Route::get('recettes-by-day/{date}','getRecttesByDay');
+    Route::get('recettes-by-month/{month}','getByMonth');
+    Route::get('recettes-minerval-by-month/{month}','getMinervalByMonth');
+    Route::get('recettes-minerval-by-day/{day}','getMinervalByDay');
+    Route::get('recettes-all/{month}','getAllRecettes');
 });
 
