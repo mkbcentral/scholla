@@ -11,6 +11,7 @@ use App\Http\Controllers\RecetteController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Livewire\Depense\DepensesByPaiments;
 use App\Http\Livewire\Helpers\RapportPaimentHepler;
+use App\Http\Livewire\Paiment\Rapport\ArchiveJuinMensuelPage;
 use App\Http\Livewire\Paiment\Rapport\ArchiveJuinPage;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByType;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByTypeGeneral;
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/depense-in-paiment/{type}',DepensesByPaiments::class)->name('depnses.paiments');
     Route::get('rapport/frais/etat',RapportFraisEtatPage::class)->name("rapport.frais.etat");
     Route::get('rapport/frais/etat/date',RapportFraisEtatByDate::class)->name("rapport.frais.etat.date");
+    Route::get('archive/juin/global',ArchiveJuinMensuelPage::class)->name("archive.juin.global");
     Route::get('archive/juin',ArchiveJuinPage::class)->name("archive.juin");
     Route::controller(PageController::class)->group(function(){
         Route::get('/','index')->name('dashboard');
@@ -138,6 +140,9 @@ Route::middleware('auth')->group(function(){
             ->name('print.paiement.frais.etat.by.date');
         Route::get('ipression-paiment-archive/{classeId}/{costId}/{month}','printArchive')
             ->name('print.paiement.frais.archive');
+
+        Route::get('ipression-paiment-archive-global/{costId}/{month}','printArchiveGlobal')
+            ->name('print.paiement.frais.archive.global');
 
 
         //DEPOT BANK

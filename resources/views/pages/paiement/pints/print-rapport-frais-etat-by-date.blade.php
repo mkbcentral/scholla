@@ -44,6 +44,7 @@
                     <th style="text-align: center">N°</th>
                     <th style="text-align: left">DATE</th>
                     <th style="text-align: left">NOMS ELEVE</th>
+                    <th style="text-align: right">TYPE</th>
                     <th style="text-align: right">MONTANT</th>
                 </tr>
             </thead>
@@ -53,6 +54,9 @@
                         <td style="text-align: center">{{$index+1}}</td>
                         <td style="text-align: left">{{$paiment->created_at->format('d/m/Y')}}</td>
                         <td>{{$paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name}}</td>
+                        <td style="text-align: right">
+                            {{$paiment->cost->name }}
+                        </td>
                         <td style="text-align: right">
                             {{number_format($paiment->cost->amount*$taux,1,',',' ') }}
                         </td>

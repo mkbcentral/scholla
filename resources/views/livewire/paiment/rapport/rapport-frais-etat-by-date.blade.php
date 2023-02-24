@@ -50,6 +50,7 @@
                                     <th>N°</th>
                                     <th>Date paiment.</th>
                                     <th>Noms élèves</th>
+                                    <th>tYPE</th>
                                     <th class="text-right">Montant</th>
                                 </tr>
                             </thead>
@@ -59,6 +60,7 @@
                                         <td>{{ $index+1 }}</td>
                                         <td>{{ $paiment->created_at->format('d/m/Y') }}</td>
                                         <td>{{ $paiment->student->name.'/'.$paiment->student->classe->name.'/'.$paiment->student->classe->option->name }}</td>
+                                        <td>{{ $paiment->cost->name }}</td>
                                         <td class="text-right">{{number_format($paiment->cost->amount * 2000,1,',',' ')}}</td>
                                     </tr>
                                     @php

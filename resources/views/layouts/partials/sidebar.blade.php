@@ -208,6 +208,10 @@
                             &#x1F5C3;
                             Archive juin
                          </x-nav-link>
+                         <x-nav-link class="nav-link" href="{{ route('archive.juin.global') }}" :active="request()->routeIs('archive.juin.global')">
+                            &#x1F5C3;
+                            Archive juin mensuel
+                         </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('recettes.index') }}" :active="request()->routeIs('recettes.index')">
                             &#x1F4C1;
                             Nos recettes

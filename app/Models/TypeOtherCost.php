@@ -48,8 +48,7 @@ class TypeOtherCost extends Model
                 //$amount=12000;
                 $amount=($paiment->cost->amount*2000)-12000;
             }elseif($paiment->cost->id==41) {
-                //$amount=16000;
-                dd($paiment->cost->name);
+                $amount=($paiment->cost->amount*2000)-16000;
             }elseif($paiment->cost->id==42) {
                 //$amount=18000;
                 $amount=($paiment->cost->amount*2000)-18000;

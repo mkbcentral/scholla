@@ -73,6 +73,7 @@
                                     <th>N°</th>
                                     <th>Date paiment.</th>
                                     <th>Noms élèves</th>
+                                    <th>Type</th>
                                     <th class="text-right">Montant</th>
                                 </tr>
                             </thead>
@@ -82,6 +83,7 @@
                                         <td>{{ $index+1 }}</td>
                                         <td>{{ $paiment->created_at->format('d/m/Y') }}</td>
                                         <td>{{ $paiment->student->name }}</td>
+                                        <td>{{ $paiment->cost->name }}</td>
                                         <td class="text-right">{{number_format($paiment->getArchiveAmount($cost_id),1,',',' ')}}</td>
                                     </tr>
                                     @php

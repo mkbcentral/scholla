@@ -23,9 +23,6 @@ class ArchiveJuinPage extends Component
         $this->defaultScolaryYer=ScolaryYear::where('active',true)->first();
         $this->costs=CostGeneral::whereIn('id',[37,38,39,40,41,42])
             ->get();
-        $this->classes=Classe::orderBy('name','ASC')
-            ->with('option')
-            ->get();
     }
     public function render()
     {

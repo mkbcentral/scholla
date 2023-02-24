@@ -596,6 +596,35 @@ class PaimentPrinterConteroller extends Controller
             return $pdf->stream();
     }
 
+    public function printArchiveGlobal($costId,$month){
+        $taux=2000;
+        $cost=CostGeneral::find($costId);
+        $defaultScolaryYer=ScolaryYear::where('active',true)->first();
+        if ($costId==0) {
+            $paiments=Paiment::select('paiments.*','cost_generals.*')
+            ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+            ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+            ->where('paiments.mounth_name',$month)
+            ->whereIn('cost_generals.id',[37,38,40,41,42])
+            ->where('paiments.scolary_year_id', $defaultScolaryYer->id)
+            ->get();
+        } else {
+            $paiments=Paiment::select('paiments.*','cost_generals.*')
+            ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
+            ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
+            ->where('paiments.mounth_name',$month)
+            ->where('cost_generals.id',$costId)
+            ->where('paiments.scolary_year_id', $defaultScolaryYer->id)
+            ->get();
+        }
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.paiement.pints.print-rapport-frais-archive-global',
+            compact(['defaultScolaryYer','paiments','cost','taux','month','costId']))
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+    }
+
 
 
 }

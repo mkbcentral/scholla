@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Http\Resources\TypeOtherCostResource;
+use App\Models\Inscription;
+use App\Models\Paiment;
+use App\Models\Requisition;
+use App\Models\ScolaryYear;
+use App\Models\TypeOtherCost;
+use Illuminate\Support\Facades\DB;
+
+class RecttesController extends Controller
+{
+    public function getRecetteFraisByMonth($month){
+        $defaultScolary=ScolaryYear::where('active',true)->first();
+        $costs=TypeOtherCost::join('cost_generals','cost_generals.type_other_cost_id','=','type_other_costs.id')
+            ->join('paiments','paiments.cost_general_id','=','cost_generals.id')
+            ->where('paiments.scolary_year_id',1)
+            ->select(DB::raw("SUM(cost_generals.amount*2000) as amount,type_other_costs.name"))
+                ->groupBy(DB::raw("type_other_costs.name"))
+            ->where('paiments.mounth_name',$month)
+            ->get();
+        return TypeOtherCostResource::collection($costs);
+    }
+    public function getRecetteInscriptionByMonth($month){
+        $defaultScolary=ScolaryYear::where('active',true)->first();
+        $inscription=Inscription::join('cost_inscriptions','inscriptions.cost_inscription_id','=','cost_inscriptions.id')
+            ->whereMonth('inscriptions.created_at',$month)
+            ->where('inscriptions.is_paied',true)
+            ->where('inscriptions.scolary_year_id',$defaultScolary->id)
+            ->sum('cost_inscriptions.amount')*2000;
+        return response()->json([
+            'amount'=>$inscription
+        ],200);
+    }
+}
