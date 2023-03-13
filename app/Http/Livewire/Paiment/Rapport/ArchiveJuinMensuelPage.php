@@ -31,7 +31,7 @@ class ArchiveJuinMensuelPage extends Component
                 ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
                 ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
                 ->where('paiments.scolary_year_id', $this->defaultScolaryYer->id)
-                ->whereIn('cost_generals.id',[37,38,40,41,42])
+                ->whereIn('cost_generals.id',[37,39,38,40,41,42])
                 ->where('paiments.mounth_name',$this->month)
                 ->get();
         } else {

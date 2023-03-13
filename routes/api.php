@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Paiment\ApiPaimentRapportController;
+use App\Http\Controllers\Api\Paiment\ApiTotalPaiment;
+use App\Http\Controllers\Api\Paiment\ApiTotalPaimentController;
 use App\Http\Controllers\Api\RecttesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,21 +31,31 @@ Route::controller(RecttesController::class)->group(function(){
 */
 
 
-/*
 Route::controller(AuthController::class)->group(function(){
     Route::post('login','login');
 });
+Route::middleware('auth:sanctum')->group(function(){
+    Route::controller(ApiPaimentRapportController::class)->group(function(){
+        //By cost routes
+        Route::get('paiment/month/{month}','getPaiemntGetMonthPaiments');
+        Route::get('paiment/date/{date}','getPaiemntGetDate');
+        Route::get('paiment/all/{scolaryYear}','getPaiemntAll');
+        //By section routes
+        Route::get('paiment/month/section/{month}','getPaiemntGetMonthSectionPaiments');
+        Route::get('paiment/date/section/{date}','getPaiemntGetDateSectionPaiments');
+        Route::get('paiment/all/section/{idSColaryYear}','getPaiemntGetAllSectionPaiments');
 
-Route::middleware(['auth:sanctum'])->group(function(){
-    Route::controller(RecttesController::class)->group(function(){
-        Route::get('recettes-frais-by-month/{month}','getRecetteFraisByMonth');
-        Route::get('recettes-inscription-by-month/{month}','getRecetteInscriptionByMonth');
+        //GET TOTAL
+        Route::get('total/paiment/date/{date}','getPaiemntGetDate');
     });
-    Route::controller(AuthController::class)->group(function(){
-        Route::get('user','user');
+
+    Route::controller(ApiTotalPaimentController::class)->group(function(){
+        //GET TOTAL
+        Route::get('total/paiment/date/{date}','getTotalBByDay');
     });
 });
-*/
+
+
 Route::controller(RecttesController::class)->group(function(){
     Route::get('recettes-by-day/{date}','getRecttesByDay');
     Route::get('recettes-by-month/{month}','getByMonth');

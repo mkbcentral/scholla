@@ -29,30 +29,23 @@ use PhpParser\NodeVisitorAbstract;
  */
 final class ExecutableLinesFindingVisitor extends NodeVisitorAbstract
 {
-    /**
-     * @var int
-     */
-    private $nextBranch = 0;
+    private int $nextBranch = 0;
+    private readonly string $source;
 
     /**
-     * @var string
+     * @psalm-var array<int, int>
      */
-    private $source;
+    private array $executableLinesGroupedByBranch = [];
 
     /**
-     * @var array<int, int>
+     * @psalm-var array<int, bool>
      */
-    private $executableLinesGroupedByBranch = [];
+    private array $unsets = [];
 
     /**
-     * @var array<int, bool>
+     * @psalm-var array<int, string>
      */
-    private $unsets = [];
-
-    /**
-     * @var array<int, string>
-     */
-    private $commentsToCheckForUnset = [];
+    private array $commentsToCheckForUnset = [];
 
     public function __construct(string $source)
     {
@@ -88,12 +81,19 @@ final class ExecutableLinesFindingVisitor extends NodeVisitorAbstract
             return;
         }
 
+        if ($node instanceof Node\Stmt\Interface_) {
+            foreach (range($node->getStartLine(), $node->getEndLine()) as $line) {
+                $this->unsets[$line] = true;
+            }
+
+            return;
+        }
+
         if ($node instanceof Node\Stmt\Declare_ ||
             $node instanceof Node\Stmt\DeclareDeclare ||
             $node instanceof Node\Stmt\Else_ ||
             $node instanceof Node\Stmt\EnumCase ||
             $node instanceof Node\Stmt\Finally_ ||
-            $node instanceof Node\Stmt\Interface_ ||
             $node instanceof Node\Stmt\Label ||
             $node instanceof Node\Stmt\Namespace_ ||
             $node instanceof Node\Stmt\Nop ||

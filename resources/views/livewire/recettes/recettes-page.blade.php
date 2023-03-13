@@ -44,6 +44,7 @@
         </div>
         <div class="row">
             @foreach ($costs as $cost)
+                @if ($cost->getTotal($month,$cost->id,$defaultScolaryYer->id) >0)
                 <div class="col-md-3">
                     <!-- small box -->
                     <div class="small-box bg-info">
@@ -60,7 +61,10 @@
                         }
                     @endphp
                 </div>
+                @endif
+
             @endforeach
+            @if ($inscription>0)
             <div class="col-md-3">
                 <!-- small box -->
                 <div class="small-box bg-warning">
@@ -71,23 +75,32 @@
                     <a  class="small-box-footer"> <span class="p-2"></span></a>
                 </div>
             </div>
+            @endif
         </div>
-
+        @php
+            $amount_depense=0;
+            foreach ($depenses as $depense) {
+                $amount_depense+=$depense->amount;
+            }
+        @endphp
         @if (Auth::user()->roles->pluck('name')->contains('Finance'))
         <div class="d-flex justify-content-end">
+            <button class="btn btn-danger mr-2" type="button" data-toggle="modal" data-target="#addDepenseRecetteModal">Depenses</button>
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addSalaireModal">Fixer salair</button>
         </div>
-            <div class="card">
+            <div class="card mt-2">
                 <div class="card-body">
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <h4 class="text-bold text-primary">Total: CDF {{number_format($total+$inscription*2000,1,',',' ')}}</h4>
+                            <h5 class="text-bold text-primary">Total: CDF {{number_format($total+$inscription*2000,1,',',' ')}}</h5>
                             <hr>
-                            <h4 class="text-bold text-danger">Compte Etat: CDF {{number_format($total_etat,1,',',' ') }}</h4>
+                            <h5 class="text-bold text-danger">Compte Etat: CDF {{number_format($total_etat,1,',',' ') }}</h5>
                             <hr>
-                            <h4 class="text-bold text-danger">Sit. pâie: CDF {{number_format($paie,1,',',' ') }}</h4>
+                            <h5 class="text-bold text-success">Sit. pâie: CDF {{number_format($paie,1,',',' ') }}</h5>
                             <hr>
-                            <h4 class="text-bold text-info">Reste pour école: CDF {{number_format(($total+$inscription*2000-$total_etat)-$paie,1,',',' ')}}</h2>
+                            <a href=""><h5 class="text-bold text-secondary">Dépenses: CDF {{number_format($amount_depense,1,',',' ') }}</h5></a>
+                            <hr>
+                            <h5 class="text-bold text-info">Reste pour école: CDF {{number_format((($total+$inscription*2000-$total_etat)-$paie)-$amount_depense,1,',',' ')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -97,7 +110,7 @@
                 <div class="card-body">
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <h4 class="text-bold text-primary">Total: CDF {{number_format($total+$inscription*2000,1,',',' ')}}</h3>
+                            <h5 class="text-bold text-primary">Total: CDF {{number_format($total+$inscription*2000,1,',',' ')}}</h3>
                             <hr>
                             <h3 class="text-bold text-danger">Compte Etat: CDF {{number_format($total_etat,1,',',' ') }}</h3>
                             <hr>
@@ -110,5 +123,6 @@
 
     </div>
     @include('livewire.recettes.modals.add-salaire')
+    @include('livewire.recettes.modals.add-depense-recette')
 </div>
 

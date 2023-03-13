@@ -46,6 +46,7 @@ PA<!DOCTYPE html>
             </thead>
             <tbody>
                 @foreach ($costs as $index => $cost)
+                    @if ($cost->getTotal($month,$cost->id,$scolaryId)>0)
                     <tr>
                         <td style="text-align: center;width: 40px">{{$index+1}}</td>
                         <td style="text-align: left;text-transform: uppercase">
@@ -53,6 +54,8 @@ PA<!DOCTYPE html>
                         </td>
                         <td style="text-align: right">{{number_format($cost->getTotal($month,$cost->id,$scolaryId)*2000,1,',',' ')}}</td>
                     </tr>
+                    @endif
+
                     @php
                         $total+=$cost->getTotal($month,$cost->id,$scolaryId)*2000;
                         if ($cost->id==6) {
@@ -60,13 +63,17 @@ PA<!DOCTYPE html>
                         }
                     @endphp
                 @endforeach
+                @if ($inscription>0)
                 <tr>
+
                     <td style="text-align: center;width: 40px">7</td>
                     <td style="text-align: left">
                         INSCRIPTION
                     </td>
                     <td style="text-align: right">{{number_format($inscription*2000,1,',',' ')}}</td>
                 </tr>
+                @endif
+
                 <tr>
                     <td style="text-align: center;width: 40px">7</td>
                     <td style="text-align: left">

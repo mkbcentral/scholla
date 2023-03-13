@@ -362,10 +362,7 @@ class PaimentHelper{
                         ->orderBy('paiments.created_at','ASC')
                         ->where('paiments.scolary_year_id',$idSColaryYear)
                         ->where('cost_generals.type_other_cost_id',$type)
-                        ->with('cost')
-                        ->with('student')
-                        ->with('student.classe')
-                        ->with('student.classe.option')
+                        ->with(['student.classe.option','student.classe','student','cost','depense','regularisation'])
                         ->get();
             } else {
                 $paiements=Paiment::select('students.*','paiments.*')

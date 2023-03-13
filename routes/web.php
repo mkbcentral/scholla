@@ -13,10 +13,12 @@ use App\Http\Livewire\Depense\DepensesByPaiments;
 use App\Http\Livewire\Helpers\RapportPaimentHepler;
 use App\Http\Livewire\Paiment\Rapport\ArchiveJuinMensuelPage;
 use App\Http\Livewire\Paiment\Rapport\ArchiveJuinPage;
+use App\Http\Livewire\Paiment\Rapport\ArrierePaimentPage;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByType;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByTypeGeneral;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisEtatByDate;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisEtatPage;
+use App\Http\Livewire\Paiment\Rapport\RapportFraisEtatSectionPage;
 use App\Http\Livewire\Recettes\RecettesPage;
 use Illuminate\Support\Facades\Route;
 /*
@@ -49,8 +51,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/depense-in-paiment/{type}',DepensesByPaiments::class)->name('depnses.paiments');
     Route::get('rapport/frais/etat',RapportFraisEtatPage::class)->name("rapport.frais.etat");
     Route::get('rapport/frais/etat/date',RapportFraisEtatByDate::class)->name("rapport.frais.etat.date");
+    Route::get('rapport/frais/etat/section',RapportFraisEtatSectionPage::class)->name("rapport.frais.etat.section");
     Route::get('archive/juin/global',ArchiveJuinMensuelPage::class)->name("archive.juin.global");
     Route::get('archive/juin',ArchiveJuinPage::class)->name("archive.juin");
+    Route::get('rapport/paiment/month',ArrierePaimentPage::class)->name("arriere.main");
     Route::controller(PageController::class)->group(function(){
         Route::get('/','index')->name('dashboard');
         Route::get('gestionnaire-ecole','school')->name('school.index');
@@ -138,6 +142,9 @@ Route::middleware('auth')->group(function(){
             ->name('print.paiement.frais.etat');
         Route::get('ipression-paiment-frais-etat-byè-date/{date}','printFraisEtatByDate')
             ->name('print.paiement.frais.etat.by.date');
+        Route::get('ipression-paiment-frais-etat-section/{sectionId}/{costId}','printFraisEtatBySection')
+            ->name('print.paiement.frais.etat.by.section');
+
         Route::get('ipression-paiment-archive/{classeId}/{costId}/{month}','printArchive')
             ->name('print.paiement.frais.archive');
 

@@ -196,21 +196,11 @@
                         </x-nav-link>
                         @livewire('widgets.nav-other-cost')
                         @livewire('widgets.nav-other-cost-general')
-                        <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat.date') }}" :active="request()->routeIs('rapport.frais.etat.date')">
-                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                            Rapp. Frais Etat par jour
-                         </x-nav-link>
-                        <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat') }}" :active="request()->routeIs('rapport.frais.etat')">
-                           <i class="fa fa-file" aria-hidden="true"></i>
-                           Rapp. Frais Etat
-                        </x-nav-link>
-                        <x-nav-link class="nav-link" href="{{ route('archive.juin') }}" :active="request()->routeIs('archive.juin')">
+                        @include('components.widgets.nav-frais-etat')
+                        @include('components.widgets.nav-frais-archive')
+                         <x-nav-link class="nav-link" href="{{ route('arriere.main') }}" :active="request()->routeIs('arriere.main')">
                             &#x1F5C3;
-                            Archive juin
-                         </x-nav-link>
-                         <x-nav-link class="nav-link" href="{{ route('archive.juin.global') }}" :active="request()->routeIs('archive.juin.global')">
-                            &#x1F5C3;
-                            Archive juin global
+                            Sit. arriérés
                          </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('recettes.index') }}" :active="request()->routeIs('recettes.index')">
                             &#x1F4C1;

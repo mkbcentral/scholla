@@ -8,6 +8,7 @@ use App\Models\CostGeneral;
 use App\Models\Inscription;
 use App\Models\Paiment;
 use App\Models\ScolaryYear;
+use App\Models\Section;
 use App\Models\TypeOtherCost;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -572,6 +573,50 @@ class PaimentPrinterConteroller extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('pages.paiement.pints.print-rapport-frais-etat-by-date',
             compact(['defaultScolaryYer','paiments','date','taux']))
+            ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
+            return $pdf->stream();
+    }
+
+    public function printFraisEtatBySection($sectionId,$costId){
+        $taux=2000;
+        $section=Section::find($sectionId);
+        $defaultScolaryYer = ScolaryYear::where('active', true)->first();
+        if ($costId== 0) {
+            $paiments = Paiment::select('paiments.*', 'cost_generals.*')
+                ->join('cost_generals', 'cost_generals.id', '=', 'paiments.cost_general_id')
+                ->join('type_other_costs', 'type_other_costs.id', '=', 'cost_generals.type_other_cost_id')
+                ->join('classes', 'paiments.classe_id', '=', 'classes.id')
+                ->join('classe_options', 'classe_options.id', '=', 'classes.classe_option_id')
+                ->join('sections', 'sections.id', '=', 'classe_options.section_id')
+                ->where('cost_generals.type_other_cost_id', 6)
+                ->where('sections.id', $sectionId)
+                ->where('paiments.scolary_year_id', $defaultScolaryYer->id)
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+        } else {
+            $paiments = Paiment::select('paiments.*', 'cost_generals.*')
+                ->join('cost_generals', 'cost_generals.id', '=', 'paiments.cost_general_id')
+                ->join('type_other_costs', 'type_other_costs.id', '=', 'cost_generals.type_other_cost_id')
+                ->join('classes', 'paiments.classe_id', '=', 'classes.id')
+                ->join('classe_options', 'classe_options.id', '=', 'classes.classe_option_id')
+                ->join('sections', 'sections.id', '=', 'classe_options.section_id')
+                ->where('cost_generals.type_other_cost_id', 6)
+                ->where('paiments.cost_general_id', $costId)
+                ->where('sections.id', $sectionId)
+                ->where('paiments.scolary_year_id', $defaultScolaryYer->id)
+                ->with('cost')
+                ->with('student')
+                ->with('student.classe')
+                ->with('student.classe.option')
+                ->get();
+        }
+        //dd($paiments);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pages.paiement.pints.print-rapport-frais-etat-soection',
+            compact(['defaultScolaryYer','paiments','section','taux']))
             ->setPaper('a4', 'landscape')->setWarnings(false)->save('rapport.pdf');
             return $pdf->stream();
     }
