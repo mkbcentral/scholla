@@ -24,6 +24,10 @@ class PgSQLTable extends DBALTable
         $this->repository = app(PgSQLRepository::class);
 
         $this->pushFulltextIndexes();
+
+        $this->indexes = $this->indexes->sortBy(function (Index $index) {
+            return $index->getName();
+        })->values();
     }
 
     /**
@@ -55,7 +59,7 @@ class PgSQLTable extends DBALTable
     {
         // Get fulltext indexes.
         $fulltextIndexes = $this->repository->getFulltextIndexes($this->name);
-        $fulltextIndexes->each(function (IndexDefinition $indexDefinition) {
+        $fulltextIndexes->each(function (IndexDefinition $indexDefinition): void {
             // Get column names in array
             // eg: CREATE INDEX fulltext_custom ON public.test_index_pgsql USING gin (to_tsvector('english'::regconfig, (fulltext_custom)::text))
             //     Get "fulltext_custom"

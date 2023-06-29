@@ -2,6 +2,7 @@
 
 namespace KitLoong\MigrationsGenerator\DBAL\Models\MySQL;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use KitLoong\MigrationsGenerator\DBAL\Models\DBALColumn;
@@ -46,6 +47,10 @@ class MySQLColumn extends DBALColumn
                 $this->presetValues = $this->getEnumPresetValues();
                 break;
 
+            case ColumnType::TEXT():
+                $this->type = $this->getTextTypeByLength();
+                break;
+
             case ColumnType::SET():
                 $this->useSetOrString();
                 break;
@@ -82,8 +87,6 @@ class MySQLColumn extends DBALColumn
 
     /**
      * Determine if the connected database is a MariaDB database.
-     *
-     * @return bool
      */
     private function isMaria(): bool
     {
@@ -92,8 +95,6 @@ class MySQLColumn extends DBALColumn
 
     /**
      * Check if the column is "tinyint(1)", if yes then generate as boolean.
-     *
-     * @return bool
      */
     private function isBoolean(): bool
     {
@@ -139,8 +140,6 @@ class MySQLColumn extends DBALColumn
     /**
      * Check if "set" method is available, then get "set" preset values.
      * If not available, change type to string with 255 length.
-     *
-     * @return void
      */
     private function useSetOrString(): void
     {
@@ -155,8 +154,6 @@ class MySQLColumn extends DBALColumn
 
     /**
      * Check if the column uses "on update CURRENT_TIMESTAMP".
-     *
-     * @return bool
      */
     private function hasOnUpdateCurrentTimestamp(): bool
     {
@@ -167,8 +164,6 @@ class MySQLColumn extends DBALColumn
      * MariaDB return `longText` instead of `json` column.
      * Check the check constraint of this column to check if type is `json`.
      * Return true if check constraint contains `json_valid` keyword.
-     *
-     * @return bool
      */
     private function isJson(): bool
     {
@@ -176,10 +171,29 @@ class MySQLColumn extends DBALColumn
         return $checkConstraint !== null;
     }
 
+    private function getTextTypeByLength(): ColumnType
+    {
+        switch ($this->length) {
+            case MySQLPlatform::LENGTH_LIMIT_TINYTEXT:
+                if ($this->hasTinyText()) {
+                    return ColumnType::TINY_TEXT();
+                }
+
+                return ColumnType::TEXT();
+
+            case MySQLPlatform::LENGTH_LIMIT_TEXT:
+                return ColumnType::TEXT();
+
+            case MySQLPlatform::LENGTH_LIMIT_MEDIUMTEXT:
+                return ColumnType::MEDIUM_TEXT();
+
+            default:
+                return ColumnType::LONG_TEXT();
+        }
+    }
+
     /**
      * Set virtual definition if the column is virtual.
-     *
-     * @return void
      */
     private function setVirtualDefinition(): void
     {
@@ -196,8 +210,6 @@ class MySQLColumn extends DBALColumn
 
     /**
      * Set stored definition if the column is stored.
-     *
-     * @return void
      */
     private function setStoredDefinition(): void
     {

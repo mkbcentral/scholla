@@ -59,6 +59,7 @@ use MyCLabs\Enum\Enum;
  * @method static self TIMESTAMPS_TZ()
  * @method static self TINY_INCREMENTS()
  * @method static self TINY_INTEGER()
+ * @method static self TINY_TEXT()
  * @method static self UNSIGNED_BIG_INTEGER()
  * @method static self UNSIGNED_DECIMAL()
  * @method static self UNSIGNED_INTEGER()
@@ -116,6 +117,7 @@ final class ColumnType extends Enum
     public const TIMESTAMPS_TZ           = 'timestampsTz';
     public const TINY_INCREMENTS         = 'tinyIncrements';
     public const TINY_INTEGER            = 'tinyInteger';
+    public const TINY_TEXT               = 'tinyText';
     public const UNSIGNED_BIG_INTEGER    = 'unsignedBigInteger';
     public const UNSIGNED_DECIMAL        = 'unsignedDecimal';
     public const UNSIGNED_INTEGER        = 'unsignedInteger';
@@ -128,7 +130,6 @@ final class ColumnType extends Enum
     /**
      * Create instance from {@see \Doctrine\DBAL\Types\Type}.
      *
-     * @param  \Doctrine\DBAL\Types\Type  $dbalType
      * @return static
      */
     public static function fromDBALType(Type $dbalType): self
@@ -140,10 +141,9 @@ final class ColumnType extends Enum
     /**
      * Initiate an instance from value.
      *
-     * @param  mixed  $value
      * @return static
      */
-    public static function fromValue($value): self
+    public static function fromValue(string $value): self
     {
         if (method_exists(Enum::class, 'from')) {
             return parent::from($value);

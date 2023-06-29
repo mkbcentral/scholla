@@ -23,8 +23,9 @@
             </div>
         </div>
     </div>
+
     @php
-    $total=0;
+        $total=0;
     @endphp
     <div class="d-flex justify-content-between align-items-center">
         <div>
@@ -95,6 +96,7 @@
                 </div>
               </div>
         </div>
+
         <div class="d-flex justify-content-end">
             <div class="form-group pr-4">
                 <x-label value="{{ __('Filtrer par type frais') }}" />

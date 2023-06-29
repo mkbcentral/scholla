@@ -18,7 +18,7 @@ class RapportFraisEtatByDate extends Component
 
     public function render()
     {
-        $paiments=Paiment::select('paiments.*','cost_generals.*')
+        $paiments=Paiment::select('paiments.*')
             ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
             ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
             ->where('cost_generals.type_other_cost_id',6)

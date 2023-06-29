@@ -20,6 +20,10 @@
                 <i class="fa fa-file" aria-hidden="true"></i>
                 Frais Etat/section
              </x-nav-link>
+             <x-nav-link class="nav-link" href="{{ route('rapport.frais.etat.global') }}" :active="request()->routeIs('rapport.frais.etat.section')">
+                <i class="fa fa-file" aria-hidden="true"></i>
+                Frais Etat par section
+             </x-nav-link>
         </ul>
     </li>
 </div>

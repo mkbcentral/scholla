@@ -31,7 +31,7 @@ class RapportFraisEtatSectionPage extends Component
     public function render()
     {
         if ($this->cost_id == 0) {
-            $paiments = Paiment::select('paiments.*', 'cost_generals.*')
+            $paiments = Paiment::select('paiments.*')
                 ->join('cost_generals', 'cost_generals.id', '=', 'paiments.cost_general_id')
                 ->join('type_other_costs', 'type_other_costs.id', '=', 'cost_generals.type_other_cost_id')
                 ->join('classes', 'paiments.classe_id', '=', 'classes.id')
@@ -44,9 +44,10 @@ class RapportFraisEtatSectionPage extends Component
                 ->with('student')
                 ->with('student.classe')
                 ->with('student.classe.option')
+                ->orderBy('paiments.created_at','DESC')
                 ->get();
         } else {
-            $paiments = Paiment::select('paiments.*', 'cost_generals.*')
+            $paiments = Paiment::select('paiments.*')
                 ->join('cost_generals', 'cost_generals.id', '=', 'paiments.cost_general_id')
                 ->join('type_other_costs', 'type_other_costs.id', '=', 'cost_generals.type_other_cost_id')
                 ->join('classes', 'paiments.classe_id', '=', 'classes.id')
@@ -60,6 +61,7 @@ class RapportFraisEtatSectionPage extends Component
                 ->with('student')
                 ->with('student.classe')
                 ->with('student.classe.option')
+                ->orderBy('paiments.created_at','DESC')
                 ->get();
         }
         return view('livewire.paiment.rapport.rapport-frais-etat-section-page', ['paiments' => $paiments]);

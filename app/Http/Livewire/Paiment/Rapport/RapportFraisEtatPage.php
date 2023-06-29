@@ -28,13 +28,14 @@ class RapportFraisEtatPage extends Component
 
     public function render()
     {
-        $paiments=Paiment::select('paiments.*','cost_generals.*')
+        $paiments=Paiment::select('paiments.*')
         ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
         ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
         ->where('cost_generals.type_other_cost_id',6)
         ->where('cost_generals.id',$this->cost_id)
         ->where('paiments.classe_id',$this->classe_id)
         ->where('paiments.scolary_year_id', $this->defaultScolaryYer->id)
+        ->orderBy('paiments.created_at','DESC')
         ->get();
         return view('livewire.paiment.rapport.rapport-frais-etat-page',['paiments'=>$paiments]);
     }

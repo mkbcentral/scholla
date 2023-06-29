@@ -14,6 +14,7 @@ use App\Http\Livewire\Helpers\RapportPaimentHepler;
 use App\Http\Livewire\Paiment\Rapport\ArchiveJuinMensuelPage;
 use App\Http\Livewire\Paiment\Rapport\ArchiveJuinPage;
 use App\Http\Livewire\Paiment\Rapport\ArrierePaimentPage;
+use App\Http\Livewire\Paiment\Rapport\FraisEtatGlobalPage;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByType;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisByTypeGeneral;
 use App\Http\Livewire\Paiment\Rapport\RapportFraisEtatByDate;
@@ -52,6 +53,7 @@ Route::middleware('auth')->group(function(){
     Route::get('rapport/frais/etat',RapportFraisEtatPage::class)->name("rapport.frais.etat");
     Route::get('rapport/frais/etat/date',RapportFraisEtatByDate::class)->name("rapport.frais.etat.date");
     Route::get('rapport/frais/etat/section',RapportFraisEtatSectionPage::class)->name("rapport.frais.etat.section");
+    Route::get('rapport/frais/etat/global',FraisEtatGlobalPage::class)->name("rapport.frais.etat.global");
     Route::get('archive/juin/global',ArchiveJuinMensuelPage::class)->name("archive.juin.global");
     Route::get('archive/juin',ArchiveJuinPage::class)->name("archive.juin");
     Route::get('rapport/paiment/month',ArrierePaimentPage::class)->name("arriere.main");

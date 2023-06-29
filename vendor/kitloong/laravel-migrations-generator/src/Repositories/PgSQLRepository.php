@@ -14,7 +14,6 @@ class PgSQLRepository extends Repository
      *
      * @param  string  $table  Table name.
      * @param  string  $column  Column name.
-     * @return string|null
      */
     public function getTypeByColumnName(string $table, string $column): ?string
     {
@@ -42,7 +41,6 @@ class PgSQLRepository extends Repository
      *
      * @param  string  $table  Table name.
      * @param  string  $column  Column name.
-     * @return string|null
      */
     public function getDefaultByColumnName(string $table, string $column): ?string
     {
@@ -72,7 +70,6 @@ class PgSQLRepository extends Repository
      *
      * @param  string  $table  Table name.
      * @param  string  $column  Column name.
-     * @return string|null
      */
     public function getCheckConstraintDefinition(string $table, string $column): ?string
     {
@@ -143,7 +140,8 @@ class PgSQLRepository extends Repository
                        indexdef
                 FROM pg_indexes
                 WHERE tablename = '$table'
-                    AND indexdef LIKE '%to_tsvector(%'"
+                    AND indexdef LIKE '%to_tsvector(%'
+                ORDER BY indexname"
         );
         $definitions = new Collection();
 

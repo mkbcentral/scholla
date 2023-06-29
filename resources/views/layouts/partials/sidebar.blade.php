@@ -200,7 +200,7 @@
                         @include('components.widgets.nav-frais-archive')
                          <x-nav-link class="nav-link" href="{{ route('arriere.main') }}" :active="request()->routeIs('arriere.main')">
                             &#x1F5C3;
-                            Sit. arriérés
+                                Sit. arriérés
                          </x-nav-link>
                         <x-nav-link class="nav-link" href="{{ route('recettes.index') }}" :active="request()->routeIs('recettes.index')">
                             &#x1F4C1;

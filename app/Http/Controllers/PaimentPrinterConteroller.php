@@ -543,7 +543,7 @@ class PaimentPrinterConteroller extends Controller
         $cost=CostGeneral::find($costId);
         $classe=Classe::find($classeId);
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        $paiments=Paiment::select('paiments.*','cost_generals.*')
+        $paiments=Paiment::select('paiments.*')
             ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
             ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
             ->where('cost_generals.type_other_cost_id',6)
@@ -562,7 +562,7 @@ class PaimentPrinterConteroller extends Controller
     public function printFraisEtatByDate($date){
         $taux=2000;
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        $paiments=Paiment::select('paiments.*','cost_generals.*')
+        $paiments=Paiment::select('paiments.*')
             ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
             ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
             ->where('cost_generals.type_other_cost_id',6)
@@ -582,7 +582,7 @@ class PaimentPrinterConteroller extends Controller
         $section=Section::find($sectionId);
         $defaultScolaryYer = ScolaryYear::where('active', true)->first();
         if ($costId== 0) {
-            $paiments = Paiment::select('paiments.*', 'cost_generals.*')
+            $paiments = Paiment::select('paiments.*',)
                 ->join('cost_generals', 'cost_generals.id', '=', 'paiments.cost_general_id')
                 ->join('type_other_costs', 'type_other_costs.id', '=', 'cost_generals.type_other_cost_id')
                 ->join('classes', 'paiments.classe_id', '=', 'classes.id')
@@ -597,7 +597,7 @@ class PaimentPrinterConteroller extends Controller
                 ->with('student.classe.option')
                 ->get();
         } else {
-            $paiments = Paiment::select('paiments.*', 'cost_generals.*')
+            $paiments = Paiment::select('paiments.*',)
                 ->join('cost_generals', 'cost_generals.id', '=', 'paiments.cost_general_id')
                 ->join('type_other_costs', 'type_other_costs.id', '=', 'cost_generals.type_other_cost_id')
                 ->join('classes', 'paiments.classe_id', '=', 'classes.id')
@@ -626,7 +626,7 @@ class PaimentPrinterConteroller extends Controller
         $cost=CostGeneral::find($costId);
         $classe=Classe::find($classeId);
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
-        $paiments=Paiment::select('paiments.*','cost_generals.*')
+        $paiments=Paiment::select('paiments.*')
             ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
             ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
             ->where('paiments.mounth_name',$month)
@@ -646,7 +646,7 @@ class PaimentPrinterConteroller extends Controller
         $cost=CostGeneral::find($costId);
         $defaultScolaryYer=ScolaryYear::where('active',true)->first();
         if ($costId==0) {
-            $paiments=Paiment::select('paiments.*','cost_generals.*')
+            $paiments=Paiment::select('paiments.*')
             ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
             ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
             ->where('paiments.mounth_name',$month)
@@ -654,7 +654,7 @@ class PaimentPrinterConteroller extends Controller
             ->where('paiments.scolary_year_id', $defaultScolaryYer->id)
             ->get();
         } else {
-            $paiments=Paiment::select('paiments.*','cost_generals.*')
+            $paiments=Paiment::select('paiments.*')
             ->join('cost_generals','cost_generals.id','=','paiments.cost_general_id')
             ->join('type_other_costs','type_other_costs.id','=','cost_generals.type_other_cost_id')
             ->where('paiments.mounth_name',$month)

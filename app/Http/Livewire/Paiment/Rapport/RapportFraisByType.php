@@ -27,6 +27,7 @@ class RapportFraisByType extends Component
         $this->defaultScolaryYer->id=$this->scolary_id;
     }
     public function mount(){
+
         setlocale(LC_TIME, "fr_FR");
         $this->currentMonth=date('m');
         $this->month=$this->currentMonth;
