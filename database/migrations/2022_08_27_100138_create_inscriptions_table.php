@@ -19,7 +19,6 @@ class CreateInscriptionsTable extends Migration
             $table->unsignedBigInteger('scolary_year_id')->index('inscriptions_scolary_year_id_foreign');
             $table->unsignedBigInteger('cost_inscription_id')->index('inscriptions_cost_inscription_id_foreign');
             $table->unsignedBigInteger('student_id')->index('inscriptions_student_id_foreign');
-            $table->unsignedBigInteger('classe_id')->index('inscriptions_classe_id_foreign');
             $table->unsignedBigInteger('user_id')->index('inscriptions_user_id_foreign');
             $table->boolean('is_paied')->default(false);
             $table->boolean('active')->default(true);

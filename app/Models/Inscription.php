@@ -11,6 +11,8 @@ class Inscription extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['cost_inscription_id', 'user_id', 'classe_id', 'scolary_year_id', 'number_paiment', 'student_id'];
+
     /**
      * Get the Student that owns the Inscription
      *
@@ -29,6 +31,26 @@ class Inscription extends Model
     public function cost(): BelongsTo
     {
         return $this->belongsTo(CostInscription::class, 'cost_inscription_id');
+    }
+
+    /**
+     * Get the classe that owns the Inscription
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function classe(): BelongsTo
+    {
+        return $this->belongsTo(Classe::class, 'classe_id');
+    }
+
+    /**
+     * Get the school that owns the Inscription
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class, 'school_id');
     }
 
 
@@ -51,6 +73,4 @@ class Inscription extends Model
     {
         return $this->hasOne(InscRegularisation::class);
     }
-
-
 }

@@ -17,6 +17,7 @@ class Classe extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+
     public function option(): BelongsTo
     {
         return $this->belongsTo(ClasseOption::class, 'classe_option_id');
@@ -30,5 +31,10 @@ class Classe extends Model
     public function students(): HasMany
     {
         return $this->hasMany(Student::class);
+    }
+
+    public function classeOption(): BelongsTo
+    {
+        return $this->belongsTo(ClasseOption::class, 'classe_option_id');
     }
 }

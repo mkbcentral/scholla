@@ -9,6 +9,7 @@ use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PaimentPrinterConteroller;
 use App\Http\Controllers\RecetteController;
 use App\Http\Controllers\RequisitionController;
+use App\Http\Livewire\Application\Inscription\NewInscription;
 use App\Http\Livewire\Depense\DepensesByPaiments;
 use App\Http\Livewire\Helpers\RapportPaimentHepler;
 use App\Http\Livewire\Paiment\Rapport\ArchiveJuinMensuelPage;
@@ -44,8 +45,16 @@ Route::get('/lit-student', function () {
     return view('dashbaord');
 })->name('student.list');
 
-
 Route::middleware('auth')->group(function () {
+
+    //INSCRIPTION REFACTORING
+    Route::prefix('inscription')->group(function(){
+        Route::get('new-inscription',NewInscription::class)->name('inscription.new');
+    });
+
+
+
+    /*
     Route::get('rapport-paiment-type/{type}', RapportFraisByType::class)->name('rapport.frais.type');
     Route::get('rapport-paiment-type-general/{type}', RapportFraisByTypeGeneral::class)
         ->name('rapport.frais.type.general');
@@ -197,4 +206,5 @@ Route::middleware('auth')->group(function () {
     Route::controller(RecetteController::class)->group(function () {
         Route::get('/print-recettes/{month}/{scolaryId}', 'printRecettes')->name('recettes.print');
     });
+    */
 });

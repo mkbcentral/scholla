@@ -28,8 +28,7 @@
         <div class="wrapper">
 
             @include('layouts.partials.navbar')
-            @include('layouts.partials.sidebar')
-
+            @include('layouts.partials.sidemenu')
             <div class="content-wrapper">
 
                 <div class="content">

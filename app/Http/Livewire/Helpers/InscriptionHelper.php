@@ -18,7 +18,8 @@ class InscriptionHelper{
                     ->where('inscriptions.active',true)
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('school')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            } else {
@@ -32,7 +33,7 @@ class InscriptionHelper{
                     ->where('inscriptions.active',true)
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            }
@@ -49,7 +50,7 @@ class InscriptionHelper{
                     ->where('inscriptions.active',true)
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
             } else {
@@ -64,7 +65,7 @@ class InscriptionHelper{
                     ->where('inscriptions.active',true)
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
             }
@@ -87,7 +88,7 @@ class InscriptionHelper{
                     ->where('inscriptions.is_paied',true)
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            } else {
@@ -103,7 +104,7 @@ class InscriptionHelper{
                     ->where('inscriptions.is_paied',true)
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            }
@@ -121,7 +122,7 @@ class InscriptionHelper{
                         ->where('students.name','Like','%'.$keySearch.'%')
                         ->with('cost')
                         ->with('student')
-                        ->with('student.classe')
+                        ->with('classe')
                         ->with('student.classe.option')
                         ->get();
             } else {
@@ -138,7 +139,7 @@ class InscriptionHelper{
                         ->where('inscriptions.is_paied',true)
                         ->with('cost')
                         ->with('student')
-                        ->with('student.classe')
+                        ->with('classe')
                         ->with('student.classe.option')
                         ->get();
             }
@@ -160,7 +161,7 @@ class InscriptionHelper{
                     ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            } else {
@@ -176,7 +177,7 @@ class InscriptionHelper{
                     ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            }
@@ -194,7 +195,7 @@ class InscriptionHelper{
                 ->where('students.name','Like','%'.$keySearch.'%')
                 ->with('cost')
                 ->with('student')
-                ->with('student.classe')
+                ->with('classe')
                 ->with('student.classe.option')
                 ->get();
             } else {
@@ -212,7 +213,7 @@ class InscriptionHelper{
                 ->where('students.name','Like','%'.$keySearch.'%')
                 ->with('cost')
                 ->with('student')
-                ->with('student.classe')
+                ->with('classe')
                 ->with('student.classe.option')
                 ->get();
             }
@@ -236,7 +237,7 @@ class InscriptionHelper{
                     ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            } else {
@@ -252,7 +253,7 @@ class InscriptionHelper{
                     ->where('inscriptions.is_paied',true)
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            }
@@ -271,7 +272,7 @@ class InscriptionHelper{
                     ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
             } else {
@@ -288,7 +289,7 @@ class InscriptionHelper{
                     ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
             }
@@ -310,7 +311,7 @@ class InscriptionHelper{
                     ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            } else {
@@ -325,7 +326,7 @@ class InscriptionHelper{
                     ->where('inscriptions.is_paied',true)
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
            }
@@ -343,7 +344,7 @@ class InscriptionHelper{
                     ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
             } else {
@@ -359,7 +360,7 @@ class InscriptionHelper{
                     ->where('students.name','Like','%'.$keySearch.'%')
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
             }
@@ -382,7 +383,7 @@ class InscriptionHelper{
                         ->where('students.name','Like','%'.$keySearch.'%')
                         ->with('cost')
                         ->with('student')
-                        ->with('student.classe')
+                        ->with('classe')
                         ->with('student.classe.option')
                         ->get();
             } else {
@@ -398,7 +399,7 @@ class InscriptionHelper{
                         ->where('inscriptions.is_paied',true)
                         ->with('cost')
                         ->with('student')
-                        ->with('student.classe')
+                        ->with('classe')
                         ->with('student.classe.option')
                         ->get();
             }
@@ -416,7 +417,7 @@ class InscriptionHelper{
                     ->whereBetween('inscriptions.created_at',[$dateTo,$dateFrom])
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
             } else {
@@ -433,7 +434,7 @@ class InscriptionHelper{
                     ->whereBetween('inscriptions.created_at',[$dateTo,$dateFrom])
                     ->with('cost')
                     ->with('student')
-                    ->with('student.classe')
+                    ->with('classe')
                     ->with('student.classe.option')
                     ->get();
             }
@@ -450,7 +451,7 @@ class InscriptionHelper{
         ->orderBy('students.name','ASC')
         ->where('inscriptions.active',true)
         ->with('student')
-        ->with('student.classe')
+        ->with('classe')
         ->with('student.classe.option')
         ->get();
 
@@ -467,7 +468,7 @@ class InscriptionHelper{
                 ->where('inscriptions.active',$abandon)
                 ->where('inscriptions.is_bascule',$is_bascule)
                 ->with('student')
-                ->with('student.classe')
+                ->with('classe')
                 ->with('student.classe.option')
                 ->get();
         return $inscriptions;

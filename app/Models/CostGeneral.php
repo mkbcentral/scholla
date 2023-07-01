@@ -27,8 +27,22 @@ class CostGeneral extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    /*
     public function typeCost(): BelongsTo
     {
         return $this->belongsTo(TypeOtherCost::class, 'type_other_cost_id');
     }
+
+    /**
+     * Get the typ that owns the CostGeneral
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function typeOtherCost(): BelongsTo
+    {
+        return $this->belongsTo(TypeOtherCost::class, 'type_other_cost_id');
+    }
+
+
+
 }

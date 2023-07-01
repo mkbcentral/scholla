@@ -1,5 +1,5 @@
-/*! SearchPanes 2.1.1
- * 2019-2023 SpryMedia Ltd - datatables.net/license
+/*! SearchPanes 2.1.2
+ * © SpryMedia Ltd - datatables.net/license
  */
 
 (function( factory ){
@@ -11,25 +11,33 @@
 	}
 	else if ( typeof exports === 'object' ) {
 		// CommonJS
-		module.exports = function (root, $) {
-			if ( ! root ) {
-				// CommonJS environments without a window global must pass a
-				// root. This will give an error otherwise
-				root = window;
-			}
-
-			if ( ! $ ) {
-				$ = typeof window !== 'undefined' ? // jQuery's factory checks for a global window
-					require('jquery') :
-					require('jquery')( root );
-			}
-
+		var jq = require('jquery');
+		var cjsRequires = function (root, $) {
 			if ( ! $.fn.dataTable ) {
 				require('datatables.net')(root, $);
 			}
-
-			return factory( $, root, root.document );
 		};
+
+		if (typeof window !== 'undefined') {
+			module.exports = function (root, $) {
+				if ( ! root ) {
+					// CommonJS environments without a window global must pass a
+					// root. This will give an error otherwise
+					root = window;
+				}
+
+				if ( ! $ ) {
+					$ = jq( root );
+				}
+
+				cjsRequires( root, $ );
+				return factory( $, root, root.document );
+			};
+		}
+		else {
+			cjsRequires( window, jq );
+			module.exports = factory( jq, window, window.document );
+		}
 	}
 	else {
 		// Browser
@@ -321,6 +329,7 @@ var DataTable = $.fn.dataTable;
             this.dom.searchButton.addClass(this.classes.disabledButton);
             this.dom.collapseButton.addClass(this.classes.rotated);
             this.dom.topRow.one('click.dtsp', function () { return _this.show(); });
+            this.dom.topRow.trigger('collapse.dtsps');
         };
         /**
          * Strips all of the SearchPanes elements from the document and turns all of the listeners for the buttons off
@@ -549,6 +558,7 @@ var DataTable = $.fn.dataTable;
                     _this.dom.topRow.off('click.dtsp');
                 }
                 _this.s.dt.state.save();
+                _this.dom.topRow.trigger('collapse.dtsps');
             });
             // When the clear button is clicked reset the pane
             this.dom.clear.off('click.dtsp').on('click.dtsp', function () {
@@ -644,6 +654,7 @@ var DataTable = $.fn.dataTable;
             this.dom.searchButton.removeClass(this.classes.disabledButton);
             this.dom.collapseButton.removeClass(this.classes.rotated);
             $$5(this.s.dtPane.table().container()).removeClass(this.classes.hidden);
+            this.dom.topRow.trigger('collapse.dtsps');
         };
         /**
          * Finds the ratio of the number of different options in the table to the number of rows
@@ -901,15 +912,30 @@ var DataTable = $.fn.dataTable;
          * @param notUpdating Whether the panes are updating themselves or not
          */
         SearchPane.prototype._updateSelection = function (notUpdating) {
-            this.s.scrollTop = $$5(this.s.dtPane.table().node()).parent()[0].scrollTop;
-            if (this.s.dt.page.info().serverSide && !this.s.updating) {
-                if (!this.s.serverSelecting) {
-                    this.s.serverSelect = this.s.dtPane.rows({ selected: true }).data().toArray();
-                    this.s.dt.draw(false);
+            var _this = this;
+            var settings = this.s.dt.settings()[0];
+            var oApi = settings.oApi;
+            var run = function () {
+                _this.s.scrollTop = $$5(_this.s.dtPane.table().node()).parent()[0].scrollTop;
+                if (_this.s.dt.page.info().serverSide && !_this.s.updating) {
+                    if (!_this.s.serverSelecting) {
+                        _this.s.serverSelect = _this.s.dtPane.rows({ selected: true }).data().toArray();
+                        _this.s.dt.draw(false);
+                    }
                 }
+                else if (notUpdating) {
+                    _this._makeSelection();
+                }
+                oApi._fnProcessingDisplay(settings, false);
+            };
+            // If the processing display is enabled, we need to allow the browser
+            // to draw it before performing our calculations
+            if (settings.oFeatures.bProcessing) {
+                oApi._fnProcessingDisplay(settings, true);
+                setTimeout(run, 1);
             }
-            else if (notUpdating) {
-                this._makeSelection();
+            else {
+                run();
             }
         };
         /**
@@ -1436,7 +1462,7 @@ var DataTable = $.fn.dataTable;
             }
             this.s.updating = updating;
         };
-        SearchPane.version = '2.0.0-dev';
+        SearchPane.version = '2.1.2';
         SearchPane.classes = {
             bordered: 'dtsp-bordered',
             buttonGroup: 'dtsp-buttonGroup',
@@ -2648,7 +2674,7 @@ var DataTable = $.fn.dataTable;
             for (var _i = 0, _a = this.s.panes; _i < _a.length; _i++) {
                 var pane = _a[_i];
                 // We want to make the same check whenever there is a collapse/expand
-                pane.dom.collapseButton.on('click.dtsps', function () { return _this._checkCollapse(); });
+                pane.dom.topRow.on('collapse.dtsps', function () { return _this._checkCollapse(); });
             }
             this._checkCollapse();
         };
@@ -2886,7 +2912,7 @@ var DataTable = $.fn.dataTable;
                 this.dom.clearAll.removeClass(this.classes.disabledButton).removeAttr('disabled');
             }
         };
-        SearchPanes.version = '2.1.1';
+        SearchPanes.version = '2.1.2';
         SearchPanes.classes = {
             clear: 'dtsp-clear',
             clearAll: 'dtsp-clearAll',
@@ -3262,8 +3288,8 @@ var DataTable = $.fn.dataTable;
         return SearchPanesST;
     }(SearchPanes));
 
-    /*! SearchPanes 2.1.1
-     * 2019-2023 SpryMedia Ltd - datatables.net/license
+    /*! SearchPanes 2.1.2
+     * © SpryMedia Ltd - datatables.net/license
      */
     setJQuery$4($);
     setJQuery($);

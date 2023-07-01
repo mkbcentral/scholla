@@ -4,8 +4,7 @@
 
 import $ from 'jquery';
 import DataTable from 'datatables.net-bs4';
-import 'datatables.net-searchbuilder';
-
+import SearchBuilder from 'datatables.net-searchbuilder';
 
 $.extend(true, DataTable.SearchBuilder.classes, {
     clearAll: 'btn btn-light dtsb-clearAll'
