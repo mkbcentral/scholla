@@ -15,6 +15,7 @@ class EditInscriptionForm extends Component
     public $costInscriptionList = [];
     public $selectedOption = 0;
     public $name, $date_of_birth, $gender, $classe_id, $cost_inscription_id;
+    public $phone,$other_phone,$place_of_birth,$email;
 
     public function getStudentAndInscription(Student $student,$index){
         $this->student=$student;
