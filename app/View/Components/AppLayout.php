@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\AppLink;
 use Illuminate\View\Component;
 
 class AppLayout extends Component
@@ -11,9 +12,9 @@ class AppLayout extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AppLink $appLink)
     {
-        //
+
     }
 
     /**

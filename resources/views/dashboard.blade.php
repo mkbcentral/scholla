@@ -28,21 +28,18 @@
         <div class="wrapper">
 
             @include('layouts.partials.navbar')
-           @livewire('application.navigation.application-link-menu-sub')
+            @include('layouts.partials.sidemenu')
             <div class="content-wrapper">
+
                 <div class="content">
                     <div class="card">
                         <div class="card-body">
-                            {{$slot}}
+                            Dashboard
                         </div>
                     </div>
                 </div>
 
             </div>
-            @auth
-                @include('layouts.partials.sidebar-control')
-            @endauth
-
             @include('layouts.partials.footer')
 
         </div>
