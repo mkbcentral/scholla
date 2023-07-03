@@ -19,6 +19,7 @@ class SectionResource extends Resource
     protected static ?string $model = Section::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-sort-descending';
+
     protected static ?string $navigationGroup = 'School manager';
 
     public static function getEloquentQuery(): Builder

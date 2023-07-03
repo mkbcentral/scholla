@@ -17,7 +17,9 @@ class AppLinkResource extends Resource
 {
     protected static ?string $model = AppLink::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-link';
+
+    protected static ?string $navigationGroup = 'Navigations';
 
     public static function form(Form $form): Form
     {

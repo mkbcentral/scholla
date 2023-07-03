@@ -17,7 +17,9 @@ class SubAppLinkResource extends Resource
 {
     protected static ?string $model = SubAppLink::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-paper-clip';
+
+    protected static ?string $navigationGroup = 'Navigations';
 
     public static function form(Form $form): Form
     {

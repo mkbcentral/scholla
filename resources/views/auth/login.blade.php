@@ -14,9 +14,9 @@
                 <x-validation-errors class="mb-4" />
                 <div class="text-center">
                     @if (config('app.env') == 'production')
-                        <img src="{{ asset('public/logo.jpg') }}" alt="Logo" width="70px">
+                        <img src="{{ asset('public/logo.jpg') }}" alt="Logo" width="40px">
                     @else
-                        <img src="{{ asset('logo.jpg') }}" alt="Logo" width="70px">
+                        <img src="{{ asset('logo.jpg') }}" alt="Logo" width="40px">
                     @endif
 
                 </div>
